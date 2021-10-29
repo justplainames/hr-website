@@ -5,7 +5,11 @@ import Home from "../assets/home-solid.svg";
 import Leave from "../assets/logo.svg";
 import Payslip from "../assets/logo.svg";
 import styled from "styled-components";
+import "@fontsource/montserrat"
+
 import { NavLink } from 'react-router-dom';
+import { Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
 
 const Container = styled.div`
     position: fixed;
@@ -90,8 +94,8 @@ const SlickBar = styled.ul`
 
     padding: 2rem 0;
 
-    position: absolute;
-    top: 18rem;
+    position: fixed;
+    top: 23rem;
     left: 0;
 
     width: ${(props) => (props.clicked ? "12rem" : "5rem")};
@@ -131,20 +135,30 @@ const Text = styled.span`
     transition: all 0.5s ease;
 `;
 
+const TopBar = styled.div`
+    display: inline-flex;
+`;
+
 const Sidebar = () => {
 
 const [click, setClick] = useState(false);
 const handleClick = () => setClick(!click);
 
     return (
-    <Container>        
-        <Logo>
-            <img src = {logo} alt = "logo" />
-        </Logo>
+    <Container>
+        <TopBar>        
+            <Logo>
+                <img src = {logo} alt = "logo" />
+            </Logo>
+            <Box sx = {{ml: 8, mt: 2}}>
+                <Typography variant = "h2" component = "h2">
+                    Homepage
+                </Typography>                                
+            </Box>
+        </TopBar>
         
         <SidebarContainer>        
             <Button clicked = {click} onClick={() => handleClick()}>
-                Click
             </Button>
             <SlickBar clicked = {click}>
                 <Item onClick = {() => setClick(false)} exact activeClassName = "active" to = "/">
