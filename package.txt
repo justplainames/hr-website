@@ -1,0 +1,6 @@
+npm i 
+npm install @emotion/styled
+npm install @emotion/react
+npm i @mui/lab
+npm i @mui/x-data-grid
+npm i date-fns
