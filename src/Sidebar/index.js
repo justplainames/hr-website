@@ -9,6 +9,14 @@ import { NavLink } from 'react-router-dom';
 
 const Container = styled.div`
     position: fixed;
+
+    .active { 
+        border-right: 4px solid var(--white);
+
+        img {
+            filter: invert(50%) sepia(4%) saturate(25%) hue-rotate(317deg) brightness(99%) contrast(91%);
+        }
+    }
 `;
 
 const Button = styled.button`
@@ -64,6 +72,7 @@ const SidebarContainer = styled.div`
 
 const Logo = styled.div`
     width: 3rem;
+    margin: 1.5rem 0 0 1.5rem;
 
     img {
         width: 100%;
@@ -138,15 +147,15 @@ const handleClick = () => setClick(!click);
                 Click
             </Button>
             <SlickBar clicked = {click}>
-                <Item exact activeClassName = "active" to = "/">
+                <Item onClick = {() => setClick(false)} exact activeClassName = "active" to = "/">
                     <img src = {Home} alt = "Home" />
                     <Text clicked = {click}>Home</Text>
                 </Item>
-                <Item exact activeClassName = "active" to = "/leave">
+                <Item onClick = {() => setClick(false)} activeClassName = "active" to = "/leave">
                     <img src = {Leave} alt = "Leave" />
                     <Text clicked = {click}>Leave</Text>
                 </Item>
-                <Item exact activeClassName = "active" to = "/payslip">
+                <Item onClick = {() => setClick(false)} activeClassName = "active" to = "/payslip">
                     <img src = {Payslip} alt = "Payslip" />
                     <Text clicked = {click}>Payslip</Text>
                 </Item>

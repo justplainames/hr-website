@@ -1,4 +1,4 @@
-import { Route, Switch } from "react-router";
+import { Route, Switch, useLocation } from "react-router";
 import Sidebar from "./Sidebar";
 
 import Home from "./pages/Home";
@@ -15,15 +15,17 @@ const Pages = styled.div`
 `;
 
 function App() {
+  const location = useLocation();
+
   return (
     <>
       <Sidebar/>
-      <Pages>
-        <Switch>
+      <Pages>       
+        <Switch location = {location} key = {location.pathname}>
           <Route exact path = '/' component = {Home} />
           <Route path = '/leave' component = {Leave} />
           <Route path = '/payslip' component = {Payslip} />          
-        </Switch>
+        </Switch>        
       </Pages>
     </>
   );
