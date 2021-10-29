@@ -11,9 +11,16 @@ import Grid from '@material-ui/core/Grid';
 import { DataGrid } from '@mui/x-data-grid';
 
 export default function Payslip() {
+    // var updateNewValue = "";
+    // var updateNewValue1 = "";
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
 
     const [value, setValue] = React.useState(new Date());
     const [value1, setValue1] = React.useState(new Date());
+    const [updateNewValue, setValue2] = React.useState(new Date());
+    const [updateNewValue1, setValue3] = React.useState(new Date());
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 },
         { field: 'fileName', headerName: 'File Name', width: 600 },
@@ -22,28 +29,25 @@ export default function Payslip() {
     ];
 
     const rows = [
-        { id: 1, download: 'Link', fileName: 1 },
-        { id: 2, download: 'Link', fileName: 2 }
+        { id: 1, download: 'Link', fileName: monthNames[updateNewValue.getMonth()] + " " + updateNewValue.getFullYear() },
+        { id: 2, download: 'Link', fileName: monthNames[updateNewValue1.getMonth()] + " " + updateNewValue1.getFullYear() }
 
 
     ];
     return (
         <>
-            <div id="content" >
+            {/* <div id="content" >
                 <h1> Payslip</h1>
-            </div>
+            </div> */}
             <div id="box">
                 <center>
                     <FormControl>
-                        {/* <InputLabel htmlFor="my-input">Email address</InputLabel>
-                            <Input id="my-input" aria-describedby="my-helper-text" />
-                            <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText> */}
                         <br />
 
                         <br />
 
 
-                        <Grid container spacing={20} >
+                        <Grid container spacing={10} >
 
                             <Grid item lg={6}>
                                 <div style={{ width: '600px' }}>
@@ -58,8 +62,9 @@ export default function Payslip() {
                                                 value={value}
                                                 onChange={(newValue) => {
                                                     setValue(newValue);
-
+                                                    setValue2(newValue);
                                                 }}
+
                                                 renderInput={(params) => <TextField {...params} helperText={null} />}
                                             />
                                         </Stack>
@@ -79,7 +84,10 @@ export default function Payslip() {
                                                 value={value1}
                                                 onChange={(newValue1) => {
                                                     setValue1(newValue1);
+                                                    setValue3(newValue1);
+
                                                 }}
+
                                                 renderInput={(params) => <TextField {...params} helperText={null} />}
                                             />
 
