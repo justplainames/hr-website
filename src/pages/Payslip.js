@@ -16,7 +16,7 @@ export default function Payslip() {
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
-
+    const months = [];
     const [value, setValue] = React.useState(new Date());
     const [value1, setValue1] = React.useState(new Date());
     const [updateNewValue, setValue2] = React.useState(new Date());
@@ -24,13 +24,22 @@ export default function Payslip() {
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 },
         { field: 'fileName', headerName: 'File Name', width: 600 },
-        { field: 'download', headerName: 'Download', width: 830 }
+        // { field: 'download', headerName: 'Download', width: 830 }
 
     ];
 
     const rows = [
-        { id: 1, download: 'Link', fileName: monthNames[updateNewValue.getMonth()] + " " + updateNewValue.getFullYear() },
-        { id: 2, download: 'Link', fileName: monthNames[updateNewValue1.getMonth()] + " " + updateNewValue1.getFullYear() }
+        // { id: 2, download: 'Link', fileName: monthNames[updateNewValue1.getMonth()] + " " + updateNewValue1.getFullYear() }
+        // { id: 1, fileName: "January 2021" },
+        // { id: 2, fileName: "February 2021" },
+        { id: 1, fileName: monthNames[updateNewValue.getMonth()] + " " + updateNewValue.getFullYear() },
+        { id: 2, fileName: monthNames[updateNewValue1.getMonth()] + " " + updateNewValue1.getFullYear() }
+        // { id: 3, FileName: "March 2021" },
+        // { id: 4, FileName: "April 2021" },
+        // { id: 5, FileName: "May 2021" },
+        // { id: 6, FileName: "June 2021" },
+        // { id: 7, FileName: "July 2021" },
+        // { id: 8, FileName: "August 2021" }
 
 
     ];
@@ -43,10 +52,7 @@ export default function Payslip() {
                 <center>
                     <FormControl>
                         <br />
-
                         <br />
-
-
                         <Grid container spacing={10} >
 
                             <Grid item lg={6}>
@@ -63,6 +69,7 @@ export default function Payslip() {
                                                 onChange={(newValue) => {
                                                     setValue(newValue);
                                                     setValue2(newValue);
+
                                                 }}
 
                                                 renderInput={(params) => <TextField {...params} helperText={null} />}
@@ -85,6 +92,7 @@ export default function Payslip() {
                                                 onChange={(newValue1) => {
                                                     setValue1(newValue1);
                                                     setValue3(newValue1);
+
 
                                                 }}
 
