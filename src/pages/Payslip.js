@@ -11,8 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import { DataGrid } from '@mui/x-data-grid';
 
 export default function Payslip() {
-    // var updateNewValue = "";
-    // var updateNewValue1 = "";
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
@@ -23,31 +21,29 @@ export default function Payslip() {
     const [updateNewValue1, setValue3] = React.useState(new Date());
     const columns = [
         { field: 'id', headerName: 'ID', width: 100 },
-        { field: 'fileName', headerName: 'File Name', width: 600 },
-        // { field: 'download', headerName: 'Download', width: 830 }
-
+        { field: 'fileName', headerName: 'File Name', width: 600 }
     ];
 
     const rows = [
-        // { id: 2, download: 'Link', fileName: monthNames[updateNewValue1.getMonth()] + " " + updateNewValue1.getFullYear() }
-        // { id: 1, fileName: "January 2021" },
-        // { id: 2, fileName: "February 2021" },
-        { id: 1, fileName: monthNames[updateNewValue.getMonth()] + " " + updateNewValue.getFullYear() },
-        { id: 2, fileName: monthNames[updateNewValue1.getMonth()] + " " + updateNewValue1.getFullYear() }
-        // { id: 3, FileName: "March 2021" },
-        // { id: 4, FileName: "April 2021" },
-        // { id: 5, FileName: "May 2021" },
-        // { id: 6, FileName: "June 2021" },
-        // { id: 7, FileName: "July 2021" },
-        // { id: 8, FileName: "August 2021" }
+        // { id: 1, fileName: monthNames[updateNewValue.getMonth()] + " " + updateNewValue.getFullYear() },
+        // { id: 2, fileName: monthNames[updateNewValue1.getMonth()] + " " + updateNewValue1.getFullYear() }
+        { id: 1, fileName: "January 2021" },
+        { id: 2, fileName: "February 2021" },
+        { id: 3, fileName: "March 2021" },
+        { id: 4, fileName: "April 2021" },
+        { id: 5, fileName: "May 2021" },
+        { id: 6, fileName: "June 2021" },
+        { id: 7, fileName: "July 2021" },
+        { id: 8, fileName: "August 2021" },
+        { id: 9, fileName: "September 2021" },
+        { id: 10, fileName: "October 2021" },
+        { id: 11, fileName: "November 2021" },
+        { id: 12, fileName: "December 2021" }
 
 
     ];
     return (
         <>
-            {/* <div id="content" >
-                <h1> Payslip</h1>
-            </div> */}
             <div id="box">
                 <center>
                     <FormControl>
@@ -61,10 +57,10 @@ export default function Payslip() {
                                         <Stack spacing={6}>
                                             <DatePicker
 
-                                                views={["year", "month"]}
+                                                views={["month", "year"]}
                                                 label="From:"
                                                 minDate={new Date("2012-01-01")}
-                                                maxDate={new Date("2023-12-31")}
+                                                maxDate={new Date("2021-12-31")}
                                                 value={value}
                                                 onChange={(newValue) => {
                                                     setValue(newValue);
@@ -84,15 +80,14 @@ export default function Payslip() {
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <Stack spacing={6}>
                                             <DatePicker
-                                                views={["year", "month"]}
+                                                views={["month", "year"]}
                                                 label="To:"
                                                 minDate={new Date("2012-01-01")}
-                                                maxDate={new Date("2023-12-31")}
+                                                maxDate={new Date("2021-12-31")}
                                                 value={value1}
                                                 onChange={(newValue1) => {
                                                     setValue1(newValue1);
                                                     setValue3(newValue1);
-
 
                                                 }}
 
@@ -117,6 +112,9 @@ export default function Payslip() {
                             pageSize={5}
                             rowsPerPageOptions={[5]}
                             checkboxSelection
+
+
+
                         />
                     </div>
                 </center>
@@ -126,4 +124,3 @@ export default function Payslip() {
 
 }
 
-// export default Payslip;
