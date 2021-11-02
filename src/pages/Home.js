@@ -10,7 +10,11 @@ import { DatePickerCalendar } from 'react-nice-dates'
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar } from "react-modern-calendar-datepicker";
 import './calendar.css'
+import { useMediaQuery } from 'react-responsive'
+
 //...
+
+
 const useStyles = makeStyles(theme => ({
     card: {
         borderRadius: '30px',
@@ -33,7 +37,11 @@ const useStyles = makeStyles(theme => ({
 
 
 const Home = () => {
-
+    const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
+    const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isPortrait = useMediaQuery({ query: '(orientation: portrait)' })
+    const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
     const classes = useStyles();
 
     const [selectedDay, setSelectedDay] = useState('');
@@ -109,6 +117,7 @@ const Home = () => {
                         onChange={setSelectedDay}
                         shouldHighlightWeekends
                         calendarTodayClassName="custom-today-day" // also this
+                        calendarClassName="responsive-calendar" // added this
                         customDaysClassName={[
                             // here we add some CSS classes
                             { year: 2021, month: 10, day: 4, className: 'purpleDay' },

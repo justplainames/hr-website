@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import logo from "../assets/logo.svg";
 import Home from "../assets/home-solid.svg";
@@ -20,6 +20,8 @@ import Divider from '@mui/material/Divider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CircleIcon from '@mui/icons-material/Circle';
 import Button from '@mui/material/Button';
+import Notifications from "../component/notifications";
+import axios from 'axios';
 
 
 const useStyles = makeStyles(theme => ({
@@ -35,7 +37,6 @@ const useStyles = makeStyles(theme => ({
 
 
 }))
-
 
 
 const Container = styled.div`
@@ -166,9 +167,6 @@ const TopBar = styled.div`
     display: inline-flex;
 `;
 
-function noti() {
-    console.log("sss")
-}
 
 const Sidebar = () => {
 
@@ -176,9 +174,21 @@ const Sidebar = () => {
     //nav
     const [noticlicked, setnoticlicked] = useState(false);
     //
-    const [showNoti, setshowNoti] = useState(false);
+    const [showNoti, setshowNoti] = useState(true);
 
+    const [notificationsitems, setnotificationsitems] = useState([]);
 
+    const fetchNoti = async () => {
+        await axios.get('http://localhost:5000/notifications')
+            .then(res => {
+                setnotificationsitems(res.data);
+            })
+
+    }
+
+    useEffect(() => {
+        fetchNoti()
+    }, []);
 
     const handleClick = () => setClick(!click);
     const classes = useStyles();
@@ -198,7 +208,7 @@ const Sidebar = () => {
 
                 <Box ml={200} mt={5}>
 
-                    <Box sx={{ display: 'flex' }}>
+                    <Box sx={{ display: 'flex'}}>
                         <Box mr={7} ml={28}>
                             <IconButton onClick={() => setshowNoti(prev => !prev)}>
                                 <Box>
@@ -207,16 +217,16 @@ const Sidebar = () => {
                             </IconButton>
                         </Box>
 
-                        <IconButton onClick={noti}>
+                        <IconButton >
                             <Box>
                                 <PermIdentityIcon sx={{ fontSize: 40 }} />
                             </Box>
                         </IconButton>
                     </Box>
                     {showNoti &&
-                        <Box ml={10} pt={1.5} sx={{ position: 'absolute' }}>
+                        <Box ml={10} pt={1.5} sx={{ position: 'absolute'}}>
                             <Card className={classes.notificationCard}>
-                                <Box>
+                                <Box >
                                     <Card className={classes.notiItem}>
                                         <Box pt={2} >
                                             <Box pb={1} sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -224,63 +234,10 @@ const Sidebar = () => {
 
                                             </Box>
                                             <Divider />
-                                            <Box pl={2} pt={2}>
-                                                <Element name="test1" className="element" >
-                                                    <Box sx={{ display: 'flex' }} pb={1}>
-                                                        <Box pr={2}>
-                                                            <AccountCircleIcon sx={{ fontSize: 50 }}></AccountCircleIcon>
-                                                        </Box>
-                                                        <Box sx={{ display: 'flex' }}>
-                                                            <Typography>
-                                                                Benjamin Tan has recommended leave for you on the 30th october 2021
-                                                            </Typography>
-                                                            <Box pr={1}>
-                                                                <CircleIcon sx={{ fontSize: 15 }} ></CircleIcon>
-                                                            </Box>
-                                                        </Box>
-                                                    </Box>
-                                                    <Box pl={8} pb={2} sx={{ display: 'flex' }}>
-                                                        <Box pr={1}>
-                                                            <Button variant="contained" color="success" size="small">
-                                                                Accept
-                                                            </Button>
-                                                        </Box>
-                                                        <Button variant="outlined" color="error" size="small">
-                                                            Decline
-                                                        </Button>
-                                                    </Box>
-                                                    <Divider />
-                                                </Element>
-                                            </Box>
-                                            <Box pl={2} pt={2}>
-                                                <Element name="test1" className="element" >
-                                                    <Box sx={{ display: 'flex' }} pb={1}>
-                                                        <Box pr={2}>
-                                                            <AccountCircleIcon sx={{ fontSize: 50 }}></AccountCircleIcon>
-                                                        </Box>
-                                                        <Box sx={{ display: 'flex' }}>
-                                                            <Typography>
-                                                                Benjamin Tan has recommended leave for you on the 30th october 2021
-                                                            </Typography>
-                                                            <Box pr={1}>
-                                                                <CircleIcon sx={{ fontSize: 15 }} ></CircleIcon>
-                                                            </Box>
-                                                        </Box>
-                                                    </Box>
-                                                    <Box pl={8} pb={2} sx={{ display: 'flex' }}>
-                                                        <Box pr={1}>
-                                                            <Button variant="contained" color="success" size="small">
-                                                                Accept
-                                                            </Button>
-                                                        </Box>
-                                                        <Button variant="outlined" color="error" size="small">
-                                                            Decline
-                                                        </Button>
-                                                    </Box>
-                                                    <Divider />
-                                                </Element>
-                                            </Box>
-
+                                            <Box sx={{ overflow:'auto',maxHeight:'1000px' }}>
+                                           
+                                                <Notifications items={notificationsitems}></Notifications>
+                                       </Box>
                                         </Box>
                                     </Card>
                                 </Box>
