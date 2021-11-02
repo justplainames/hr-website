@@ -4,6 +4,7 @@ import logo from "../assets/logo.svg";
 import Home from "../assets/home-solid.svg";
 import Leave from "../assets/logo.svg";
 import Payslip from "../assets/logo.svg";
+import Noti from "../assets/logo.svg";
 import styled from "styled-components";
 import "@fontsource/montserrat"
 import { NavLink } from 'react-router-dom';
