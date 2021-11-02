@@ -7,12 +7,13 @@ import Payslip from "./pages/Payslip";
 import styled from "styled-components";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
+
 const Pages = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding-top:120px
 `;
 
 function App() {
