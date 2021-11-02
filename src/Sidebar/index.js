@@ -1,15 +1,43 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import logo from "../assets/logo.svg";
 import Home from "../assets/home-solid.svg";
 import Leave from "../assets/logo.svg";
 import Payslip from "../assets/logo.svg";
+import Noti from "../assets/logo.svg";
 import styled from "styled-components";
 import "@fontsource/montserrat"
-
 import { NavLink } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
 import Box from '@material-ui/core/Box';
+import IconButton from "@material-ui/core/IconButton";
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import { Card } from '@material-ui/core'
+import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import Divider from '@mui/material/Divider';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CircleIcon from '@mui/icons-material/Circle';
+import Button from '@mui/material/Button';
+import Notifications from "../component/notifications";
+import axios from 'axios';
+
+
+const useStyles = makeStyles(theme => ({
+    notificationCard: {
+        borderRadius: '5px'
+    },
+    notiItem: {
+        width: '350px'
+    },
+    noti: {
+        paddingRight: '10px'
+    }
+
+
+}))
+
 
 const Container = styled.div`
     position: fixed;
@@ -23,7 +51,7 @@ const Container = styled.div`
     }
 `;
 
-const Button = styled.button`
+const MenuButton = styled.button`
     background-color: var(--black);   
     border: none;
     width: 2.5rem;
@@ -139,43 +167,109 @@ const TopBar = styled.div`
     display: inline-flex;
 `;
 
+
 const Sidebar = () => {
 
-const [click, setClick] = useState(false);
-const handleClick = () => setClick(!click);
+    const [click, setClick] = useState(false); //nav bar
+    //nav
+    const [noticlicked, setnoticlicked] = useState(false);
+    //
+    const [showNoti, setshowNoti] = useState(true);
 
+    const [notificationsitems, setnotificationsitems] = useState([]);
+
+    const fetchNoti = async () => {
+        await axios.get('http://localhost:5000/notifications')
+            .then(res => {
+                setnotificationsitems(res.data);
+            })
+
+    }
+
+    useEffect(() => {
+        fetchNoti()
+    }, []);
+
+    const handleClick = () => setClick(!click);
+    const classes = useStyles();
     return (
-    <Container>
-        <TopBar>        
-            <Logo>
-                <img src = {logo} alt = "logo" />
-            </Logo>
-            <Box sx = {{ml: 8, mt: 2}}>
-                <Typography variant = "h2" component = "h2">
-                    Homepage
-                </Typography>                                
-            </Box>
-        </TopBar>
-        
-        <SidebarContainer>        
-            <Button clicked = {click} onClick={() => handleClick()}>
-            </Button>
-            <SlickBar clicked = {click}>
-                <Item onClick = {() => setClick(false)} exact activeClassName = "active" to = "/">
-                    <img src = {Home} alt = "Home" />
-                    <Text clicked = {click}>Home</Text>
-                </Item>
-                <Item onClick = {() => setClick(false)} activeClassName = "active" to = "/leave">
-                    <img src = {Leave} alt = "Leave" />
-                    <Text clicked = {click}>Leave</Text>
-                </Item>
-                <Item onClick = {() => setClick(false)} activeClassName = "active" to = "/payslip">
-                    <img src = {Payslip} alt = "Payslip" />
-                    <Text clicked = {click}>Payslip</Text>
-                </Item>
-            </SlickBar>            
-         </SidebarContainer>
-    </Container>
+        <Container>
+
+            <TopBar>
+
+                <Logo>
+                    <img src={logo} alt="logo" />
+                </Logo>
+                <Box sx={{ ml: 8, mt: 2 }}>
+                    <Typography variant="h2" component="h2">
+                        Homepage
+                    </Typography>
+                </Box>
+
+                <Box ml={200} mt={5}>
+
+                    <Box sx={{ display: 'flex'}}>
+                        <Box mr={7} ml={28}>
+                            <IconButton onClick={() => setshowNoti(prev => !prev)}>
+                                <Box>
+                                    <NotificationsNoneIcon sx={{ fontSize: 40 }} />
+                                </Box >
+                            </IconButton>
+                        </Box>
+
+                        <IconButton >
+                            <Box>
+                                <PermIdentityIcon sx={{ fontSize: 40 }} />
+                            </Box>
+                        </IconButton>
+                    </Box>
+                    {showNoti &&
+                        <Box ml={10} pt={1.5} sx={{ position: 'absolute'}}>
+                            <Card className={classes.notificationCard}>
+                                <Box >
+                                    <Card className={classes.notiItem}>
+                                        <Box pt={2} >
+                                            <Box pb={1} sx={{ display: 'flex', justifyContent: 'center' }}>
+                                                <Typography>Notifications</Typography>
+
+                                            </Box>
+                                            <Divider />
+                                            <Box sx={{ overflow:'auto',maxHeight:'1000px' }}>
+                                           
+                                                <Notifications items={notificationsitems}></Notifications>
+                                       </Box>
+                                        </Box>
+                                    </Card>
+                                </Box>
+                            </Card>
+
+
+                        </Box>
+                    }
+                </Box>
+
+
+            </TopBar>
+
+            <SidebarContainer>
+                <MenuButton clicked={click} onClick={() => handleClick()}>
+                </MenuButton>
+                <SlickBar clicked={click}>
+                    <Item onClick={() => setClick(false)} exact activeClassName="active" to="/">
+                        <img src={Home} alt="Home" />
+                        <Text clicked={click}>Home</Text>
+                    </Item>
+                    <Item onClick={() => setClick(false)} activeClassName="active" to="/leave">
+                        <img src={Leave} alt="Leave" />
+                        <Text clicked={click}>Leave</Text>
+                    </Item>
+                    <Item onClick={() => setClick(false)} activeClassName="active" to="/payslip">
+                        <img src={Payslip} alt="Payslip" />
+                        <Text clicked={click}>Payslip</Text>
+                    </Item>
+                </SlickBar>
+            </SidebarContainer>
+        </Container>
     );
 };
 

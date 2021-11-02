@@ -1,0 +1,46 @@
+.purpleDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    border: 2px solid rgba(156, 136, 255, 0.7) !important;
+  }
+  
+  .orangeDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    border: 2px solid rgba(219, 145, 60, 0.7) !important;
+  }
+  
+  .yellowDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    border: 2px solid rgba(228, 231, 36, 0.7) !important;
+  }
+  
+  .navyBlueDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+    border: 2px solid rgba(52, 73, 94, 0.7) !important;
+  }
+
+  .responsive-calendar {
+    /* by setting font-size, all the elements will correspond */
+    font-size: 20px !important; /* default to 10px */
+  }
+  
+  @media (max-width: 1500px) {
+    .responsive-calendar {
+      font-size: 20px !important;
+    }
+  }
+  
+  @media (max-width: 1200px) {
+    .responsive-calendar {
+      font-size: 7px !important;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .responsive-calendar {
+      font-size: 6px !important;
+    }
+  }
+  
+  /* Large screens */
+  @media (min-width: 2500px) {
+    .responsive-calendar {
+      font-size: 12px !important;
+    }
+  }
+  
