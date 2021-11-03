@@ -1,0 +1,120 @@
+#content{
+  
+    left: 950px;
+    padding-top: 200px;
+    padding-left: 100px;
+    position: absolute;
+    /* top:0px; */
+    display: inline-block;
+    color:black;
+    font-size: larger;
+    font-family:'Montserrat';
+  
+}
+/* 
+h2.title{
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: 1em;
+    color: black;
+    display: inline;
+    text-align: left;
+    position: absolute;
+}   */
+
+#box2 {
+    border-radius: 15px;
+    background:white;
+    margin-top:30px;
+    color:black;
+    display: inline-block;
+    height:900px;
+    width:2500px;
+    } 
+#box p{
+padding-left: 0px;
+}
+
+#box1 {
+    border-radius: 15px;
+    background:rgba(255, 255, 255, 0.726);
+    border-inline-start-width: 0px;
+    margin-top:75px;
+    margin-left:550px;
+    color:black;
+    display: inline-block;
+    height:600px;
+    width:1200px;
+    border: 3px solid rgb(148, 139, 139);
+    
+    } 
+#box1 p{
+    padding-left: 20px;}
+
+#selectbox {
+    margin-top:35px;
+    left: 980px;
+    position: absolute;}
+
+#radio{
+    margin-top:35px;
+    left: 1370px;
+    position: absolute;
+    size: 150%;
+}
+
+#startdate{
+    margin-top:180px;
+    left: 980px;
+    position: absolute;
+}
+
+#enddate{
+    margin-top:180px;
+    left: 1370px;
+    position: absolute;
+}
+
+#days{
+    margin-top:180px;
+    left: 1670px;
+    width: 70px;
+    position: absolute;
+}
+
+#recommendby{
+    margin-top:330px;
+    left: 980px;
+    position: absolute;
+}
+
+#approveby{
+    margin-top:330px;
+    left: 1370px;
+    position: absolute;
+}
+
+#ptdbalance{
+    margin-top:480px;
+    left: 980px;
+    position: absolute;
+}
+
+#ytdbalance{
+    margin-top:480px;
+    left: 1370px;
+    position: absolute;
+}
+
+#remarks{
+    margin-top:35px;
+    left: 1780px;
+    position: absolute;
+}
+
+#submitbutton{
+    margin-top:510px;
+    left: 1850px;
+    position: absolute;
+}
+
