@@ -47,41 +47,66 @@ export default function Payslip() {
     const [updateNewValue, setValue2] = React.useState("01/2021");
     const [updateNewValue1, setValue3] = React.useState("12/2021");
     const data = [
-
-        ["January 2021.pdf", "01/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104068580638720/JAN.pdf" target="_blank" rel="noreferrer" >
+        ["January 2021.pdf", "01/2021", <div>
+            <Button variant="outlined" onClick={handleClickOpen}>
+                Download
+            </Button>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Download</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        To download the January 2021 payslip, please enter your password here.
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="password"
+                        type="password"
+                        fullWidth
+                        variant="standard"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleClose} href="https://cdn.discordapp.com/attachments/895523272718950413/905104068580638720/JAN.pdf" target="_blank" rel="noreferrer" >Download</Button>
+                </DialogActions>
+            </Dialog>
+        </div>],
+        // ["January 2021.pdf", "01/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104068580638720/JAN.pdf" target="_blank" rel="noreferrer" >
+        //     Download
+        // </Button >]],
+        ["February 2021.pdf", "02/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905104000792285214/FEB.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]],
-        ["February 2021.pdf", "02/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104000792285214/FEB.pdf" target="_blank" rel="noreferrer" >
+        ["March 2021.pdf", "03/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905104059625779280/MAR.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]],
-        ["March 2021.pdf", "03/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104059625779280/MAR.pdf" target="_blank" rel="noreferrer" >
+        ["April 2021.pdf", "04/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905104003002691664/APR.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]],
-        ["April 2021.pdf", "04/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104003002691664/APR.pdf" target="_blank" rel="noreferrer" >
+        ["May 2021.pdf", "05/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905104060342996992/MAY.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]],
-        ["May 2021.pdf", "05/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104060342996992/MAY.pdf" target="_blank" rel="noreferrer" >
+        ["June 2021.pdf", "06/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905104057516032050/JUN.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]],
-        ["June 2021.pdf", "06/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104057516032050/JUN.pdf" target="_blank" rel="noreferrer" >
+        ["July 2021.pdf", "07/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905104054835888229/JUL.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]],
-        ["July 2021.pdf", "07/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104054835888229/JUL.pdf" target="_blank" rel="noreferrer" >
+        ["August 2021.pdf", "08/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905103996073693234/AUG.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]],
-        ["August 2021.pdf", "08/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905103996073693234/AUG.pdf" target="_blank" rel="noreferrer" >
+        ["September 2021.pdf", "09/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905104066919665664/SEP.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]],
-        ["September 2021.pdf", "09/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104066919665664/SEP.pdf" target="_blank" rel="noreferrer" >
+        ["October 2021.pdf", "10/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905104063492935690/OCT.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]],
-        ["October 2021.pdf", "10/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104063492935690/OCT.pdf" target="_blank" rel="noreferrer" >
+        ["November 2021.pdf", "11/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905104061756502048/NOV.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]],
-        ["November 2021.pdf", "11/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905104061756502048/NOV.pdf" target="_blank" rel="noreferrer" >
-            Download
-        </Button >]],
-        ["December 2021.pdf", "12/2021", [< Button variant="contained" color="success" href="https://cdn.discordapp.com/attachments/895523272718950413/905103999332667392/DEC.pdf" target="_blank" rel="noreferrer" >
+        ["December 2021.pdf", "12/2021", [< Button variant="outlined" href="https://cdn.discordapp.com/attachments/895523272718950413/905103999332667392/DEC.pdf" target="_blank" rel="noreferrer" >
             Download
         </Button >]]
     ];
