@@ -43,30 +43,20 @@ export default function Login() {
     // if field(s) are empty or incorrect input
     if ((!emailError || passwordError) && (!email || !password)) {
       alert('Please ensure inputs are correct and enter all required fields')
-    } else if (!email || !password) {
-      console.log(email + ' ---- ' + password)
-      //if field(s) are just empty
+    } //if field(s) are just empty
+    else if (!email || !password) {
       alert('Please input Empty fields')
-    } else if (!emailError || passwordError) {
-      //if one of the fields have error
-
+    } //if one of the fields have error
+    else if (!emailError || passwordError) {
       alert('Please ensure inputs are correct.')
     } else {
-      // if fields are not empty and have no error
-      alert(
-        'No Issues\n' +
-          'Email :' +
-          email.toLocaleLowerCase() +
-          '\nPassword :' +
-          password
-      )
       //Check email and password for match
       //if credentials correct
       if (
         email.toLocaleLowerCase() == 'hci@gmail.com' &&
         password == 'hcipassword123'
       ) {
-        alert('LOGIN to HR APP')
+        alert('LOGIN to HR APP, HOW TO LINK TO HOMEPAGE?')
         //if credentials wrong, prompt user for correct input
       } else {
         alert('Incorrect credentials, please try again ')
@@ -254,7 +244,7 @@ export default function Login() {
               label='Outlined'
               variant='outlined'
               onChange={(e) => setPopupEmail(e.target.value)}
-              label={popupEmail}
+              label='Recovery email'
               onBlur={() => checkPopupEmail(popupEmail)}
               error={!popupEmailError}
               helperText={popupEmailHelperText}
