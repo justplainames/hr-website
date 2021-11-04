@@ -17,7 +17,6 @@ import {
 import { VisibilityOff, Visibility } from '@mui/icons-material'
 import LogInIcon from '@mui/icons-material/Login'
 import Logo from '../assets/logo.svg'
-
 import './Login.css'
 
 export default function Login() {
