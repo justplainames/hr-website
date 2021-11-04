@@ -10,8 +10,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
 export default function NotificationList({ details, ...others }) {
-    console.log('im at the list')
-    console.log(details)
+
 
 
     return (

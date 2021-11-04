@@ -131,19 +131,38 @@ const leavetypes = [
 },
 ];
 
-const data = [
+const dataLeaveRecord = [
 ["20/10/2021", "Annual", "02/11/2021","02/11/2021", 1, "Benjamin Tan", "Benjamin Tan","Pending"],
 ["20/10/2021", "Annual", "30/10/2021","30/10/2021", 1, "N.A.", "Benjamin Tan","Pending"],
 ["31/10/2021", "Unpaid", "02/08/2021","02/08/2021", 2, "Alice Tay", "Alison Ng","Approved"],
-
 ];
 
-const options = {
+const dataApproveLeave = [
+    ["20/10/2021", "Annual", "02/11/2021","02/11/2021", 1, "Benjamin Tan", "Benjamin Tan","Pending"],
+    ["20/10/2021", "Annual", "30/10/2021","30/10/2021", 1, "N.A.", "Benjamin Tan","Pending"],
+    ["31/10/2021", "Unpaid", "02/08/2021","02/08/2021", 2, "Alice Tay", "Alison Ng","Pending"],
+    ];
+    
+
+const optionsLeaveRecord = {
 filter: true,
 filterType: "multiselect",
-responsive: "scrollMaxHeight"
+responsive: "scrollMaxHeight",
+selectableRows: "none",
+download: false,
+print:false
 };
 
+
+const optionsApproveLeave = {
+    filter: true,
+    filterType: "multiselect",
+    responsive: "scrollMaxHeight",
+    //selectableRows: "none",
+    download: false,
+    print:false
+    };
+    
 
 
 // const Item = styled(Paper)(({ theme }) => ({
@@ -352,6 +371,8 @@ export default function BasicTabs() {
                                 </LocalizationProvider>
                         </div>
 
+
+
                         <div id = "recommendby">
                             <div style = {{display: 'flex',justifyContent:'left',alignItems: 'left'}}>  
                                             <h3>Recommended by:</h3>
@@ -370,6 +391,7 @@ export default function BasicTabs() {
                                             <h3>To be approved by:</h3>
                                         </div>
                                 <TextField 
+                                required
                                 id="outlined-start-adornment"
                                 sx={{ m: 1, width: '35ch' }}
                                 InputProps={{
@@ -411,6 +433,7 @@ export default function BasicTabs() {
                                             <h3>Remarks:</h3>
                             </div>
                             <TextField
+                                isRequired
                                 id="outlined-multiline-static"
                                 
                                 multiline
@@ -441,17 +464,33 @@ export default function BasicTabs() {
                 <TabPanel value={value} index={2}>
                     <ThemeProvider theme = {theme}>
                         <MUIDataTable
-                            title={"ACME Employee list - customizeFilter"}
-                            data={data}
+                            title={"Leave Records"}
+                            data={dataLeaveRecord}
                             columns={columns}
-                            options={options}
+                            options={optionsLeaveRecord}
                         />
                     </ThemeProvider>
                 
                 </TabPanel>
                 
                 <TabPanel value={value} index={3}>
-                
+                    <Stack direction="row" spacing={5}>
+                        
+                            <Button variant="contained" color = "success"  size="large">Approve</Button>
+                            <Button variant="contained" color = "error"  size="large">Decline</Button>
+                        
+                    </Stack>
+                    <ThemeProvider theme = {theme}>
+                        <MUIDataTable
+                            title={""
+                                
+                            }
+                            
+                            data={dataApproveLeave}
+                            columns={columns}
+                            options={optionsApproveLeave}
+                        />
+                    </ThemeProvider>
             
                 </TabPanel>
                 

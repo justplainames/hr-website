@@ -12,14 +12,20 @@ import { Calendar } from "react-modern-calendar-datepicker";
 import './calendar.css'
 import { useMediaQuery } from 'react-responsive'
 import axios from 'axios';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Arrow from "../assets/arrow.svg";
+import Divider from '@mui/material/Divider';
+import 'react-clock/dist/Clock.css';
+import Clock from 'react-clock';
 //...
-
+import CircleIcon from '@mui/icons-material/Circle';
 
 const useStyles = makeStyles(theme => ({
     card: {
         borderRadius: '30px',
-        // width:'1150px',  
-        // height:'1080px'
+        //  width:'1150px',  
+        //  height:'1080px'
     },
     leaveCardInfo: {
         borderRadius: '30px',
@@ -44,26 +50,95 @@ const useStyles = makeStyles(theme => ({
     },
     bold: {
         fontWeight: 300
+    },
+    rotate: {
+        transform: "rotate(90deg)"
+    },
+
+    blueColor: {
+        color: "#008BFF",
+    },
+
+    imgsize: {
+        height: "50px",
+        width: "50px"
+    },
+    leaveinfo: {
+        width: '460px',
+        height: '1010px',
+        backgroundColor: '#ffcba3',
+        boxShadow: 'none',
+        borderRadius: '0 30px 30px 0'
+    },
+    infoheader: {
+        backgroundColor: '#ffcba3',
+    },
+    cardinfo: {
+        borderRadius: '15px',
+         width:'420px',  
+         height:'210px'
     }
 
-
 }))
+
+
+
+const d = new Date();
+const weekday = new Array(7);
+weekday[0] = "Sunday";
+weekday[1] = "Monday";
+weekday[2] = "Tuesday";
+weekday[3] = "Wednesday";
+weekday[4] = "Thursday";
+weekday[5] = "Friday";
+weekday[6] = "Saturday";
+
+let months = d.getMonth();
+let day = d.getDate();
+let year = d.getFullYear();
+const month = new Array(12);
+month[0] = "January";
+month[1] = "Febuary";
+month[2] = "March";
+month[3] = "April";
+month[4] = "May";
+month[5] = "June";
+month[6] = "July";
+month[7] = "August";
+month[8] = "September";
+month[9] = "October";
+month[10] = "November";
+month[11] = "December";
+
 
 const Home = () => {
     const classes = useStyles();
     const [selectedDay, setSelectedDay] = useState('');
-    const [leaves, setleaves] = useState('')
+    const [leaves, setleaves] = useState('');
+    const [value, setValue] = useState(new Date());
     const fetchleaves = async () => {
         await axios.get('http://localhost:5000/leaves')
             .then(res => {
                 setleaves(res.data);
             })
     }
-
     useEffect(() => {
         fetchleaves()
     }, []);
-    return (        
+
+
+    useEffect(() => {
+        const interval = setInterval(
+            () => setValue(new Date()),
+            1000
+        );
+
+        return () => {
+            clearInterval(interval);
+        }
+    }, []);
+
+    return (
         <Box>
             <Card classes={{ root: classes.card }} >
                 <Box pt={5} ml={5}>
@@ -81,17 +156,17 @@ const Home = () => {
                                             Annual Leave
                                         </Typography>
                                         <Box pt={10} pb={2}>
-                                            <Typography >
+                                            <Typography variant='h5'>
                                                 Applied :
                                             </Typography>
                                         </Box>
                                         <Box pt={3} pb={5}>
-                                            <Typography>
+                                            <Typography variant='h5'>
                                                 Balanced :
                                             </Typography>
                                         </Box>
                                         <Box pt={6} pb={5}>
-                                            <Typography>
+                                            <Typography variant='h5'>
                                                 Upcoming :
                                             </Typography>
                                         </Box>
@@ -103,24 +178,22 @@ const Home = () => {
                                                 2021
                                             </Typography>
                                         </Box>
-                                        <Box  sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={10} pb={2}  mr={10}>
-                                            <Typography className={classes.bold}>
-                                                {leaves ===''?'':leaves[0].applied.annual}
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={10} pb={2} mr={5.5} >
+                                            <Typography variant="h4">
+                                                {leaves === '' ? '' : leaves[0].applied.annual}
                                             </Typography>
                                         </Box>
-                                        <Box  sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={3} pb={5} mr={10}>
-                                            <Typography className={classes.bold}>                                                
-                                                {leaves ===''?'':leaves[0].left.annual}
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1.5} pb={5} mr={5.5}>
+                                            <Typography variant="h4">
+                                                {leaves === '' ? '' : leaves[0].left.annual}
                                             </Typography>
                                         </Box>
 
-                                        <Box  sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={6} pb={5} mr={10}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={4} pb={5} mr={5}>
                                             {/* BUTTON HERE */}
-                                            <Typography>
-                                          BUTTON HERE
-                                            </Typography>
+                                            <img src={Arrow} className={classes.imgsize} />
                                         </Box>
-                                  
+
                                     </Grid>
 
                                 </Grid>
@@ -162,6 +235,66 @@ const Home = () => {
                             { year: 2021, month: 10, day: 26, className: 'navyBlueDay' },
                         ]}
                     />
+                    <Box sx={{ position: 'relative', zIndex: '100', }} >
+                        <Card className={classes.leaveinfo}  >
+                            <Box className={classes.infoheader} sx={{ display: 'flex' }} pl={8} pt={2} pb={2.9}>
+                                <Box sx={{ display: 'flex' }}>
+                                    <Box mt={7.5}>
+                                        <Typography variant='h4'>
+                                            {weekday[d.getDay()]}
+                                        </Typography>
+                                        <Typography variant='h6'>
+                                            {month[months]} {day}
+                                        </Typography>
+                                    </Box>
+                                    <Box ml={7} mt={3}>
+                                        <Clock value={value} />
+                                    </Box>
+                                </Box>
+                            </Box>
+
+
+                            <Box pl={2.5}>
+                                <Card className={classes.cardinfo}>
+                                    <Box sx={{ display: 'flex' }}>
+                                        <Box>
+                                            <Box pl={7} pt={5}>
+                                                <Typography variant="h4">{month[3]} {day}, {year}</Typography>
+                                            </Box>
+
+
+                                            <Box sx={{ display: 'flex' }} ml={2}>
+
+                                                <Box pt={3} >
+                                                    <CircleIcon sx={{ fontSize: 25, color: 'lightblue' }} />
+                                                </Box>
+
+                                                <Box pl={2} pt={3}>
+                                                    <Box>
+                                                        <Typography>Annual Leave</Typography>
+                                                    </Box>
+
+                                                    <Box pt={2}>
+                                                        <Typography>
+                                                           3 days
+                                                        </Typography>
+                                                    </Box>
+
+                                                </Box>
+
+                                            </Box>
+
+                                        </Box>
+
+                                    </Box>
+                                </Card>
+                            </Box>
+
+
+
+
+                        </Card>
+                    </Box>
                 </Box>
             </Card>
 

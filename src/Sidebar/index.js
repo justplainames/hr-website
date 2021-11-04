@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import logo from "../assets/logo.svg";
 import Home from "../assets/home-solid.svg";
-import Leave from "../assets/logo.svg";
+import Leave from "../assets/leave.svg";
 import Payslip from "../assets/logo.svg";
 import Profile from "../assets/profile.png";
 import styled from "styled-components";
@@ -15,15 +15,16 @@ import IconButton from "@material-ui/core/IconButton";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import { Card } from '@material-ui/core'
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import { DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import Divider from '@mui/material/Divider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CircleIcon from '@mui/icons-material/Circle';
 import Button from '@mui/material/Button';
-import Notifications from "../component/notifications";
+import Notifications from "../component/notifications/notifications";
 import axios from 'axios';
+import Link from '@mui/material/Link';
 
 
 const useStyles = makeStyles(theme => ({
@@ -37,21 +38,20 @@ const useStyles = makeStyles(theme => ({
     noti: {
         paddingRight: '10px'
     },
-    
+
     bold: {
         fontWeight: 600
     },
 
     manageColor: {
         color: "#008BFF",
-        underline:  'underline'
     },
 
     button: {
         backgroundColor: '#fff',
         '&:hover': {
-          backgroundColor: '#d1d1d1'
-      }
+            backgroundColor: '#d1d1d1'
+        }
     },
 
     imgsize: {
@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
         width: "80px"
     }
 }))
-    
+
 
 
 const Container = styled.div`
@@ -216,7 +216,7 @@ const Sidebar = () => {
     }, []);
 
     const handleClick = () => setClick(!click);
-    const classes = useStyles();    
+    const classes = useStyles();
 
 
     return (
@@ -233,12 +233,13 @@ const Sidebar = () => {
                     </Typography>
                 </Box>
 
-                <Box ml={200} mt={5}>
+                <Box ml={210} mt={5}>
 
-                    <Box sx={{ display: 'flex'}}>
+                    <Box sx={{ display: 'flex' }}>
                         <Box mr={7} ml={28}>
-                            <IconButton onClick={() => {setshowNoti(prev => !prev)
-                            setShowProfile(false)
+                            <IconButton onClick={() => {
+                                setshowNoti(prev => !prev)
+                                setShowProfile(false)
                             }}>
                                 <Box>
                                     <NotificationsNoneIcon sx={{ fontSize: 40 }} />
@@ -246,8 +247,9 @@ const Sidebar = () => {
                             </IconButton>
                         </Box>
 
-                        <IconButton onClick={() => {setShowProfile(prev => !prev)
-                        setshowNoti(false)
+                        <IconButton onClick={() => {
+                            setShowProfile(prev => !prev)
+                            setshowNoti(false)
                         }}>
                             <Box>
                                 <PermIdentityIcon sx={{ fontSize: 40 }} />
@@ -255,21 +257,20 @@ const Sidebar = () => {
                         </IconButton>
                     </Box>
                     {showNoti &&
-                        <Box ml={10} pt={1.5} sx={{ position: 'absolute'}}>
+                        <Box ml={10} pt={1.5} sx={{ position: 'absolute' }}>
                             <Card className={classes.notificationCard}>
                                 <Box >
                                     <Card className={classes.notiItem}>
                                         <Box pt={2} >
-                                            <Box pl = {3}>
+                                            <Box pl={3}>
                                                 <Typography className={classes.bold}> Notifications</Typography>
                                             </Box>
                                             <Box pb={1} sx={{ display: 'flex', justifyContent: 'center' }}>
                                             </Box>
                                             <Divider />
-                                            <Box sx={{ overflow:'auto',maxHeight:'1000px' }}>
-                                           
+                                            <Box sx={{ overflow: 'auto', maxHeight: '1000px' }}>
                                                 <Notifications items={notificationsitems}></Notifications>
-                                       </Box>
+                                            </Box>
                                         </Box>
                                     </Card>
                                 </Box>
@@ -277,59 +278,66 @@ const Sidebar = () => {
                         </Box>
                     }
 
-                    {showProfile && 
-                        <Box ml={10} pt={1.5} sx={{ position: 'absolute'}}>
+                    {showProfile &&
+                        <Box ml={10} pt={1.5} sx={{ position: 'absolute' }}>
                             <Card className={classes.notificationCard}>
-                            <Box >
-                                <Card className={classes.notiItem}>
-                                    <Box pt={2} >
-                                        <Box sx={{ justifyContent: 'left' }}>                                            
-                                            <Box pl = {3} pb = {1}>
-                                                <Typography className={classes.bold}>Account</Typography>
-                                            </Box>
-                                            <Divider />
-                                            <Box pl = {2} pt = {2} pb = {3} sx = {{display: 'flex'}}>
-                                                <Box pr = {2} sx={{ fontSize: 50 }}>
-                                                    <img className={classes.imgsize} src={Profile}/>
+                                <Box >
+                                    <Card className={classes.notiItem}>
+                                        <Box pt={2} >
+                                            <Box sx={{ justifyContent: 'left' }}>
+                                                <Box pl={3} pb={1}>
+                                                    <Typography className={classes.bold}>Account</Typography>
                                                 </Box>
-                                                <Box>
-                                                    <Box pl = {1}>
-                                                        <Box pb = {0.8}>
-                                                            <Typography className={classes.bold}>Mary Tan</Typography>
-                                                        </Box>
-                                                        <Box pb = {0.8}>
-                                                            <Typography >marytan123@gmail.com</Typography>
-                                                        </Box>
+                                                <Divider />
+                                                <Box pl={2} pt={2} pb={3} sx={{ display: 'flex' }}>
+                                                    <Box pr={2} sx={{ fontSize: 50 }}>
+                                                        <img className={classes.imgsize} src={Profile} />
                                                     </Box>
                                                     <Box>
-                                                        <Button className={classes.manageColor} onClick href="/">Manage</Button>
+                                                        <Box pl={1}>
+                                                            <Box pb={0.8}>
+                                                                <Typography className={classes.bold}>Mary Tan</Typography>
+                                                            </Box>
+                                                            <Box pb={0.8}>
+                                                                <Typography >marytan123@gmail.com</Typography>
+                                                            </Box>
+                                                        </Box>
+                                                        <Box ml={1} >
+                                                            <Link href="/" underline="hover">
+                                                                {'Manage'}
+                                                            </Link>
+                                                            {/* <Button className={classes.manageColor} onClick href="/">Manage</Button> */}
+                                                        </Box>
+                                                    </Box>
+                                                </Box>
+                                                <Divider />
+                                                <Box className={classes.button} pl={2.5} pt={2} pb={2} sx={{ display: "flex" }}>
+                                                    <SettingsIcon color="action"></SettingsIcon>
+                                                    <Box pl={2.5}>
+                                                        <Typography >
+                                                        <Link href="/" underline="none" color="black">
+                                                                {'Setting'}
+                                                            </Link>
+                                                        </Typography>
+                                                    </Box>
+                                                </Box>
+                                                <Divider />
+                                                <Box className={classes.button} pl={3} pt={2} pb={2} sx={{ display: "flex" }}>
+                                                    <LogoutIcon color="action"> </LogoutIcon>
+                                                    <Box pl={2}>
+                                                        <Typography >
+                                                        <Link href="/" underline="none" color="black">
+                                                                {'Log out'}
+                                                            </Link>
+                                                        </Typography>
                                                     </Box>
                                                 </Box>
                                             </Box>
-                                            <Divider />
-                                            <Box className = {classes.button} pl = {2.5} pt = {2} pb = {2} sx = {{display:"flex"}}>
-                                                <SettingsIcon color="action"></SettingsIcon>
-                                                <Box pl = {2.5}>
-                                                    <Typography >
-                                                        Settings
-                                                    </Typography>
-                                                </Box>
-                                            </Box>                                            
-                                            <Divider />
-                                            <Box className = {classes.button} pl = {3} pt = {2} pb = {2} sx = {{display:"flex"}}>
-                                                <LogoutIcon color="action"> </LogoutIcon>
-                                                <Box pl = {2}>
-                                                    <Typography >
-                                                        Log out
-                                                    </Typography>           
-                                                </Box>
-                                            </Box>                       
                                         </Box>
-                                    </Box>
-                                </Card>
+                                    </Card>
                                 </Box>
                             </Card>
-                        </Box>                                            
+                        </Box>
                     }
                 </Box>
 
