@@ -1,27 +1,23 @@
-#content{
-  
-    left: 0px;
-    padding-top: 30px;
-    padding-left: 90px;
-    position: absolute;
-    top:0px;
-    display: inline-block;
-    color:black;
-    font-size: larger;
-    font-family:'Montserrat';
-  
-  }
-  #box {
-    border-radius: 15px;
-    background:white;
-    margin-top:70px;
-    color:black;
-    display: inline-block;
-    height:1200px;
-    width:1600px;
-  } 
-  #box p{
+#content {
+  left: 0px;
+  padding-top: 30px;
+  padding-left: 90px;
+  position: absolute;
+  top: 0px;
+  display: inline-block;
+  color: black;
+  font-size: larger;
+  font-family: 'Montserrat';
+}
+#box {
+  border-radius: 15px;
+  background: white;
+  margin-top: 70px;
+  color: black;
+  display: inline-block;
+  height: 1200px;
+  width: 1600px;
+}
+#box p {
   padding-left: 0px;
- 
-  }
-  
+}
