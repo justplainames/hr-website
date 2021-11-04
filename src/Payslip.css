@@ -12,18 +12,16 @@
   
   }
 
-  #box {
-    border-radius: 15px;
-    background:white;
-    margin-top:23px;
-    color:black;
-    /* display: inline-block; */
-    height:1300px;
-    width:1600px;
 
-  } 
-  #box p{
+#box {
+  border-radius: 15px;
+  background: white;
+  margin-top: 25px;
+  color: black;
+  display: inline-block;
+  height: 1200px;
+  width: 1600px;
+}
+#box p {
   padding-left: 0px;
- 
-  }
-  
+}
