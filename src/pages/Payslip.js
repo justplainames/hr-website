@@ -26,6 +26,7 @@ export default function Payslip() {
 
 
     //dialog
+    //monthly payslip
     const [openJan, setOpenJan] = React.useState(false);
     const [openFeb, setOpenFeb] = React.useState(false);
     const [openMar, setOpenMar] = React.useState(false);
@@ -38,6 +39,26 @@ export default function Payslip() {
     const [openOct, setOpenOct] = React.useState(false);
     const [openNov, setOpenNov] = React.useState(false);
     const [openDec, setOpenDec] = React.useState(false);
+    //consolidated payslip
+    const [open3mth, setOpen3mth] = React.useState(false);
+    const [open6mth, setOpen6mth] = React.useState(false);
+    const [open9mth, setOpen9mth] = React.useState(false);
+    const [open12mth, setOpen12mth] = React.useState(false);
+    //consolidated payslip
+    const handleClickOpen3mth = () => {
+        setOpen3mth(true);
+    };
+    const handleClickOpen6mth = () => {
+        setOpen6mth(true);
+    };
+    const handleClickOpen9mth = () => {
+        setOpen9mth(true);
+    };
+    const handleClickOpen12mth = () => {
+        setOpen12mth(true);
+    };
+
+    //monthly payslip
     const handleClickOpenJan = () => {
         setOpenJan(true);
     };
@@ -75,6 +96,7 @@ export default function Payslip() {
         setOpenDec(true);
     };
     const handleClose = () => {
+        //monthly payslip
         setOpenJan(false);
         setOpenFeb(false);
         setOpenMar(false);
@@ -87,6 +109,12 @@ export default function Payslip() {
         setOpenOct(false);
         setOpenNov(false);
         setOpenDec(false);
+        //consolidated payslip
+        setOpen3mth(false);
+        setOpen6mth(false);
+        setOpen9mth(false);
+        setOpen12mth(false);
+
         resetInputField();
         resetError();
     };
@@ -102,6 +130,7 @@ export default function Payslip() {
         setPasswordErr("");
 
     };
+    //monthly payslip
     const onSubmitJan = (e) => {
         e.preventDefault();
         const isValid = formValidation();
@@ -202,6 +231,43 @@ export default function Payslip() {
         }
     };
     const onSubmitDec = (e) => {
+        e.preventDefault();
+        const isValid = formValidation();
+        if (isValid) {
+            window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905103999332667392/DEC.pdf';
+            handleClose();
+            resetInputField();
+        }
+    };
+    //consolidated payslip
+    const onSubmit3mth = (e) => {
+        e.preventDefault();
+        const isValid = formValidation();
+        if (isValid) {
+            window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905710619506925578/Past3mths.pdf';
+            handleClose();
+            resetInputField();
+        }
+    };
+    const onSubmit6mth = (e) => {
+        e.preventDefault();
+        const isValid = formValidation();
+        if (isValid) {
+            window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905710622656827402/Past6mths.pdf';
+            handleClose();
+            resetInputField();
+        }
+    };
+    const onSubmit9mth = (e) => {
+        e.preventDefault();
+        const isValid = formValidation();
+        if (isValid) {
+            window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905710626591105044/Past9mths.pdf';
+            handleClose();
+            resetInputField();
+        }
+    };
+    const onSubmit12mth = (e) => {
         e.preventDefault();
         const isValid = formValidation();
         if (isValid) {
@@ -678,7 +744,24 @@ export default function Payslip() {
 
                 options: {
                     filter: false,
+                    setCellProps: () => ({
+                        style: {
+                            whiteSpace: "nowrap",
+                            position: "sticky",
+                            left: 60,
 
+                            zIndex: 100
+                        }
+                    }),
+                    setCellHeaderProps: () => ({
+                        style: {
+                            whiteSpace: "nowrap",
+                            position: "sticky",
+                            left: 60,
+
+                            zIndex: 101
+                        }
+                    })
                 }
             },
             {
@@ -687,6 +770,24 @@ export default function Payslip() {
                 options: {
 
                     filter: false,
+                    setCellProps: () => ({
+                        style: {
+                            whiteSpace: "nowrap",
+                            position: "sticky",
+                            left: 700,
+
+                            zIndex: 100
+                        }
+                    }),
+                    setCellHeaderProps: () => ({
+                        style: {
+                            whiteSpace: "nowrap",
+                            position: "sticky",
+                            left: 650,
+
+                            zIndex: 101
+                        }
+                    }),
                     filterType: "custom",
                     // filterList: [monthNames[updateNewValue.getMonth()] + " " + updateNewValue.getFullYear(), monthNames[updateNewValue1.getMonth()] + " " + updateNewValue1.getFullYear()],
                     filterList: ["From:" + updateNewValue, "To:" + updateNewValue1],
@@ -716,6 +817,24 @@ export default function Payslip() {
                 name: "DOWNLOAD",
 
                 options: {
+                    setCellProps: () => ({
+                        style: {
+                            whiteSpace: "nowrap",
+                            position: "sticky",
+                            left: "0",
+
+                            zIndex: 100
+                        }
+                    }),
+                    setCellHeaderProps: () => ({
+                        style: {
+                            whiteSpace: "nowrap",
+                            position: "sticky",
+                            left: 0,
+
+                            zIndex: 101
+                        }
+                    }),
                     filter: false,
                     sort: false,
                 }
@@ -730,6 +849,150 @@ export default function Payslip() {
         <>
             <div id="box">
                 <center>
+                    <br />
+                    <h1>Consolidated Payslip</h1>
+                    <br />
+                    <br />
+                    <Button variant="outlined" onClick={handleClickOpen3mth} size="large">
+                        Past 3 months
+                    </Button>
+                    <Dialog open={open3mth} onClose={handleClose}>
+                        <DialogTitle>Download</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                To download the past 3 months payslip, please enter your password here.
+                            </DialogContentText>
+
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                name="password"
+                                label="Password:"
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                                value={password}
+                                onChange={(e) => { setPassword(e.target.value) }}
+
+                            />
+                            {Object.keys(passworderror).map((key) => {
+                                return <div> <strong>{passworderror[key]}</strong></div>
+                            })}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button type="submit" onClick={onSubmit3mth} target="_blank" rel="noreferrer">Download</Button>
+                        </DialogActions>
+                    </Dialog>
+                    &nbsp;
+                    &nbsp;
+                    <Button variant="outlined" onClick={handleClickOpen6mth} size="large">
+                        Past 6 months
+                    </Button>
+                    <Dialog open={open6mth} onClose={handleClose}>
+                        <DialogTitle>Download</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                To download the past 6 months payslip, please enter your password here.
+                            </DialogContentText>
+
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                name="password"
+                                label="Password:"
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                                value={password}
+                                onChange={(e) => { setPassword(e.target.value) }}
+
+                            />
+                            {Object.keys(passworderror).map((key) => {
+                                return <div> <strong>{passworderror[key]}</strong></div>
+                            })}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button type="submit" onClick={onSubmit6mth} target="_blank" rel="noreferrer">Download</Button>
+                        </DialogActions>
+                    </Dialog>
+                    &nbsp;
+                    &nbsp;
+                    <Button variant="outlined" onClick={handleClickOpen9mth} size="large">
+                        Past 9 months
+                    </Button>
+                    <Dialog open={open9mth} onClose={handleClose}>
+                        <DialogTitle>Download</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                To download the past 9 months payslip, please enter your password here.
+                            </DialogContentText>
+
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                name="password"
+                                label="Password:"
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                                value={password}
+                                onChange={(e) => { setPassword(e.target.value) }}
+
+                            />
+                            {Object.keys(passworderror).map((key) => {
+                                return <div> <strong>{passworderror[key]}</strong></div>
+                            })}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button type="submit" onClick={onSubmit9mth} target="_blank" rel="noreferrer">Download</Button>
+                        </DialogActions>
+                    </Dialog>
+                    &nbsp;
+                    &nbsp;
+                    <Button variant="outlined" onClick={handleClickOpen12mth} size="large">
+                        Past 12 months
+                    </Button>
+                    <Dialog open={open12mth} onClose={handleClose}>
+                        <DialogTitle>Download</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                To download the past 12 months payslip, please enter your password here.
+                            </DialogContentText>
+
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                name="password"
+                                label="Password:"
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                                value={password}
+                                onChange={(e) => { setPassword(e.target.value) }}
+
+                            />
+                            {Object.keys(passworderror).map((key) => {
+                                return <div> <strong>{passworderror[key]}</strong></div>
+                            })}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button type="submit" onClick={onSubmit12mth} target="_blank" rel="noreferrer">Download</Button>
+                        </DialogActions>
+                    </Dialog>
+                    <br />
+                    <br />
+                    <hr color="WhiteSmoke"></hr>
+                    <br />
+                    <h1>Monthly Payslip</h1>
+                    <br />
                     <FormControl>
                         <br />
                         <br />
@@ -788,6 +1051,8 @@ export default function Payslip() {
 
                         </Grid>
                     </FormControl>
+                    <br />
+
 
                     <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
                         <br />
