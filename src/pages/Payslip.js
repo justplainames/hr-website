@@ -13,7 +13,7 @@ import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { FlashOffRounded, Password } from '@mui/icons-material';
 
-
+import DownloadIcon from '@mui/icons-material/Download';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -294,7 +294,17 @@ export default function Payslip() {
     //dt
 
     const options = {
-        selectableRows: "none"
+        selectableRows: "none",
+        rowsPerPage: 5,
+        download: false,
+        print: false,
+        textLabels: {
+            body: {
+                noMatch: "Invalid date range! Please key in a valid data range",
+                fontWeight: 'bold'
+            }
+        }
+
 
     };
 
@@ -313,7 +323,7 @@ export default function Payslip() {
 
     const data = [
         ["January 2021.pdf", "01/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenJan}>
+            <Button variant="outlined" onClick={handleClickOpenJan} endIcon={<DownloadIcon />} >
                 Download
             </Button>
 
@@ -343,14 +353,14 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitJan} target="_blank" rel="noreferrer" >Download</Button>
+                    <Button type="submit" onClick={onSubmitJan} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />} >Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >
         ],
         ["February 2021.pdf", "02/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenFeb}>
+            <Button variant="outlined" onClick={handleClickOpenFeb} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openFeb} onClose={handleClose}>
@@ -379,13 +389,13 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitFeb} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitFeb} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >],
         ["March 2021.pdf", "03/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenMar}>
+            <Button variant="outlined" onClick={handleClickOpenMar} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openMar} onClose={handleClose}>
@@ -414,13 +424,13 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitMar} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitMar} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >],
         ["April 2021.pdf", "04/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenApr}>
+            <Button variant="outlined" onClick={handleClickOpenApr} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openApr} onClose={handleClose}>
@@ -449,13 +459,13 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitApr} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitApr} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >],
         ["May 2021.pdf", "05/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenMay}>
+            <Button variant="outlined" onClick={handleClickOpenMay} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openMay} onClose={handleClose}>
@@ -484,13 +494,13 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitMay} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitMay} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >],
         ["June 2021.pdf", "06/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenJun}>
+            <Button variant="outlined" onClick={handleClickOpenJun} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openJun} onClose={handleClose}>
@@ -519,13 +529,13 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitJun} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitJun} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >],
         ["July 2021.pdf", "07/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenJul}>
+            <Button variant="outlined" onClick={handleClickOpenJul} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openJul} onClose={handleClose}>
@@ -554,13 +564,13 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitJul} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitJul} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >],
         ["August 2021.pdf", "08/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenAug}>
+            <Button variant="outlined" onClick={handleClickOpenAug} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openAug} onClose={handleClose}>
@@ -589,13 +599,13 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitAug} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitAug} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />} >Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >],
         ["September 2021.pdf", "09/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenSep}>
+            <Button variant="outlined" onClick={handleClickOpenSep} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openSep} onClose={handleClose}>
@@ -624,13 +634,13 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitSep} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitSep} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >],
         ["October 2021.pdf", "10/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenOct}>
+            <Button variant="outlined" onClick={handleClickOpenOct} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openOct} onClose={handleClose}>
@@ -659,13 +669,13 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitOct} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitOct} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >],
         ["November 2021.pdf", "11/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenNov}>
+            <Button variant="outlined" onClick={handleClickOpenNov} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openNov} onClose={handleClose}>
@@ -694,13 +704,13 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitNov} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitNov} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
                 </DialogActions>
             </Dialog>
 
         </div >],
         ["December 2021.pdf", "12/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenDec}>
+            <Button variant="outlined" onClick={handleClickOpenDec} endIcon={<DownloadIcon />}>
                 Download
             </Button>
             <Dialog open={openDec} onClose={handleClose}>
@@ -729,7 +739,7 @@ export default function Payslip() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitDec} target="_blank" rel="noreferrer">Download</Button>
+                    <Button type="submit" onClick={onSubmitDec} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
                 </DialogActions>
             </Dialog>
 
@@ -743,6 +753,7 @@ export default function Payslip() {
                 name: "File",
 
                 options: {
+
                     filter: false,
                     setCellProps: () => ({
                         style: {
@@ -756,7 +767,8 @@ export default function Payslip() {
                     setCellHeaderProps: () => ({
                         style: {
                             whiteSpace: "nowrap",
-                            position: "sticky",
+
+                            color: null,
                             left: 60,
 
                             zIndex: 101
@@ -782,7 +794,7 @@ export default function Payslip() {
                     setCellHeaderProps: () => ({
                         style: {
                             whiteSpace: "nowrap",
-                            position: "sticky",
+
                             left: 650,
 
                             zIndex: 101
@@ -850,151 +862,10 @@ export default function Payslip() {
             <div id="box">
                 <center>
                     <br />
-                    <h1>Consolidated Payslip</h1>
-                    <br />
-                    <br />
-                    <Button variant="outlined" onClick={handleClickOpen3mth} size="large">
-                        Past 3 months
-                    </Button>
-                    <Dialog open={open3mth} onClose={handleClose}>
-                        <DialogTitle>Download</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                To download the past 3 months payslip, please enter your password here.
-                            </DialogContentText>
-
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                name="password"
-                                label="Password:"
-                                type="password"
-                                fullWidth
-                                variant="standard"
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value) }}
-
-                            />
-                            {Object.keys(passworderror).map((key) => {
-                                return <div> <strong>{passworderror[key]}</strong></div>
-                            })}
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button type="submit" onClick={onSubmit3mth} target="_blank" rel="noreferrer">Download</Button>
-                        </DialogActions>
-                    </Dialog>
-                    &nbsp;
-                    &nbsp;
-                    <Button variant="outlined" onClick={handleClickOpen6mth} size="large">
-                        Past 6 months
-                    </Button>
-                    <Dialog open={open6mth} onClose={handleClose}>
-                        <DialogTitle>Download</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                To download the past 6 months payslip, please enter your password here.
-                            </DialogContentText>
-
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                name="password"
-                                label="Password:"
-                                type="password"
-                                fullWidth
-                                variant="standard"
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value) }}
-
-                            />
-                            {Object.keys(passworderror).map((key) => {
-                                return <div> <strong>{passworderror[key]}</strong></div>
-                            })}
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button type="submit" onClick={onSubmit6mth} target="_blank" rel="noreferrer">Download</Button>
-                        </DialogActions>
-                    </Dialog>
-                    &nbsp;
-                    &nbsp;
-                    <Button variant="outlined" onClick={handleClickOpen9mth} size="large">
-                        Past 9 months
-                    </Button>
-                    <Dialog open={open9mth} onClose={handleClose}>
-                        <DialogTitle>Download</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                To download the past 9 months payslip, please enter your password here.
-                            </DialogContentText>
-
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                name="password"
-                                label="Password:"
-                                type="password"
-                                fullWidth
-                                variant="standard"
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value) }}
-
-                            />
-                            {Object.keys(passworderror).map((key) => {
-                                return <div> <strong>{passworderror[key]}</strong></div>
-                            })}
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button type="submit" onClick={onSubmit9mth} target="_blank" rel="noreferrer">Download</Button>
-                        </DialogActions>
-                    </Dialog>
-                    &nbsp;
-                    &nbsp;
-                    <Button variant="outlined" onClick={handleClickOpen12mth} size="large">
-                        Past 12 months
-                    </Button>
-                    <Dialog open={open12mth} onClose={handleClose}>
-                        <DialogTitle>Download</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                To download the past 12 months payslip, please enter your password here.
-                            </DialogContentText>
-
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                name="password"
-                                label="Password:"
-                                type="password"
-                                fullWidth
-                                variant="standard"
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value) }}
-
-                            />
-                            {Object.keys(passworderror).map((key) => {
-                                return <div> <strong>{passworderror[key]}</strong></div>
-                            })}
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button type="submit" onClick={onSubmit12mth} target="_blank" rel="noreferrer">Download</Button>
-                        </DialogActions>
-                    </Dialog>
-                    <br />
-                    <br />
-                    <hr color="WhiteSmoke"></hr>
                     <br />
                     <h1>Monthly Payslip</h1>
                     <br />
                     <FormControl>
-                        <br />
                         <br />
                         <Grid container spacing={10} >
                             <Grid item lg={6}>
@@ -1054,7 +925,7 @@ export default function Payslip() {
                     <br />
 
 
-                    <div style={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
+                    <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
                         <br />
 
                         <ThemeProvider theme={theme} >
@@ -1064,10 +935,154 @@ export default function Payslip() {
 
                                 columns={columns}
                                 options={options}
+
+
                             />
                         </ThemeProvider>
                     </div>
+                    <br />
+                    <hr color="WhiteSmoke"></hr>
+                    <br />
+                    <h1>Consolidated Payslip</h1>
+                    <br />
+                    <br />
+                    <Button variant="outlined" onClick={handleClickOpen3mth} size="large" endIcon={<DownloadIcon />}>
+                        Past 3 months
+                    </Button>
+                    <Dialog open={open3mth} onClose={handleClose}>
+                        <DialogTitle>Download</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                To download the past 3 months payslip, please enter your password here.
+                            </DialogContentText>
+
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                name="password"
+                                label="Password:"
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                                value={password}
+                                onChange={(e) => { setPassword(e.target.value) }}
+
+                            />
+                            {Object.keys(passworderror).map((key) => {
+                                return <div> <strong>{passworderror[key]}</strong></div>
+                            })}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button type="submit" onClick={onSubmit3mth} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
+                        </DialogActions>
+                    </Dialog>
+                    &nbsp;
+                    &nbsp;
+                    <Button variant="outlined" onClick={handleClickOpen6mth} size="large" endIcon={<DownloadIcon />}>
+                        Past 6 months
+                    </Button>
+                    <Dialog open={open6mth} onClose={handleClose}>
+                        <DialogTitle>Download</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                To download the past 6 months payslip, please enter your password here.
+                            </DialogContentText>
+
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                name="password"
+                                label="Password:"
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                                value={password}
+                                onChange={(e) => { setPassword(e.target.value) }}
+
+                            />
+                            {Object.keys(passworderror).map((key) => {
+                                return <div> <strong>{passworderror[key]}</strong></div>
+                            })}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button type="submit" onClick={onSubmit6mth} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
+                        </DialogActions>
+                    </Dialog>
+                    &nbsp;
+                    &nbsp;
+                    <Button variant="outlined" onClick={handleClickOpen9mth} size="large" endIcon={<DownloadIcon />}>
+                        Past 9 months
+                    </Button>
+                    <Dialog open={open9mth} onClose={handleClose}>
+                        <DialogTitle>Download</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                To download the past 9 months payslip, please enter your password here.
+                            </DialogContentText>
+
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                name="password"
+                                label="Password:"
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                                value={password}
+                                onChange={(e) => { setPassword(e.target.value) }}
+
+                            />
+                            {Object.keys(passworderror).map((key) => {
+                                return <div> <strong>{passworderror[key]}</strong></div>
+                            })}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button type="submit" onClick={onSubmit9mth} target="_blank" rel="noreferrer">Download</Button>
+                        </DialogActions>
+                    </Dialog>
+                    &nbsp;
+                    &nbsp;
+                    <Button variant="outlined" onClick={handleClickOpen12mth} size="large" endIcon={<DownloadIcon />} >
+                        Past 12 months
+                    </Button>
+                    <Dialog open={open12mth} onClose={handleClose}>
+                        <DialogTitle>Download</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                To download the past 12 months payslip, please enter your password here.
+                            </DialogContentText>
+
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="password"
+                                name="password"
+                                label="Password:"
+                                type="password"
+                                fullWidth
+                                variant="standard"
+                                value={password}
+                                onChange={(e) => { setPassword(e.target.value) }}
+
+                            />
+                            {Object.keys(passworderror).map((key) => {
+                                return <div> <strong>{passworderror[key]}</strong></div>
+                            })}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button type="submit" onClick={onSubmit12mth} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
+                        </DialogActions>
+                    </Dialog>
+                    <br />
                 </center>
+
             </div >
         </>
     );
