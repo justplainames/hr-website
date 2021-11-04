@@ -18,9 +18,12 @@ import Arrow from "../assets/arrow.svg";
 import Divider from '@mui/material/Divider';
 import 'react-clock/dist/Clock.css';
 import Clock from 'react-clock';
+import AppliedList from '../component/applied/appliedList';
 //...
 import CircleIcon from '@mui/icons-material/Circle';
-
+import Applied from '../component/applied/applied';
+import { cssname } from '../utils/cssname';
+import { deDE } from '@mui/x-data-grid';
 const useStyles = makeStyles(theme => ({
     card: {
         borderRadius: '30px',
@@ -75,8 +78,8 @@ const useStyles = makeStyles(theme => ({
     },
     cardinfo: {
         borderRadius: '15px',
-         width:'420px',  
-         height:'210px'
+        width: '420px',
+        height: '210px'
     }
 
 }))
@@ -111,21 +114,82 @@ month[10] = "November";
 month[11] = "December";
 
 
+
 const Home = () => {
     const classes = useStyles();
     const [selectedDay, setSelectedDay] = useState('');
+    const [applied, setapplied] = useState([]);
     const [leaves, setleaves] = useState('');
     const [value, setValue] = useState(new Date());
+    const [calenval, setcalenval] = useState([]);
+
+
+
+    const calendardetails = (data) => {
+
+        for (var i = 0; i < data.length; i++) {
+            var datecounter;
+            for (var z = 0; z < data[i].days; z++) {
+
+                var template = {
+                    year: 2021, month: 10, day: 4, className: ''
+                }
+                var find = '/';
+                var re = new RegExp(find, 'g');
+                var date = data[i].from.replace(re, '-');
+                var dd;
+                if (z == 0) {
+                    dd = new Date(date)
+                    datecounter = dd
+                }
+                else {
+                    var set = new Date(datecounter)
+                    var set2 = set.setDate(set.getDate() + 1)
+                    dd = new Date(set2)
+                    datecounter = dd
+                    console.log(dd)
+                }
+
+
+                const monthh = dd.getMonth();
+                const yearr = dd.getFullYear();
+                const dayy = dd.getDate();
+                template.year = yearr
+                template.month = monthh + 1
+                template.day = dayy
+                template.className = cssname(data[i].type)
+                setcalenval(oldArray => [...oldArray, template]);
+
+            }
+
+        }
+
+    }
+
+    const fetchapplied = async () => {
+        await axios.get('http://localhost:5000/applied')
+            .then(res => {
+                setapplied(res.data);
+                calendardetails(res.data)
+            })
+    }
+
+
+
     const fetchleaves = async () => {
         await axios.get('http://localhost:5000/leaves')
             .then(res => {
                 setleaves(res.data);
             })
     }
+
     useEffect(() => {
         fetchleaves()
+        fetchapplied()
     }, []);
 
+
+    // console.log(calenval)
 
     useEffect(() => {
         const interval = setInterval(
@@ -227,17 +291,11 @@ const Home = () => {
                         shouldHighlightWeekends
                         calendarTodayClassName="custom-today-day" // also this
                         calendarClassName="responsive-calendar" // added this
-                        customDaysClassName={[
-                            // here we add some CSS classes
-                            { year: 2021, month: 10, day: 4, className: 'purpleDay' },
-                            { year: 2021, month: 10, day: 12, className: 'orangeDay' },
-                            { year: 2021, month: 10, day: 18, className: 'yellowDay' },
-                            { year: 2021, month: 10, day: 26, className: 'navyBlueDay' },
-                        ]}
+                        customDaysClassName={calenval}
                     />
                     <Box sx={{ position: 'relative', zIndex: '100', }} >
                         <Card className={classes.leaveinfo}  >
-                            <Box className={classes.infoheader} sx={{ display: 'flex' }} pl={8} pt={2} pb={2.9}>
+                            <Box className={classes.infoheader} sx={{ display: 'flex' }} pl={8} pt={2} >
                                 <Box sx={{ display: 'flex' }}>
                                     <Box mt={7.5}>
                                         <Typography variant='h4'>
@@ -252,43 +310,7 @@ const Home = () => {
                                     </Box>
                                 </Box>
                             </Box>
-
-
-                            <Box pl={2.5}>
-                                <Card className={classes.cardinfo}>
-                                    <Box sx={{ display: 'flex' }}>
-                                        <Box>
-                                            <Box pl={7} pt={5}>
-                                                <Typography variant="h4">{month[3]} {day}, {year}</Typography>
-                                            </Box>
-
-
-                                            <Box sx={{ display: 'flex' }} ml={2}>
-
-                                                <Box pt={3} >
-                                                    <CircleIcon sx={{ fontSize: 25, color: 'lightblue' }} />
-                                                </Box>
-
-                                                <Box pl={2} pt={3}>
-                                                    <Box>
-                                                        <Typography>Annual Leave</Typography>
-                                                    </Box>
-
-                                                    <Box pt={2}>
-                                                        <Typography>
-                                                           3 days
-                                                        </Typography>
-                                                    </Box>
-
-                                                </Box>
-
-                                            </Box>
-
-                                        </Box>
-
-                                    </Box>
-                                </Card>
-                            </Box>
+                            <AppliedList items={applied} />
 
 
 

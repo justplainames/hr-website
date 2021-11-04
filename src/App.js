@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import Home from "./pages/Home";
 import Leave from "./pages/Leave";
 import Payslip from "./pages/Payslip";
+import Login from './pages/Login'
 import styled from "styled-components";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
@@ -36,7 +37,8 @@ function App() {
         <Switch location = {location} key = {location.pathname}>
           <Route exact path = '/' component = {Home} />
           <Route path = '/leave' component = {Leave} />
-          <Route path = '/payslip' component = {Payslip} />          
+          <Route path = '/payslip' component = {Payslip} />     
+          <Route path = '/login' component ={Login}/>     
         </Switch>        
       </Pages>
       </ThemeProvider>
