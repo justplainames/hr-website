@@ -283,7 +283,7 @@ export default function Payslip() {
             passworderror.passwordlength = "Password need to be filled up before submitting"
             isValid = false
         }
-        if (password != "hrapp") {
+        else if (password != "hrapp") {
             passworderror.passwordlength = "Incorrect Password! Please try again"
             isValid = false
 
