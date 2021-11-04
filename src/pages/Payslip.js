@@ -24,7 +24,6 @@ export default function Payslip() {
     let theme = createTheme();
     theme = responsiveFontSizes(theme);
 
-
     //dialog
     //monthly payslip
     const [openJan, setOpenJan] = React.useState(false);
@@ -295,15 +294,28 @@ export default function Payslip() {
 
     const options = {
         selectableRows: "none",
-        rowsPerPage: 5,
+        fixedHeader: true,
+        rowsPerPage: 12,
+        responsive: "scrollMaxHeight",
+
         download: false,
         print: false,
+        search: false,
         textLabels: {
             body: {
                 noMatch: "Invalid date range! Please key in a valid data range",
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+
+
             }
-        }
+        },
+
+
+
+        responsiveScroll: {
+            maxHeight: "580px"
+            // overflowY: 'scroll',
+        },
 
 
     };
@@ -758,9 +770,10 @@ export default function Payslip() {
                     setCellProps: () => ({
                         style: {
                             whiteSpace: "nowrap",
-                            position: "sticky",
-                            left: 60,
 
+
+
+                            minWidth: "200px", maxWidth: "200px",
                             zIndex: 100
                         }
                     }),
@@ -768,8 +781,7 @@ export default function Payslip() {
                         style: {
                             whiteSpace: "nowrap",
 
-                            color: null,
-                            left: 60,
+
 
                             zIndex: 101
                         }
@@ -777,25 +789,26 @@ export default function Payslip() {
                 }
             },
             {
-                name: "Issued Date(Mth/Year)",
+                name: "Issued Date(Month/Year)",
 
                 options: {
-
+                    // display: false,
                     filter: false,
                     setCellProps: () => ({
                         style: {
                             whiteSpace: "nowrap",
-                            position: "sticky",
-                            left: 700,
+
+                            minWidth: "300px", maxWidth: "300px",
+
 
                             zIndex: 100
                         }
                     }),
                     setCellHeaderProps: () => ({
                         style: {
-                            whiteSpace: "nowrap",
+                            whiteSpace: "wrap",
 
-                            left: 650,
+
 
                             zIndex: 101
                         }
@@ -833,7 +846,7 @@ export default function Payslip() {
                         style: {
                             whiteSpace: "nowrap",
                             position: "sticky",
-                            left: "0",
+                            left: 0,
 
                             zIndex: 100
                         }
@@ -859,17 +872,17 @@ export default function Payslip() {
 
     return (
         <>
-            <div id="box">
+            <div id="box" style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <center>
                     <br />
                     <br />
                     <h1>Monthly Payslip</h1>
                     <br />
                     <FormControl>
-                        <br />
+
                         <Grid container spacing={10} >
                             <Grid item lg={6}>
-                                <div style={{ width: '600px' }}>
+                                <div style={{ width: '120%' }}>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <Stack spacing={6}>
                                             <DatePicker
@@ -879,7 +892,9 @@ export default function Payslip() {
                                                 minDate={new Date("2021-01-31")}
                                                 maxDate={new Date("2021-12-31")}
                                                 value={value}
+                                                inputProps={{ readOnly: true }}
 
+                                                onChangeRaw={(e) => e.preventDefault()}
                                                 onChange={(newValue) => {
                                                     setValue(newValue);
                                                     setValue2(("0" + (newValue.getMonth() + 1)).slice(-2) + "/" + newValue.getFullYear());
@@ -895,7 +910,7 @@ export default function Payslip() {
                             </Grid>
 
                             <Grid item lg={6}>
-                                <div style={{ width: '600px' }}>
+                                <div style={{ width: '120%' }}>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <Stack spacing={6}>
                                             <DatePicker
@@ -905,7 +920,8 @@ export default function Payslip() {
                                                 minDate={new Date("2021-01-31")}
                                                 maxDate={new Date("2021-12-31")}
                                                 value={value1}
-
+                                                inputProps={{ readOnly: true }}
+                                                onChangeRaw={(newValue1) => newValue1.preventDefault()}
                                                 onChange={(newValue1) => {
                                                     setValue1(newValue1);
                                                     setValue3(("0" + (newValue1.getMonth() + 1)).slice(-2) + "/" + newValue1.getFullYear());
@@ -925,10 +941,12 @@ export default function Payslip() {
                     <br />
 
 
-                    <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
+                    <div style={{ display: 'table', tableLayout: 'fixed', width: '80%' }}>
                         <br />
 
                         <ThemeProvider theme={theme} >
+
+
                             <MUIDataTable
 
                                 data={data}
@@ -938,6 +956,8 @@ export default function Payslip() {
 
 
                             />
+
+
                         </ThemeProvider>
                     </div>
                     <br />

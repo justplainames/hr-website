@@ -11,14 +11,16 @@
     font-family:'Montserrat';
   
   }
+
   #box {
     border-radius: 15px;
     background:white;
-    margin-top:70px;
+    margin-top:23px;
     color:black;
-    display: inline-block;
-    height:1200px;
+    /* display: inline-block; */
+    height:1300px;
     width:1600px;
+
   } 
   #box p{
   padding-left: 0px;
