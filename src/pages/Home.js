@@ -19,6 +19,9 @@ import Divider from '@mui/material/Divider';
 import 'react-clock/dist/Clock.css';
 import Clock from 'react-clock';
 import AppliedList from '../component/applied/appliedList';
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+import { VisibilityOff, Visibility } from '@mui/icons-material'
+
 //...
 import CircleIcon from '@mui/icons-material/Circle';
 import Applied from '../component/applied/applied';
@@ -27,20 +30,19 @@ import { deDE } from '@mui/x-data-grid';
 const useStyles = makeStyles(theme => ({
     card: {
         borderRadius: '30px',
-        //  width:'1150px',  
-        //  height:'1080px'
+        width: "1600px"
     },
     leaveCardInfo: {
         borderRadius: '30px',
-        width: '700px',
+        width: '600px',
         height: '450px',
         backgroundColor: "#C4D1FB"
     },
     payslipCardInfo: {
         borderRadius: '30px',
-        width: '700px',
+        width: '600px',
         height: '450px',
-        backgroundColor: "#AAFFEA"
+        backgroundColor: "#a6e7ff"
     },
     calendarsize: {
         borderRadius: '30px',
@@ -66,15 +68,16 @@ const useStyles = makeStyles(theme => ({
         height: "50px",
         width: "50px"
     },
+
     leaveinfo: {
         width: '460px',
-        height: '1010px',
-        backgroundColor: '#ffcba3',
+        height: '1050px',
+        backgroundColor: '#dcdedc',
         boxShadow: 'none',
         borderRadius: '0 30px 30px 0'
     },
     infoheader: {
-        backgroundColor: '#ffcba3',
+        backgroundColor: '#dcdedc',
     },
     cardinfo: {
         borderRadius: '15px',
@@ -124,13 +127,12 @@ const Home = () => {
     const [calenval, setcalenval] = useState([]);
 
 
-
     const calendardetails = (data) => {
 
         for (var i = 0; i < data.length; i++) {
             var datecounter;
-            for (var z = 0; z < data[i].days; z++) {
 
+            for (var z = 0; z <= data[i].days; z++) {
                 var template = {
                     year: 2021, month: 10, day: 4, className: ''
                 }
@@ -138,7 +140,7 @@ const Home = () => {
                 var re = new RegExp(find, 'g');
                 var date = data[i].from.replace(re, '-');
                 var dd;
-                if (z == 0) {
+                if (z === 0) {
                     dd = new Date(date)
                     datecounter = dd
                 }
@@ -159,7 +161,10 @@ const Home = () => {
                 template.day = dayy
                 template.className = cssname(data[i].type)
                 setcalenval(oldArray => [...oldArray, template]);
-
+                if(z!==0&&z==data[i].days-1)
+                {
+                    break;
+                }
             }
 
         }
@@ -211,7 +216,7 @@ const Home = () => {
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex' }}>
-                    <Box pl={20} pr={10} mt={5}>
+                    <Box pl={15} pr={10} mt={5}>
                         <Card classes={{ root: classes.leaveCardInfo }}>
                             <Box sx={{ display: 'flex' }} mt={5} ml={5} >
                                 <Grid container spacing={2}>
@@ -253,9 +258,11 @@ const Home = () => {
                                             </Typography>
                                         </Box>
 
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={4} pb={5} mr={5}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={4} pb={5} mr={4}>
                                             {/* BUTTON HERE */}
-                                            <img src={Arrow} className={classes.imgsize} />
+                                            <Button href="/leave">
+                                                <img src={Arrow} className={classes.imgsize}/>
+                                            </Button>
                                         </Box>
 
                                     </Grid>
@@ -268,17 +275,73 @@ const Home = () => {
 
                     <Box pl={10} pr={20} mt={5}>
                         <Card classes={{ root: classes.payslipCardInfo }}>
-                            <Box sx={{ display: 'flex' }} mt={5} ml={5}>
-                                <Typography>
-                                    Payslip
-                                </Typography>
-                                <Box>
-                                    <Typography>
-                                        2021
-                                    </Typography>
-                                </Box>
-                            </Box>
+                        <Box sx={{ display: 'flex' }} mt={5} ml={5} >
+                                <Grid container spacing={2}>
+                                    <Grid item xs={8}>
+                                        <Box sx={{display: 'flex' }}>
+                                            <Typography variant="h3" className={classes.bold_title}>
+                                                Payslip
+                                            </Typography> 
+                                            <Box pl={2}>      
+                                                <VisibilityOff sx={{ fontSize: 30 }}>
+                                                </VisibilityOff>                                    
+                                            </Box>
+                                        </Box>
+                                        <Box pt={7} pb={1}>
+                                            <Typography variant='h5'>
+                                                Latest :
+                                            </Typography>
+                                        </Box>
+                                        <Box pt={3} pb={1}>
+                                            <Typography variant='h5'>
+                                                Gross Pay :
+                                            </Typography>
+                                        </Box>
+                                        <Box pt={3} pb={6}>
+                                            <Typography variant='h5'>
+                                                Deduction :
+                                            </Typography>
+                                        </Box>
+                                        <Box pt={2} pb={5}>
+                                            <Typography variant='h5'>
+                                                Upcoming :
+                                            </Typography>
+                                        </Box>
 
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} mr={5}>
+                                            <Typography variant="h3" className={classes.bold_title}>
+                                                2021
+                                            </Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={6} pb={2} mr={5.5} >
+                                            <Typography variant="h4">
+                                                Sept
+                                            </Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1} pb={2} mr={5.5}>
+                                            <Typography variant="h4">
+                                                $3000
+                                            </Typography>
+                                        </Box>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1} pb={3} mr={5.5}>
+                                            <Typography variant="h4">
+                                                $500
+                                            </Typography>
+                                        </Box>
+
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={4} pb={5} mr={4}>
+                                            {/* BUTTON HERE */}
+                                            <Button href="/">
+                                                <DownloadForOfflineIcon sx={{ fontSize: 45, color: '#008BFF' }}></DownloadForOfflineIcon>
+                                            </Button>
+                                        </Box>
+
+                                    </Grid>
+
+                                </Grid>
+                            </Box>
                         </Card>
                     </Box>
 
@@ -310,11 +373,9 @@ const Home = () => {
                                     </Box>
                                 </Box>
                             </Box>
+                            <Box sx={{ overflow: 'auto', maxHeight: '1000px' }}>
                             <AppliedList items={applied} />
-
-
-
-
+                            </Box>
                         </Card>
                     </Box>
                 </Box>

@@ -1,6 +1,6 @@
 // import './App.css'
 import React from 'react'
-
+import axios from 'axios'
 import TextField from '@mui/material/TextField'
 import { useState, useEffect } from 'react'
 import {
@@ -23,6 +23,7 @@ import Popup from '../component/loginPopup/Popup'
 import '../component/loginPopup/Popup.css'
 
 export default function Login() {
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState(true)
@@ -56,7 +57,19 @@ export default function Login() {
         email.toLocaleLowerCase() == 'hci@gmail.com' &&
         password == 'hcipassword123'
       ) {
-        alert('LOGIN to HR APP, HOW TO LINK TO HOMEPAGE?')
+
+        axios.post('http://localhost:5000/login',
+          {
+            "email":email,
+            "password": password
+          }).then(res => {
+            localStorage.setItem("isAuthenticated", res._id)
+            window.location.pathname = "/";
+          })
+          .catch(error => {
+            console.error(error)
+          })
+
         //if credentials wrong, prompt user for correct input
       } else {
         alert('Incorrect credentials, please try again ')
@@ -208,7 +221,7 @@ export default function Login() {
               color='info'
               size='small'
               style={{ fontSize: 22, marginTop: 30 }}
-              // href='#'
+            // href='#'
             >
               Log In
             </Button>

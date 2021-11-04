@@ -11,8 +11,8 @@ import { Card, CardActionArea, CardMedia, CardContent, Typography, Toolbar, Text
 const useStyles = makeStyles(theme => ({
     cardinfo: {
         borderRadius: '15px',
-         width:'420px',  
-         height:'210px'
+        width: '420px',
+        height: '210px'
     }
 
 }))
@@ -42,38 +42,54 @@ month[7] = "August";
 month[8] = "September";
 month[9] = "October";
 month[10] = "November";
-month[11] = "December"; 
+month[11] = "December";
 
 export default function Applied({ details, ...others }) {
-const classes = useStyles();
+    const classes = useStyles();
 
 
 
     return (
         <Box pl={2.5} pt={3}>
-        <Card className={classes.cardinfo}>
-            <Box sx={{ display: 'flex' }}>
-                <Box>
-                    <Box pl={7} pt={5}>
-                        <Typography variant="h4">{month[3]} {day}, {year}</Typography>
-                    </Box>
-
-
-                    <Box sx={{ display: 'flex' }} ml={2}>
-
-                        <Box pt={3} >
-                            <CircleIcon sx={{ fontSize: 25, color: 'lightblue' }} />
+            <Card className={classes.cardinfo}>
+                <Box sx={{ display: 'flex' }}>
+                    <Box>
+                        <Box pl={7} pt={3}>
+                            <Typography variant="h4">{month[3]} {day}, {year}</Typography>
                         </Box>
 
-                        <Box pl={2} pt={3}>
-                            <Box>
-                                <Typography>{details.type.charAt(0).toUpperCase() + details.type.slice(1)} Leave</Typography>
+
+                        <Box sx={{ display: 'flex' }} ml={2}>
+
+                            <Box pt={2} >
+                                <CircleIcon sx={{ fontSize: 25, color: 'lightblue' }} />
                             </Box>
 
-                            <Box pt={2}>
-                                <Typography>
-                                   {details.days} days
-                                </Typography>
+                            <Box pl={2} pt={2} >
+                                <Box>
+                                    <Typography>{details.type.charAt(0).toUpperCase() + details.type.slice(1)}  {details.type!=='annual'? '' : 'Leave'}</Typography>
+                                </Box>
+
+                                <Box pt={2}>
+                                    <Typography>
+                                        {details.days===0?"1":details.days} days
+                                    </Typography>
+                                </Box>
+
+                                <Box pt={2} style={{width:'300px'}}>
+                                    {
+                                        details.remarks === 'nil' ?
+                                            <Typography >
+                                                {''}
+                                            </Typography> 
+                                            :
+                                            <Typography noWrap>
+                                                {details.remarks} 
+                                            </Typography>
+                                    }
+
+                                </Box>
+
                             </Box>
 
                         </Box>
@@ -81,10 +97,8 @@ const classes = useStyles();
                     </Box>
 
                 </Box>
-
-            </Box>
-        </Card>
-    </Box>
+            </Card>
+        </Box>
 
     )
 

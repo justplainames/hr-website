@@ -217,8 +217,8 @@ const Sidebar = () => {
 
     const handleClick = () => setClick(!click);
     const classes = useStyles();
-
-
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    console.log("im here" + isAuthenticated)
     return (
         <Container>
 
@@ -233,10 +233,10 @@ const Sidebar = () => {
                     </Typography>
                 </Box>
 
-                <Box ml={210} mt={5}>
+                <Box ml={130} mt={5}>
 
                     <Box sx={{ display: 'flex' }}>
-                        <Box mr={7} ml={28}>
+                        <Box mr={7} ml={20}>
                             <IconButton onClick={() => {
                                 setshowNoti(prev => !prev)
                                 setShowProfile(false)
@@ -257,7 +257,7 @@ const Sidebar = () => {
                         </IconButton>
                     </Box>
                     {showNoti &&
-                        <Box ml={10} pt={1.5} sx={{ position: 'absolute' }}>
+                        <Box ml={10} pt={1.3} sx={{ position: 'absolute' }}>
                             <Card className={classes.notificationCard}>
                                 <Box >
                                     <Card className={classes.notiItem}>
@@ -279,7 +279,7 @@ const Sidebar = () => {
                     }
 
                     {showProfile &&
-                        <Box ml={10} pt={1.5} sx={{ position: 'absolute' }}>
+                        <Box ml={10} pt={1.3} sx={{ position: 'absolute' }}>
                             <Card className={classes.notificationCard}>
                                 <Box >
                                     <Card className={classes.notiItem}>
@@ -326,7 +326,11 @@ const Sidebar = () => {
                                                     <LogoutIcon color="action"> </LogoutIcon>
                                                     <Box pl={2}>
                                                         <Typography >
-                                                        <Link href="/" underline="none" color="black">
+                                                        <Link onClick ={()=>{
+                                                                    localStorage.clear()
+                                                                    window.location.pathname = "/auth";
+                                                            
+                                                        }} underline="none" color="black">
                                                                 {'Log out'}
                                                             </Link>
                                                         </Typography>

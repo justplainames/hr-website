@@ -1,11 +1,19 @@
 export const cssname = (type) => {
-    var day ;
+    var day;
 
     switch (type) {
         case 'annual':
-            day = "purpleDay";
+            day = "leaveDay";
             break;
+        case 'meeting':
+            day = "meetingDay";
+            break;
+        case 'course':
+            day = "courseDay";
+            break;
+
     }
+
     return day
 
 }

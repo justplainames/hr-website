@@ -7,6 +7,7 @@ import Payslip from "./pages/Payslip";
 import Login from './pages/Login'
 import styled from "styled-components";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import ProtectedRoute from "./component/route/protectedroute";
 
 
 const Pages = styled.div`
@@ -31,17 +32,13 @@ function App() {
 
   return (
     <>
-    <ThemeProvider theme = {theme}>
-      <Sidebar/>
-      <Pages>       
-        <Switch location = {location} key = {location.pathname}>
-          <Route exact path = '/' component = {Home} />
-          <Route path = '/leave' component = {Leave} />
-          <Route path = '/payslip' component = {Payslip} />     
-          <Route path = '/login' component ={Login}/>     
-        </Switch>        
-      </Pages>
-      </ThemeProvider>
+<Switch>
+    <Route exact path='/auth' component={Login}/>
+    <ProtectedRoute exact path='/' component={Home}/>
+    <ProtectedRoute exact path='/payslip' component={Payslip}/>
+    <ProtectedRoute exact path='/leave' component={Leave}/>
+  </Switch>
+   
     </>
   );
 }
