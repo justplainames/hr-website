@@ -14,11 +14,14 @@ import {
 } from '@mui/material'
 
 //ICONS & Logo
-import { VisibilityOff, Visibility } from '@mui/icons-material'
+import { VisibilityOff, Visibility, Send } from '@mui/icons-material'
 import LogInIcon from '@mui/icons-material/Login'
 import Logo from '../assets/logo.svg'
 
 import './Login.css'
+
+import Popup from '../component/loginPopup/Popup'
+import '../component/loginPopup/Popup.css'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -27,6 +30,15 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState(false)
   const [emailHelperText, setEmailHelperText] = useState('')
   const [passwordHelperText, setPasswordHelperText] = useState('')
+  const [forgotPasswordPopupButton, setForgotPasswordPopupButton] =
+    useState(false)
+  const [popupEmail, setPopupEmail] = useState('')
+  const [popupEmailError, setPopupEmailError] = useState(true)
+  const [popupEmailHelperText, setPopupEmailHelperText] = useState('')
+  const [popupEmailSubmitTextField, setPopupEmailSubmitTextField] =
+    useState(false)
+  const [popupEmailSubmitButton, setPopupEmailSubmitButton] = useState(true)
+  const [popupEmailSucessMessage, setPopupEmailSucessMessage] = useState('')
   const handleSubmit = (e) => {
     e.preventDefault()
     // if field(s) are empty or incorrect input
@@ -93,6 +105,26 @@ export default function Login() {
       setPasswordHelperText('')
     }
   }
+
+  //Check popup email input
+  const checkPopupEmail = (e) => {
+    setPopupEmail(e)
+    //Email validation
+    const re =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    //Boolean for email valid or invalid
+    const validEmail = re.test(e)
+    //if email invalid
+    if (!validEmail) {
+      setPopupEmailHelperText('Incorrect email input, please re-enter email.')
+      setPopupEmailError(false)
+    } //if email valid
+    else {
+      setPopupEmailSubmitButton(false)
+      setPopupEmailHelperText('')
+      setPopupEmailError(true)
+    }
+  }
   /////////////////////////////
   const [values, setValues] = useState({
     amount: '',
@@ -114,6 +146,18 @@ export default function Login() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
   }
+  //////////////////////////////
+  const handlePopupSubmit = () => {
+    if (!popupEmailError) {
+      alert('Invalid E-mail address')
+    } else {
+      setPopupEmailSubmitButton(true)
+      setPopupEmailSubmitTextField(true)
+      setPopupEmailSucessMessage('E-Mail sent, please check your inbox ')
+    }
+    console.log(!popupEmailError)
+  }
+  /////////////////////////////
   return (
     <header className='App-header'>
       <div className='Login'>
@@ -186,11 +230,55 @@ export default function Login() {
               size='small'
               style={{ marginTop: '10px', fontSize: 10 }}
               href='#'
+              onClick={() => setForgotPasswordPopupButton(true)}
             >
               Forgot Password?
             </Button>
           </FormControl>
         </form>
+        <Popup
+          trigger={forgotPasswordPopupButton}
+          setTrigger={setForgotPasswordPopupButton}
+        >
+          <div className='popup-box'>
+            <br />
+            <p>Having trouble signing in?</p>
+
+            <br />
+            <p>
+              Enter your email below to receive instructions on how to recover
+              account
+            </p>
+            <br />
+            <TextField
+              id='outlined-basic'
+              label='Outlined'
+              variant='outlined'
+              onChange={(e) => setPopupEmail(e.target.value)}
+              label={popupEmail}
+              onBlur={() => checkPopupEmail(popupEmail)}
+              error={!popupEmailError}
+              helperText={popupEmailHelperText}
+              fullWidth
+              disabled={popupEmailSubmitTextField}
+            />
+
+            <br />
+
+            <p style={{ color: 'Green' }}>{popupEmailSucessMessage}</p>
+            <br />
+            <Button
+              endIcon={<Send />}
+              variant='contained'
+              color='info'
+              size='small'
+              onClick={handlePopupSubmit}
+              disabled={popupEmailSubmitButton}
+            >
+              Send
+            </Button>
+          </div>
+        </Popup>
       </div>
     </header>
   )

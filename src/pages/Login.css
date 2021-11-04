@@ -8,6 +8,7 @@
 
   color: black;
   font-family: 'Montserrat';
+  font-family: 'Poppins', sans-serif;
 }
 .Login h4 {
   margin-bottom: 20px;
@@ -26,4 +27,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+.popup-box {
+  font-size: medium;
 }
