@@ -36,7 +36,7 @@ import MUIDataTable from "mui-datatables";
 import InputLabel from '@mui/material/InputLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Select from '@mui/material/Select';
-import TeamLeave from '../component/TeamLeave'
+import TeamLeave from '../component/teamLeave/TeamLeave'
 
 
 let theme = createTheme();
