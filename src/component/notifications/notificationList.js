@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import "@fontsource/montserrat"
 import { Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import Divider from '@mui/material/Divider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CircleIcon from '@mui/icons-material/Circle';
@@ -15,7 +14,7 @@ export default function NotificationList({ details, ...others }) {
 
     return (
         <Box pt={2}>
-            <Element name="test1" className="element" >
+         
 
                 <Grid container spacing={2} pl={2}>
                     <Grid item xs={10}>
@@ -56,7 +55,7 @@ export default function NotificationList({ details, ...others }) {
                         </Box>
                 }
                 <Divider />
-            </Element>
+        
         </Box>
 
     )

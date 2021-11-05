@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import "@fontsource/montserrat"
 import { makeStyles } from '@material-ui/core/styles';
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-import Divider from '@mui/material/Divider';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import CircleIcon from '@mui/icons-material/Circle';
-import Grid from '@mui/material/Grid';
-import { Card, CardActionArea, CardMedia, CardContent, Typography, Toolbar, TextField, InputAdornment, Box, Button } from '@material-ui/core'
+
+import { Card ,Typography,Box } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     cardinfo: {

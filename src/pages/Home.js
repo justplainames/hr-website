@@ -1,32 +1,22 @@
 
-import { Card, CardActionArea, CardMedia, CardContent, Typography, Toolbar, TextField, InputAdornment, Box, Button } from '@material-ui/core'
+import { Card, Typography, Box, Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import { typography } from '@mui/system';
 import Grid from '@mui/material/Grid';
 import React, { useState, useEffect } from 'react';
-import { format } from 'date-fns'
-import { enGB } from 'date-fns/locale'
-import { DatePickerCalendar } from 'react-nice-dates'
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar } from "react-modern-calendar-datepicker";
 import './calendar.css'
-import { useMediaQuery } from 'react-responsive'
 import axios from 'axios';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Arrow from "../assets/arrow.svg";
-import Divider from '@mui/material/Divider';
 import 'react-clock/dist/Clock.css';
 import Clock from 'react-clock';
 import AppliedList from '../component/applied/appliedList';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
-import { VisibilityOff, Visibility } from '@mui/icons-material'
+import { VisibilityOff } from '@mui/icons-material'
 
 //...
-import CircleIcon from '@mui/icons-material/Circle';
-import Applied from '../component/applied/applied';
+
 import { cssname } from '../utils/cssname';
-import { deDE } from '@mui/x-data-grid';
 const useStyles = makeStyles(theme => ({
     card: {
         borderRadius: '30px',
@@ -78,6 +68,7 @@ const useStyles = makeStyles(theme => ({
     },
     infoheader: {
         backgroundColor: '#dcdedc',
+        paddingBottom:'20px'
     },
     cardinfo: {
         borderRadius: '15px',
@@ -149,7 +140,7 @@ const Home = () => {
                     var set2 = set.setDate(set.getDate() + 1)
                     dd = new Date(set2)
                     datecounter = dd
-                    console.log(dd)
+                    
                 }
 
 
@@ -194,7 +185,7 @@ const Home = () => {
     }, []);
 
 
-    // console.log(calenval)
+
 
     useEffect(() => {
         const interval = setInterval(
@@ -258,8 +249,8 @@ const Home = () => {
                                             </Typography>
                                         </Box>
 
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={4} pb={5} mr={4}>
-                                            {/* BUTTON HERE */}
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' ,zIndex:-1 }} pt={4} pb={5} mr={4}>
+                                            
                                             <Button href="/leave">
                                                 <img src={Arrow} className={classes.imgsize}/>
                                             </Button>
@@ -331,7 +322,7 @@ const Home = () => {
                                             </Typography>
                                         </Box>
 
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={4} pb={5} mr={4}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end',  }} pt={4} pb={5} mr={4}>
                                             {/* BUTTON HERE */}
                                             <Button href="/">
                                                 <DownloadForOfflineIcon sx={{ fontSize: 45, color: '#008BFF' }}></DownloadForOfflineIcon>
@@ -346,7 +337,8 @@ const Home = () => {
                     </Box>
 
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center' }} pt={5} mb={10} >
+                <Box sx={{ display: 'flex', justifyContent: 'center',position:'relative' , zIndex:'1'}} pt={5} mb={10} >
+                  
                     <Calendar
 
                         value={selectedDay}
@@ -356,9 +348,10 @@ const Home = () => {
                         calendarClassName="responsive-calendar" // added this
                         customDaysClassName={calenval}
                     />
-                    <Box sx={{ position: 'relative', zIndex: '100', }} >
+                  
+                    <Box >
                         <Card className={classes.leaveinfo}  >
-                            <Box className={classes.infoheader} sx={{ display: 'flex' }} pl={8} pt={2} >
+                            <Box className={classes.infoheader} sx={{ display: 'flex'}} pl={8} pt={2} >
                                 <Box sx={{ display: 'flex' }}>
                                     <Box mt={7.5}>
                                         <Typography variant='h4'>

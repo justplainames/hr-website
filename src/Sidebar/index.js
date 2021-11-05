@@ -3,25 +3,20 @@ import { makeStyles } from '@material-ui/core/styles';
 import logo from "../assets/logo.svg";
 import Home from "../assets/home-solid.svg";
 import Leave from "../assets/leave.svg";
-import Payslip from "../assets/logo.svg";
+import Payslip from "../assets/payslip.svg";
 import Profile from "../assets/profile.png";
 import styled from "styled-components";
 import "@fontsource/montserrat"
 import { NavLink } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
-import Grid from '@mui/material/Grid';
 import Box from '@material-ui/core/Box';
 import IconButton from "@material-ui/core/IconButton";
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import { Card } from '@material-ui/core'
-import { DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import Divider from '@mui/material/Divider';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
-import CircleIcon from '@mui/icons-material/Circle';
-import Button from '@mui/material/Button';
 import Notifications from "../component/notifications/notifications";
 import axios from 'axios';
 import Link from '@mui/material/Link';
@@ -64,7 +59,8 @@ const useStyles = makeStyles(theme => ({
 
 const Container = styled.div`
     position: fixed;
-
+    height:120px;
+    z-index:2;
     .active { 
         border-right: 4px solid var(--white);
 
@@ -122,7 +118,7 @@ const SidebarContainer = styled.div`
     align-items: center;
     justify-content: space-between;
 
-    position: relative;
+    position: fixed;
 `;
 
 const Logo = styled.div`
@@ -146,7 +142,7 @@ const SlickBar = styled.ul`
     padding: 2rem 0;
 
     position: fixed;
-    top: 23rem;
+    top: 24rem;
     left: 0;
 
     width: ${(props) => (props.clicked ? "12rem" : "5rem")};
@@ -188,6 +184,8 @@ const Text = styled.span`
 
 const TopBar = styled.div`
     display: inline-flex;
+    background-color:#e5edf9;
+    width:1920px;
 `;
 
 
@@ -218,7 +216,7 @@ const Sidebar = () => {
     const handleClick = () => setClick(!click);
     const classes = useStyles();
     const isAuthenticated = localStorage.getItem("isAuthenticated");
-    console.log("im here" + isAuthenticated)
+
     return (
         <Container>
 
@@ -361,7 +359,7 @@ const Sidebar = () => {
                         <Text clicked={click}>Leave</Text>
                     </Item>
                     <Item onClick={() => setClick(false)} activeClassName="active" to="/payslip">
-                        <img src={Payslip} alt="Payslip" />
+                        <img src={Payslip} alt="Payslip" style={{width: 35, height: 35}}/>
                         <Text clicked={click}>Payslip</Text>
                     </Item>
                 </SlickBar>
