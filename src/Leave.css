@@ -1,17 +1,17 @@
-#content{
+#contentt{
   
-    left: 950px;
-    padding-top: 200px;
-    padding-left: 100px;
+    left: 850px;
+    padding-top: 20px;
+    padding-left: 0px;
     position: absolute;
-    /* top:0px; */
+    top:190px;
     display: inline-block;
     color:black;
     font-size: larger;
     font-family:'Montserrat';
   
 }
-/* 
+
 h2.title{
     font-family: 'Lato', sans-serif;
     font-weight: 600;
@@ -20,31 +20,31 @@ h2.title{
     display: inline;
     text-align: left;
     position: absolute;
-}   */
+}  
 
-#box2 {
+#box1 {
     border-radius: 15px;
     background:white;
-    margin-top:30px;
+    margin-top:23px;
     color:black;
     display: inline-block;
-    height:900px;
-    width:2500px;
+    height:1200px;
+    width:1600px;
     } 
 #box p{
 padding-left: 0px;
 }
 
-#box1 {
+#box2 {
     border-radius: 15px;
     background:rgba(255, 255, 255, 0.726);
     border-inline-start-width: 0px;
-    margin-top:75px;
-    margin-left:250px;
+    margin-top:70px;
+    margin-left:600px;
     color:black;
     display: inline-block;
-    height:600px;
-    width:1200px;
+    height:850px;
+    width:900px;
     border: 3px solid rgb(148, 139, 139);
     
     } 
@@ -53,19 +53,19 @@ padding-left: 0px;
 
 #selectbox {
     margin-top:35px;
-    left: 980px;
+    left: 860px;
     position: absolute;}
 
 #radio{
     margin-top:35px;
-    left: 1370px;
+    left: 1250px;
     position: absolute;
     size: 150%;
 }
 
 #startdate{
     margin-top:180px;
-    left: 980px;
+    left: 860px;
     position: absolute;
 }
 
@@ -75,46 +75,64 @@ padding-left: 0px;
     position: absolute;
 }
 
+#daterange{
+    margin-top:180px;
+    left: 860px;
+    position: absolute;
+}
+
+#noofdays{
+    margin-top:180px;
+    left: 1390px;
+    position: absolute;
+}
+
 #days{
     margin-top:180px;
-    left: 1670px;
+    left: 1470px;
     width: 70px;
     position: absolute;
 }
 
 #recommendby{
     margin-top:330px;
-    left: 980px;
+    left: 860px;
     position: absolute;
 }
 
 #approveby{
     margin-top:330px;
-    left: 1370px;
+    left: 1200px;
     position: absolute;
 }
 
 #ptdbalance{
     margin-top:480px;
-    left: 980px;
+    left: 860px;
     position: absolute;
 }
 
 #ytdbalance{
     margin-top:480px;
-    left: 1370px;
+    left: 1200px;
     position: absolute;
 }
 
 #remarks{
-    margin-top:35px;
-    left: 1780px;
+    margin-top:600px;
+    left: 860px;
     position: absolute;
 }
 
 #submitbutton{
-    margin-top:510px;
-    left: 1850px;
+    margin-top:700px;
+    left: 1530px;
     position: absolute;
 }
 
+
+#approvebutton{
+    margin-top:100px;
+    left: 50px;
+    position: absolute;
+}
