@@ -36,6 +36,7 @@ import MUIDataTable from "mui-datatables";
 import InputLabel from '@mui/material/InputLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Select from '@mui/material/Select';
+import TeamLeave from '../component/TeamLeave'
 
 
 let theme = createTheme();
@@ -456,8 +457,7 @@ export default function BasicTabs() {
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
-                
-            
+                    <TeamLeave />
                 </TabPanel>
 
 
