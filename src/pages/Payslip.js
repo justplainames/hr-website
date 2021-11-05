@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Input, FormHelperText, FormLabel, FormGroup, FormControlLabel, Checkbox, Button } from '@mui/material';
+import { IconButton, InputAdornment, FormControl, InputLabel, Input, FormHelperText, FormLabel, FormGroup, FormControlLabel, Checkbox, Button } from '@mui/material';
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import "../Payslip.css";
@@ -19,7 +19,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+// import VisibilityIcon from '@mui/icons-material/Visibility';
+import { VisibilityOff, Visibility } from '@mui/icons-material'
 export default function Payslip() {
     let theme = createTheme();
     theme = responsiveFontSizes(theme);
@@ -94,6 +95,30 @@ export default function Payslip() {
     const handleClickOpenDec = () => {
         setOpenDec(true);
     };
+    // Password toggle handler
+    const togglePassword = () => {
+        // When the handler is invoked
+        // inverse the boolean state of passwordShown
+        setPasswordShownJan(!passwordShownJan);
+        setPasswordShownFeb(!passwordShownFeb);
+        setPasswordShownMar(!passwordShownMar);
+        setPasswordShownApr(!passwordShownApr);
+        setPasswordShownMay(!passwordShownMay);
+        setPasswordShownJun(!passwordShownJun);
+
+        setPasswordShownJul(!passwordShownJul);
+        setPasswordShownAug(!passwordShownAug);
+        setPasswordShownSep(!passwordShownSep);
+        setPasswordShownOct(!passwordShownOct);
+        setPasswordShownNov(!passwordShownNov);
+        setPasswordShownDec(!passwordShownDec);
+
+
+        setPasswordShown3mth(!passwordShown3mth);
+        setPasswordShown6mth(!passwordShown6mth);
+        setPasswordShown9mth(!passwordShown9mth);
+        setPasswordShown12mth(!passwordShown12mth);
+    };
     const handleClose = () => {
         //monthly payslip
         setOpenJan(false);
@@ -116,6 +141,26 @@ export default function Payslip() {
 
         resetInputField();
         resetError();
+
+        setPasswordShownJan(false);
+        setPasswordShownFeb(false);
+        setPasswordShownMar(false);
+        setPasswordShownApr(false);
+        setPasswordShownMay(false);
+        setPasswordShownJun(false);
+
+        setPasswordShownJul(false);
+        setPasswordShownAug(false);
+        setPasswordShownSep(false);
+        setPasswordShownOct(false);
+        setPasswordShownNov(false);
+        setPasswordShownDec(false);
+
+
+        setPasswordShown3mth(false);
+        setPasswordShown6mth(false);
+        setPasswordShown9mth(false);
+        setPasswordShown12mth(false);
     };
 
 
@@ -282,7 +327,7 @@ export default function Payslip() {
             passworderror.passwordlength = "Password need to be filled up before submitting"
             isValid = false
         }
-        else if (password != "hrapp") {
+        else if (password != "hcipassword123") {
             passworderror.passwordlength = "Incorrect Password! Please try again"
             isValid = false
 
@@ -303,13 +348,14 @@ export default function Payslip() {
         search: false,
         textLabels: {
             body: {
-                noMatch: "Invalid date range! Please key in a valid data range",
-                fontWeight: 'bold',
-
-
+                noMatch: <strong style={{ color: "red" }} > Invalid date range! Please key in a valid data range</strong>
             }
-        },
 
+
+
+
+
+        },
 
 
         responsiveScroll: {
@@ -319,6 +365,24 @@ export default function Payslip() {
 
 
     };
+
+    const [passwordShownJan, setPasswordShownJan] = useState(false);
+    const [passwordShownFeb, setPasswordShownFeb] = useState(false);
+    const [passwordShownMar, setPasswordShownMar] = useState(false);
+    const [passwordShownApr, setPasswordShownApr] = useState(false);
+    const [passwordShownMay, setPasswordShownMay] = useState(false);
+    const [passwordShownJun, setPasswordShownJun] = useState(false);
+    const [passwordShownJul, setPasswordShownJul] = useState(false);
+    const [passwordShownAug, setPasswordShownAug] = useState(false);
+    const [passwordShownSep, setPasswordShownSep] = useState(false);
+    const [passwordShownOct, setPasswordShownOct] = useState(false);
+    const [passwordShownNov, setPasswordShownNov] = useState(false);
+    const [passwordShownDec, setPasswordShownDec] = useState(false);
+
+    const [passwordShown3mth, setPasswordShown3mth] = useState(false);
+    const [passwordShown6mth, setPasswordShown6mth] = useState(false);
+    const [passwordShown9mth, setPasswordShown9mth] = useState(false);
+    const [passwordShown12mth, setPasswordShown12mth] = useState(false);
 
 
 
@@ -352,15 +416,28 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownJan ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownJan ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
+
+                        }}
+
 
                     />
+
+
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -388,15 +465,25 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownFeb ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownFeb ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -423,15 +510,25 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownMar ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownMar ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -458,15 +555,25 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownApr ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownApr ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -493,15 +600,25 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownMay ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownMay ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -528,15 +645,25 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownJun ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownJun ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -563,15 +690,25 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownJul ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownJul ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -598,15 +735,26 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownAug ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownAug ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -633,15 +781,25 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownSep ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownSep ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -668,15 +826,25 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownOct ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownOct ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -703,15 +871,25 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownNov ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownNov ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -738,15 +916,25 @@ export default function Payslip() {
                         id="password"
                         name="password"
                         label="Password:"
-                        type="password"
+
                         fullWidth
                         variant="standard"
                         value={password}
                         onChange={(e) => { setPassword(e.target.value) }}
+                        type={passwordShownDec ? "text" : "password"}
+                        InputProps={{
+                            endAdornment:
+                                <IconButton
+                                    aria-label='toggle password visibility'
+                                    onClick={togglePassword}
+                                >
+                                    {passwordShownDec ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>,
 
+                        }}
                     />
                     {Object.keys(passworderror).map((key) => {
-                        return <div> <strong>{passworderror[key]}</strong></div>
+                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                     })}
                 </DialogContent>
                 <DialogActions>
@@ -947,7 +1135,7 @@ export default function Payslip() {
                         <ThemeProvider theme={theme} >
 
 
-                            <MUIDataTable
+                            <MUIDataTable id="muitable"
 
                                 data={data}
 
@@ -982,15 +1170,25 @@ export default function Payslip() {
                                 id="password"
                                 name="password"
                                 label="Password:"
-                                type="password"
+
                                 fullWidth
                                 variant="standard"
                                 value={password}
                                 onChange={(e) => { setPassword(e.target.value) }}
+                                type={passwordShown3mth ? "text" : "password"}
+                                InputProps={{
+                                    endAdornment:
+                                        <IconButton
+                                            aria-label='toggle password visibility'
+                                            onClick={togglePassword}
+                                        >
+                                            {passwordShown3mth ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>,
 
+                                }}
                             />
                             {Object.keys(passworderror).map((key) => {
-                                return <div> <strong>{passworderror[key]}</strong></div>
+                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                             })}
                         </DialogContent>
                         <DialogActions>
@@ -1016,15 +1214,25 @@ export default function Payslip() {
                                 id="password"
                                 name="password"
                                 label="Password:"
-                                type="password"
+
                                 fullWidth
                                 variant="standard"
                                 value={password}
                                 onChange={(e) => { setPassword(e.target.value) }}
+                                type={passwordShown6mth ? "text" : "password"}
+                                InputProps={{
+                                    endAdornment:
+                                        <IconButton
+                                            aria-label='toggle password visibility'
+                                            onClick={togglePassword}
+                                        >
+                                            {passwordShown6mth ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>,
 
+                                }}
                             />
                             {Object.keys(passworderror).map((key) => {
-                                return <div> <strong>{passworderror[key]}</strong></div>
+                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                             })}
                         </DialogContent>
                         <DialogActions>
@@ -1050,15 +1258,25 @@ export default function Payslip() {
                                 id="password"
                                 name="password"
                                 label="Password:"
-                                type="password"
+
                                 fullWidth
                                 variant="standard"
                                 value={password}
                                 onChange={(e) => { setPassword(e.target.value) }}
+                                type={passwordShown9mth ? "text" : "password"}
+                                InputProps={{
+                                    endAdornment:
+                                        <IconButton
+                                            aria-label='toggle password visibility'
+                                            onClick={togglePassword}
+                                        >
+                                            {passwordShown9mth ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>,
 
+                                }}
                             />
                             {Object.keys(passworderror).map((key) => {
-                                return <div> <strong>{passworderror[key]}</strong></div>
+                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                             })}
                         </DialogContent>
                         <DialogActions>
@@ -1084,15 +1302,25 @@ export default function Payslip() {
                                 id="password"
                                 name="password"
                                 label="Password:"
-                                type="password"
+
                                 fullWidth
                                 variant="standard"
                                 value={password}
                                 onChange={(e) => { setPassword(e.target.value) }}
+                                type={passwordShown12mth ? "text" : "password"}
+                                InputProps={{
+                                    endAdornment:
+                                        <IconButton
+                                            aria-label='toggle password visibility'
+                                            onClick={togglePassword}
+                                        >
+                                            {passwordShown12mth ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>,
 
+                                }}
                             />
                             {Object.keys(passworderror).map((key) => {
-                                return <div> <strong>{passworderror[key]}</strong></div>
+                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
                             })}
                         </DialogContent>
                         <DialogActions>
