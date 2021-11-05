@@ -340,15 +340,16 @@ export default function Payslip() {
     const options = {
         selectableRows: "none",
         fixedHeader: true,
-        rowsPerPage: 12,
+        rowsPerPage: 5,
         responsive: "scrollMaxHeight",
-
         download: false,
         print: false,
-        search: false,
+        search: true,
+        responsive: "standard",
+        rowsPerPageOptions: [],
         textLabels: {
             body: {
-                noMatch: <strong style={{ color: "red" }} > Invalid date range! Please key in a valid data range</strong>
+                noMatch: <strong style={{ color: "red" }} > Invalid Input! Please enter a valid month and year</strong>
             }
 
 
@@ -982,6 +983,7 @@ export default function Payslip() {
                 options: {
                     // display: false,
                     filter: false,
+                    sortDirection: 'asc',
                     setCellProps: () => ({
                         style: {
                             whiteSpace: "nowrap",
@@ -1033,7 +1035,7 @@ export default function Payslip() {
                     setCellProps: () => ({
                         style: {
                             whiteSpace: "nowrap",
-                            position: "sticky",
+
                             left: 0,
 
                             zIndex: 100
@@ -1042,7 +1044,7 @@ export default function Payslip() {
                     setCellHeaderProps: () => ({
                         style: {
                             whiteSpace: "nowrap",
-                            position: "sticky",
+
                             left: 0,
 
                             zIndex: 101
@@ -1129,22 +1131,22 @@ export default function Payslip() {
                     <br />
 
 
-                    <div style={{ display: 'table', tableLayout: 'fixed', width: '80%' }}>
+                    <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
                         <br />
 
                         <ThemeProvider theme={theme} >
 
+                            <strong>
+                                <MUIDataTable id="muitable"
 
-                            <MUIDataTable id="muitable"
+                                    data={data}
 
-                                data={data}
-
-                                columns={columns}
-                                options={options}
+                                    columns={columns}
+                                    options={options}
 
 
-                            />
-
+                                />
+                            </strong>
 
                         </ThemeProvider>
                     </div>
