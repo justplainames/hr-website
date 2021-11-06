@@ -23,7 +23,6 @@ import Popup from '../component/loginPopup/Popup'
 import '../component/loginPopup/Popup.css'
 
 export default function Login() {
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState(true)
@@ -57,16 +56,16 @@ export default function Login() {
         email.toLocaleLowerCase() == 'hci@gmail.com' &&
         password == 'hcipassword123'
       ) {
-
-        axios.post('http://localhost:5000/login',
-          {
-            "email":email,
-            "password": password
-          }).then(res => {
-            localStorage.setItem("isAuthenticated", res._id)
-            window.location.pathname = "/";
+        axios
+          .post('http://localhost:5000/login', {
+            email: email,
+            password: password,
           })
-          .catch(error => {
+          .then((res) => {
+            localStorage.setItem('isAuthenticated', res._id)
+            window.location.pathname = '/'
+          })
+          .catch((error) => {
             console.error(error)
           })
 
@@ -119,6 +118,7 @@ export default function Login() {
     //if email invalid
     if (!validEmail) {
       setPopupEmailHelperText('Incorrect email input, please re-enter email.')
+      setPopupEmailSubmitButton(true)
       setPopupEmailError(false)
     } //if email valid
     else {
@@ -221,7 +221,7 @@ export default function Login() {
               color='info'
               size='small'
               style={{ fontSize: 22, marginTop: 30 }}
-            // href='#'
+              // href='#'
             >
               Log In
             </Button>
