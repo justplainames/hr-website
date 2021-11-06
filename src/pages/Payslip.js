@@ -25,6 +25,7 @@ export default function Payslip() {
     let theme = createTheme();
     theme = responsiveFontSizes(theme);
 
+
     //dialog
     //monthly payslip
     const [openJan, setOpenJan] = React.useState(false);
@@ -339,7 +340,7 @@ export default function Payslip() {
 
     const options = {
         selectableRows: "none",
-        fixedHeader: true,
+        fixedHeader: false,
         rowsPerPage: 5,
         responsive: "scrollMaxHeight",
         download: false,
@@ -954,11 +955,13 @@ export default function Payslip() {
                 name: "File",
 
                 options: {
-
+                    sort: false,
                     filter: false,
                     setCellProps: () => ({
                         style: {
                             whiteSpace: "nowrap",
+                            fontSize: "18px",
+
 
 
 
@@ -970,11 +973,11 @@ export default function Payslip() {
                         style: {
                             whiteSpace: "nowrap",
 
-
-
+                            left: 0,
+                            fontSize: "20px",
                             zIndex: 101
                         }
-                    })
+                    }),
                 }
             },
             {
@@ -983,11 +986,13 @@ export default function Payslip() {
                 options: {
                     // display: false,
                     filter: false,
+                    sort: false,
                     sortDirection: 'asc',
+
                     setCellProps: () => ({
                         style: {
                             whiteSpace: "nowrap",
-
+                            fontSize: "18px",
                             minWidth: "300px", maxWidth: "300px",
 
 
@@ -996,19 +1001,27 @@ export default function Payslip() {
                     }),
                     setCellHeaderProps: () => ({
                         style: {
-                            whiteSpace: "wrap",
+                            whiteSpace: "nowrap",
 
-
-
+                            left: 0,
+                            fontSize: "20px",
                             zIndex: 101
                         }
                     }),
                     filterType: "custom",
+
                     // filterList: [monthNames[updateNewValue.getMonth()] + " " + updateNewValue.getFullYear(), monthNames[updateNewValue1.getMonth()] + " " + updateNewValue1.getFullYear()],
                     filterList: ["From:" + updateNewValue, "To:" + updateNewValue1],
 
+
+
+
+
+
+
                     filterOptions: {
                         names: [],
+
 
                         logic(date, filters) {
 
@@ -1029,13 +1042,13 @@ export default function Payslip() {
             },
 
             {
-                name: "DOWNLOAD",
+                name: "Download",
 
                 options: {
                     setCellProps: () => ({
                         style: {
                             whiteSpace: "nowrap",
-
+                            fontSize: "16px",
                             left: 0,
 
                             zIndex: 100
@@ -1046,7 +1059,7 @@ export default function Payslip() {
                             whiteSpace: "nowrap",
 
                             left: 0,
-
+                            fontSize: "20px",
                             zIndex: 101
                         }
                     }),
@@ -1072,7 +1085,7 @@ export default function Payslip() {
 
                         <Grid container spacing={10} >
                             <Grid item lg={6}>
-                                <div style={{ width: '120%' }}>
+                                <div style={{ width: '100%' }}>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <Stack spacing={6}>
                                             <DatePicker
@@ -1100,7 +1113,7 @@ export default function Payslip() {
                             </Grid>
 
                             <Grid item lg={6}>
-                                <div style={{ width: '120%' }}>
+                                <div style={{ width: '100%' }}>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                         <Stack spacing={6}>
                                             <DatePicker
@@ -1144,9 +1157,10 @@ export default function Payslip() {
                                     columns={columns}
                                     options={options}
 
-
                                 />
+
                             </strong>
+
 
                         </ThemeProvider>
                     </div>

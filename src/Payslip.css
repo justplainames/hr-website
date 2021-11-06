@@ -20,11 +20,11 @@
   color: black;
   display: inline-block;
   height: 1400px;
-  width: 1600px;
-  zoom: 67%;
+  width: 1400px;
+  zoom: 80%;
   position: relative;
   min-width:425;
-
+  font-Size:18px;
 }
 #box p {
   padding-left: 0px;
