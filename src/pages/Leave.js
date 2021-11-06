@@ -352,8 +352,7 @@ export default function BasicTabs() {
                 "daytype": day,
                 "remarks": remarksvalue
               }).then(res => {
-                localStorage.setItem("isAuthenticated", res._id)
-                window.location.pathname = "/";
+                    console.log(res)
               })
               .catch(error => {
                 console.error(error)
