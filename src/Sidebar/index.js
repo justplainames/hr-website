@@ -188,7 +188,7 @@ const TopBar = styled.div`
     width:1920px;
 `;
 
-
+const isAuthenticated = localStorage.getItem("isAuthenticated");
 
 const Sidebar = () => {
 
@@ -199,23 +199,29 @@ const Sidebar = () => {
     const [notificationsitems, setnotificationsitems] = useState([]);
 
     const [showProfile, setShowProfile] = useState(false);
-
     const fetchNoti = async () => {
-        await axios.get('http://localhost:5000/notifications')
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        await axios.get('http://localhost:5000/notifications', {
+            params: {
+              id: isAuthenticated
+            }
+          })
             .then(res => {
-                setnotificationsitems(res.data);
+                setnotificationsitems(res.data.notifications);
             })
     }
 
-
+    console.log(notificationsitems)
 
     useEffect(() => {
+        if(isAuthenticated){
         fetchNoti()
+        }
     }, []);
 
     const handleClick = () => setClick(!click);
     const classes = useStyles();
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
+
 
     return (
         <Container>

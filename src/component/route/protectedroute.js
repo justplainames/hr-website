@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Switch, useLocation,Route,Redirect } from "react-router";
+import { Switch,Route,Redirect } from "react-router-dom";
 import Sidebar from "../../Sidebar/index";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import styled from "styled-components";
@@ -13,7 +13,7 @@ const Pages = styled.div`
   padding-top:120px
 `;
 function ProtectedRoute({ component: Component, ...restOfProps }) {
-    const location = useLocation();
+
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     const theme = createMuiTheme({
         typography: {
@@ -27,7 +27,7 @@ function ProtectedRoute({ component: Component, ...restOfProps }) {
         <ThemeProvider theme={theme}>
             <Sidebar />
             <Pages>
-                <Switch location={location} key={location.pathname}>
+                <Switch>
                     <Route
                         {...restOfProps}
                         render={(props) =>

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "@fontsource/montserrat"
 import { makeStyles } from '@material-ui/core/styles';
 
 import CircleIcon from '@mui/icons-material/Circle';
-
-import { Card ,Typography,Box } from '@material-ui/core'
+import Grid from '@mui/material/Grid';
+import { Card, CardActionArea, CardMedia, CardContent, Typography, Toolbar, TextField, InputAdornment, Box, Button } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     cardinfo: {
@@ -44,7 +44,7 @@ month[11] = "December";
 
 export default function Applied({ details, ...others }) {
     const classes = useStyles();
-    
+
 
 
     return (
@@ -65,7 +65,7 @@ export default function Applied({ details, ...others }) {
 
                             <Box pl={2} pt={2} >
                                 <Box>
-                                    <Typography>{details.type.charAt(0).toUpperCase() + details.type.slice(1)}  {details.type!=='annual'? '' : 'Leave'}</Typography>
+                                    <Typography>{details.types.charAt(0).toUpperCase() + details.types.slice(1)}  {details.types!=='annual'? '' : 'Leave'}</Typography>
                                 </Box>
 
                                 <Box pt={2}>

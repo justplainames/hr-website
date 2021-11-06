@@ -1,4 +1,4 @@
-import { Route, Switch, useLocation } from "react-router";
+import { Route, Switch } from "react-router-dom";
 import Sidebar from "./Sidebar";
 
 import Home from "./pages/Home";
@@ -28,7 +28,7 @@ function App() {
       }
 });
 
-  const location = useLocation();
+
 
   return (
     <>
@@ -36,7 +36,7 @@ function App() {
     <Route exact path='/auth' component={Login}/>
     <ProtectedRoute exact path='/' component={Home}/>
     <ProtectedRoute exact path='/payslip' component={Payslip}/>
-    <ProtectedRoute exact path='/leave' component={Leave}/>
+    <ProtectedRoute exact path='/leave/' component={Leave}/>
   </Switch>
    
     </>

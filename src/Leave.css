@@ -40,12 +40,11 @@ padding-left: 0px;
     background:rgba(255, 255, 255, 0.726);
     border-inline-start-width: 0px;
     margin-top:70px;
-    margin-left:600px;
     color:black;
     display: inline-block;
     height:850px;
     width:900px;
-    border: 3px solid rgb(148, 139, 139);
+    border: 1.5px solid rgb(148, 139, 139);
     
     } 
 #box1 p{
@@ -136,3 +135,31 @@ padding-left: 0px;
     left: 50px;
     position: absolute;
 }
+
+
+/* calendar styling nochioce haveto style.....*/
+.react-calendar{
+    width: 500px !important;
+    height: 400px !important;
+    border-radius: 30px;
+}
+.react-calendar__viewContainer{
+    height: 350px !important;
+}
+.react-calendar button{
+    padding-top:17px!important;
+    padding-bottom:17px!important;
+}
+
+.react-calendar__navigation__next-button{
+padding-top:1px!important;
+}
+
+.highlight {
+    color:black !important;
+    background: lightcyan !important;
+ }  
+
+ .react-calendar__tile--active{
+     color:black !important;
+ }

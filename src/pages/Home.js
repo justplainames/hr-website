@@ -150,7 +150,7 @@ const Home = () => {
                 template.year = yearr
                 template.month = monthh + 1
                 template.day = dayy
-                template.className = cssname(data[i].type)
+                template.className = cssname(data[i].types)
                 setcalenval(oldArray => [...oldArray, template]);
                 if (z !== 0 && z == data[i].days - 1) {
                     break;
@@ -161,26 +161,35 @@ const Home = () => {
 
     }
 
-    const fetchapplied = async () => {
-        await axios.get('http://localhost:5000/applied')
+    const fetchapplied = async (id) => {
+        await axios.get('http://localhost:5000/applied',{
+            params: {
+              id: id
+            }
+          })
             .then(res => {
-                setapplied(res.data);
-                calendardetails(res.data)
+                console.log(res.data)
+                setapplied(res.data.applies);
+                calendardetails(res.data.applies)
             })
     }
 
-
-
-    const fetchleaves = async () => {
-        await axios.get('http://localhost:5000/leaves')
+    const fetchleaves = async (id) => {
+        await axios.get('http://localhost:5000/leaves',{
+            params: {
+              id: id
+            }
+          })
             .then(res => {
+                console.log(res.data)
                 setleaves(res.data);
             })
     }
 
     useEffect(() => {
-        fetchleaves()
-        fetchapplied()
+        const id = localStorage.getItem("isAuthenticated");
+        fetchleaves(id)
+        fetchapplied(id)
     }, []);
 
 
@@ -239,12 +248,12 @@ const Home = () => {
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={10} pb={2} mr={5.5} >
                                             <Typography variant="h4">
-                                                {leaves === '' ? '' : leaves[0].applied.annual}
+                                                {leaves === '' ? '' : leaves.applied.annual}
                                             </Typography>
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1.5} pb={5} mr={5.5}>
                                             <Typography variant="h4">
-                                                {leaves === '' ? '' : leaves[0].left.annual}
+                                                {leaves === '' ? '' : leaves.left.annual}
                                             </Typography>
                                         </Box>
 

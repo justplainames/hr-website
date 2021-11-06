@@ -7,7 +7,7 @@ export default function Notifications({ items, ...others }) {
     return (     
         <>
             {items.map((item)=>(
-                <NotificationList key={item._id} details={item}></NotificationList>
+                <NotificationList key={item._id} details={item} id={item._id} ></NotificationList>
             ))}
         </>
          
