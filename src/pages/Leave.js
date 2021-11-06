@@ -37,7 +37,7 @@ import MomentUtils from '@date-io/moment';
 import moment from 'moment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-//import TeamLeave from '../component/TeamLeave'
+//import TeamLeave from '../component/teamLeave/TeamLeave'
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
