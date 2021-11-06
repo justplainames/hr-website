@@ -60,7 +60,7 @@ const useStyles = makeStyles(theme => ({
     },
 
     leaveinfo: {
-        width: '460px',
+        width: '420px',
         height: '1050px',
         backgroundColor: '#dcdedc',
         boxShadow: 'none',
@@ -68,12 +68,8 @@ const useStyles = makeStyles(theme => ({
     },
     infoheader: {
         backgroundColor: '#dcdedc',
-        paddingBottom:'20px'
-    },
-    cardinfo: {
-        borderRadius: '15px',
-        width: '420px',
-        height: '210px'
+        paddingBottom:'20px',
+        paddingLeft:'35px'
     }
 
 }))
@@ -351,18 +347,20 @@ const Home = () => {
                   
                     <Box >
                         <Card className={classes.leaveinfo}  >
-                            <Box className={classes.infoheader} sx={{ display: 'flex'}} pl={8} pt={2} >
+                            <Box className={classes.infoheader} sx={{ display: 'flex'}} pt={2} >
                                 <Box sx={{ display: 'flex' }}>
-                                    <Box mt={7.5}>
+                                    <Box mt={7.5} pl={2.5}>
+                                        
                                         <Typography variant='h4'>
                                             {weekday[d.getDay()]}
                                         </Typography>
                                         <Typography variant='h6'>
                                             {month[months]} {day}
                                         </Typography>
+                                       
                                     </Box>
-                                    <Box ml={7} mt={3}>
-                                        <Clock value={value} />
+                                    <Box ml={5} mt={3}>
+                                        <Clock value={value} size={130} />
                                     </Box>
                                 </Box>
                             </Box>

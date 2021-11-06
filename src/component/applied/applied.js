@@ -9,7 +9,7 @@ import { Card ,Typography,Box } from '@material-ui/core'
 const useStyles = makeStyles(theme => ({
     cardinfo: {
         borderRadius: '15px',
-        width: '420px',
+        width: '380px',
         height: '210px'
     }
 
@@ -44,7 +44,7 @@ month[11] = "December";
 
 export default function Applied({ details, ...others }) {
     const classes = useStyles();
-
+    
 
 
     return (
