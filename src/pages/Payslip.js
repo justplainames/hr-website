@@ -39,7 +39,6 @@ export default function Payslip() {
     const [openSep, setOpenSep] = React.useState(false);
     const [openOct, setOpenOct] = React.useState(false);
     const [openNov, setOpenNov] = React.useState(false);
-    const [openDec, setOpenDec] = React.useState(false);
     //consolidated payslip
     const [open3mth, setOpen3mth] = React.useState(false);
     const [open6mth, setOpen6mth] = React.useState(false);
@@ -93,9 +92,7 @@ export default function Payslip() {
     const handleClickOpenNov = () => {
         setOpenNov(true);
     };
-    const handleClickOpenDec = () => {
-        setOpenDec(true);
-    };
+
     // Password toggle handler
     const togglePassword = () => {
         // When the handler is invoked
@@ -112,7 +109,7 @@ export default function Payslip() {
         setPasswordShownSep(!passwordShownSep);
         setPasswordShownOct(!passwordShownOct);
         setPasswordShownNov(!passwordShownNov);
-        setPasswordShownDec(!passwordShownDec);
+
 
 
         setPasswordShown3mth(!passwordShown3mth);
@@ -133,7 +130,7 @@ export default function Payslip() {
         setOpenSep(false);
         setOpenOct(false);
         setOpenNov(false);
-        setOpenDec(false);
+
         //consolidated payslip
         setOpen3mth(false);
         setOpen6mth(false);
@@ -155,7 +152,7 @@ export default function Payslip() {
         setPasswordShownSep(false);
         setPasswordShownOct(false);
         setPasswordShownNov(false);
-        setPasswordShownDec(false);
+
 
 
         setPasswordShown3mth(false);
@@ -275,15 +272,7 @@ export default function Payslip() {
             resetInputField();
         }
     };
-    const onSubmitDec = (e) => {
-        e.preventDefault();
-        const isValid = formValidation();
-        if (isValid) {
-            window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905103999332667392/DEC.pdf';
-            handleClose();
-            resetInputField();
-        }
-    };
+
     //consolidated payslip
     const onSubmit3mth = (e) => {
         e.preventDefault();
@@ -316,7 +305,7 @@ export default function Payslip() {
         e.preventDefault();
         const isValid = formValidation();
         if (isValid) {
-            window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905103999332667392/DEC.pdf';
+            window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905710617866960966/Past12mths.pdf';
             handleClose();
             resetInputField();
         }
@@ -379,7 +368,6 @@ export default function Payslip() {
     const [passwordShownSep, setPasswordShownSep] = useState(false);
     const [passwordShownOct, setPasswordShownOct] = useState(false);
     const [passwordShownNov, setPasswordShownNov] = useState(false);
-    const [passwordShownDec, setPasswordShownDec] = useState(false);
 
     const [passwordShown3mth, setPasswordShown3mth] = useState(false);
     const [passwordShown6mth, setPasswordShown6mth] = useState(false);
@@ -389,13 +377,13 @@ export default function Payslip() {
 
 
     const monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "July", "August", "September", "October", "November"
     ];
     const months = [];
     const [value, setValue] = React.useState("2021-01-31");
-    const [value1, setValue1] = React.useState("2021-12-31");
+    const [value1, setValue1] = React.useState("2021-11-30");
     const [updateNewValue, setValue2] = React.useState("01/2021");
-    const [updateNewValue1, setValue3] = React.useState("12/2021");
+    const [updateNewValue1, setValue3] = React.useState("11/2021");
 
 
 
@@ -900,52 +888,8 @@ export default function Payslip() {
                 </DialogActions>
             </Dialog>
 
-        </div >],
-        ["December 2021.pdf", "12/2021", <div>
-            <Button variant="outlined" onClick={handleClickOpenDec} endIcon={<DownloadIcon />}>
-                Download
-            </Button>
-            <Dialog open={openDec} onClose={handleClose}>
-                <DialogTitle>Download</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        To download the December 2021 payslip, please enter your password here.
-                    </DialogContentText>
-
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="password"
-                        name="password"
-                        label="Password:"
-
-                        fullWidth
-                        variant="standard"
-                        value={password}
-                        onChange={(e) => { setPassword(e.target.value) }}
-                        type={passwordShownDec ? "text" : "password"}
-                        InputProps={{
-                            endAdornment:
-                                <IconButton
-                                    aria-label='toggle password visibility'
-                                    onClick={togglePassword}
-                                >
-                                    {passwordShownDec ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>,
-
-                        }}
-                    />
-                    {Object.keys(passworderror).map((key) => {
-                        return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
-                    })}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit" onClick={onSubmitDec} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
-                </DialogActions>
-            </Dialog>
-
         </div >]
+
     ];
 
 
@@ -1093,7 +1037,7 @@ export default function Payslip() {
                                                 views={["month", "year"]}
                                                 label="From:"
                                                 minDate={new Date("2021-01-31")}
-                                                maxDate={new Date("2021-12-31")}
+                                                maxDate={new Date("2021-11-30")}
                                                 value={value}
                                                 inputProps={{ readOnly: true }}
 
@@ -1121,7 +1065,7 @@ export default function Payslip() {
                                                 views={["month", "year"]}
                                                 label="To:"
                                                 minDate={new Date("2021-01-31")}
-                                                maxDate={new Date("2021-12-31")}
+                                                maxDate={new Date("2021-11-30")}
                                                 value={value1}
                                                 inputProps={{ readOnly: true }}
                                                 onChangeRaw={(newValue1) => newValue1.preventDefault()}

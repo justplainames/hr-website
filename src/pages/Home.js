@@ -68,12 +68,16 @@ const useStyles = makeStyles(theme => ({
     },
     infoheader: {
         backgroundColor: '#dcdedc',
-        paddingBottom:'20px',
-        paddingLeft:'35px'
+        paddingBottom: '20px',
+        paddingLeft: '35px'
     }
 
 }))
-
+//payslip download pdf
+const onSubmitDownload = (e) => {
+    e.preventDefault();
+    window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905104061756502048/NOV.pdf';
+};
 
 
 const d = new Date();
@@ -136,7 +140,7 @@ const Home = () => {
                     var set2 = set.setDate(set.getDate() + 1)
                     dd = new Date(set2)
                     datecounter = dd
-                    
+
                 }
 
 
@@ -148,8 +152,7 @@ const Home = () => {
                 template.day = dayy
                 template.className = cssname(data[i].type)
                 setcalenval(oldArray => [...oldArray, template]);
-                if(z!==0&&z==data[i].days-1)
-                {
+                if (z !== 0 && z == data[i].days - 1) {
                     break;
                 }
             }
@@ -245,10 +248,10 @@ const Home = () => {
                                             </Typography>
                                         </Box>
 
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' ,zIndex:-1 }} pt={4} pb={5} mr={4}>
-                                            
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', zIndex: -1 }} pt={4} pb={5} mr={4}>
+
                                             <Button href="/leave">
-                                                <img src={Arrow} className={classes.imgsize}/>
+                                                <img src={Arrow} className={classes.imgsize} />
                                             </Button>
                                         </Box>
 
@@ -262,16 +265,16 @@ const Home = () => {
 
                     <Box pl={10} pr={20} mt={5}>
                         <Card classes={{ root: classes.payslipCardInfo }}>
-                        <Box sx={{ display: 'flex' }} mt={5} ml={5} >
+                            <Box sx={{ display: 'flex' }} mt={5} ml={5} >
                                 <Grid container spacing={2}>
                                     <Grid item xs={8}>
-                                        <Box sx={{display: 'flex' }}>
+                                        <Box sx={{ display: 'flex' }}>
                                             <Typography variant="h3" className={classes.bold_title}>
                                                 Payslip
-                                            </Typography> 
-                                            <Box pl={2}>      
+                                            </Typography>
+                                            <Box pl={2}>
                                                 <VisibilityOff sx={{ fontSize: 30 }}>
-                                                </VisibilityOff>                                    
+                                                </VisibilityOff>
                                             </Box>
                                         </Box>
                                         <Box pt={7} pb={1}>
@@ -304,24 +307,24 @@ const Home = () => {
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={6} pb={2} mr={5.5} >
                                             <Typography variant="h4">
-                                                Sept
+                                                November
                                             </Typography>
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1} pb={2} mr={5.5}>
                                             <Typography variant="h4">
-                                                $3000
+                                                $6000
                                             </Typography>
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1} pb={3} mr={5.5}>
                                             <Typography variant="h4">
-                                                $500
+                                                $680
                                             </Typography>
                                         </Box>
 
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end',  }} pt={4} pb={5} mr={4}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }} pt={4} pb={5} mr={4}>
                                             {/* BUTTON HERE */}
                                             <Button href="/">
-                                                <DownloadForOfflineIcon sx={{ fontSize: 45, color: '#008BFF' }}></DownloadForOfflineIcon>
+                                                <DownloadForOfflineIcon sx={{ fontSize: 45, color: '#008BFF' }} onClick={onSubmitDownload} target="_blank" rel="noreferrer" ></DownloadForOfflineIcon>
                                             </Button>
                                         </Box>
 
@@ -333,8 +336,8 @@ const Home = () => {
                     </Box>
 
                 </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'center',position:'relative' , zIndex:'1'}} pt={5} mb={10} >
-                  
+                <Box sx={{ display: 'flex', justifyContent: 'center', position: 'relative', zIndex: '1' }} pt={5} mb={10} >
+
                     <Calendar
 
                         value={selectedDay}
@@ -344,20 +347,20 @@ const Home = () => {
                         calendarClassName="responsive-calendar" // added this
                         customDaysClassName={calenval}
                     />
-                  
+
                     <Box >
                         <Card className={classes.leaveinfo}  >
-                            <Box className={classes.infoheader} sx={{ display: 'flex'}} pt={2} >
+                            <Box className={classes.infoheader} sx={{ display: 'flex' }} pt={2} >
                                 <Box sx={{ display: 'flex' }}>
                                     <Box mt={7.5} pl={2.5}>
-                                        
+
                                         <Typography variant='h4'>
                                             {weekday[d.getDay()]}
                                         </Typography>
                                         <Typography variant='h6'>
                                             {month[months]} {day}
                                         </Typography>
-                                       
+
                                     </Box>
                                     <Box ml={5} mt={3}>
                                         <Clock value={value} size={130} />
@@ -365,7 +368,7 @@ const Home = () => {
                                 </Box>
                             </Box>
                             <Box sx={{ overflow: 'auto', maxHeight: '1000px' }}>
-                            <AppliedList items={applied} />
+                                <AppliedList items={applied} />
                             </Box>
                         </Card>
                     </Box>
