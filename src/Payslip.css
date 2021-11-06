@@ -26,6 +26,7 @@
   min-width:425;
   font-Size:18px;
 } */
+/*default width: 1920*/
 #box {
   border-radius: 15px;
   background: white;
@@ -35,9 +36,415 @@
   height: 1400px;
   width: 1600px;
   position: relative;
-  min-width:425;
+  /* min-width:900px; */
   font-Size:18px;
+  
 }
+
 #box p {
   padding-left: 0px;
+}
+
+@media only screen and (max-width: 1779px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:20px;
+    color: black;
+    display: inline-block;
+    height: 1400px;
+    width: 1500px;
+    position: relative;
+    font-Size:18px;
+   
+  }
+}
+@media only screen and (max-width: 1666px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:20px;
+    color: black;
+    display: inline-block;
+    height: 1400px;
+    width: 1400px;
+    position: relative;
+    font-Size:18px;
+  }
+}
+@media only screen and (max-width: 1563px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:20px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 1300px;
+    position: relative;
+    font-Size:18px;
+  }
+}
+@media only screen and (max-width: 1458px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:20px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 1200px;
+    position: relative;
+    font-Size:18px;
+  }
+}
+@media only screen and (max-width: 1366px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:20px;
+    color: black;
+    display: inline-block;
+    height: 1400px;
+    width: 1100px;
+    position: relative;
+    font-Size:18px;
+  }
+}
+
+
+@media only screen and (max-width: 1266px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:20px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 1000px;
+    position: relative;
+    font-Size:18px;
+  }
+}
+@media only screen and (max-width: 1166px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:20px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 900px;
+    position: relative;
+    font-Size:18px;
+  }
+}
+@media only screen and (max-width: 1063px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:20px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 800px;
+    position: relative;
+    font-Size:18px;
+  }
+}
+@media only screen and (max-width: 966px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:30px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 800px;
+    position: relative;
+    font-Size:18px;
+  }
+  #scaling{
+    padding-left: 70px;
+  }
+
+}
+@media only screen and (max-width: 899px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:30px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 800px;
+    position: relative;
+    font-Size:18px;
+  }
+  #scaling{
+    padding-left: 100px;
+  }
+
+}
+@media only screen and (max-width: 861px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:30px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 780px;
+    position: relative;
+    font-Size:18px;
+  }
+  #scaling{
+    padding-left: 110px;
+  }
+
+}
+@media only screen and (max-width: 835px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:0px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 780px;
+    position: relative;
+    font-Size:18px;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+@media only screen and (max-width: 792px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:0px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 760px;
+    position: relative;
+    font-Size:18px;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+
+@media only screen and (max-width: 688px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:10px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 750px;
+    position: relative;
+    font-Size:18px;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+@media only screen and (max-width: 639px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:30px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 750px;
+    position: relative;
+    font-Size:18px;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+@media only screen and (max-width: 603px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:50px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 750px;
+    position: relative;
+    font-Size:18px;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+@media only screen and (max-width: 561px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:70px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 750px;
+    position: relative;
+    font-Size:18px;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+@media only screen and (max-width: 517px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+    padding-left:80px;
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 750px;
+    position: relative;
+    font-Size:18px;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+@media only screen and (max-width: 501px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+ 
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 750px;
+    position: relative;
+    font-Size:18px;
+    zoom:90%;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+@media only screen and (max-width: 453px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+ 
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 750px;
+    position: relative;
+    font-Size:18px;
+    zoom:80%;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+@media only screen and (max-width: 404px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+ 
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 750px;
+    position: relative;
+    font-Size:18px;
+    zoom:70%;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+@media only screen and (max-width: 358px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+ 
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 750px;
+    position: relative;
+    font-Size:18px;
+    zoom:65%;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
+}
+@media only screen and (max-width: 335px) {
+  #box {
+    border-radius: 15px;
+    background: white;
+    margin-top: 25px;
+ 
+    color: black;
+    display: inline-block;
+    height: 1100px;
+    width: 750px;
+    position: relative;
+    font-Size:18px;
+    zoom:60%;
+  }
+  
+  #scaling{
+    padding-left: 150px;
+  }
+
 }

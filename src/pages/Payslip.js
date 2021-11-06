@@ -991,7 +991,7 @@ export default function Payslip() {
                 options: {
                     setCellProps: () => ({
                         style: {
-                            whiteSpace: "nowrap",
+                            whiteSpace: "wrap",
                             fontSize: "16px",
                             left: 0,
 
@@ -1000,9 +1000,9 @@ export default function Payslip() {
                     }),
                     setCellHeaderProps: () => ({
                         style: {
-                            whiteSpace: "nowrap",
+                            whiteSpace: "wrap",
 
-                            left: 0,
+
                             fontSize: "20px",
                             zIndex: 101
                         }
@@ -1019,277 +1019,280 @@ export default function Payslip() {
 
     return (
         <>
-            <div id="box" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <center>
-                    <br />
-                    <br />
-                    <h1>Monthly Payslip</h1>
-                    <br />
-                    <FormControl>
+            <div id="scaling">
+                <div id="box" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <center>
+                        <br />
+                        <br />
+                        <h1>Monthly Payslip</h1>
+                        <br />
+                        <FormControl>
 
-                        <Grid container spacing={10} >
-                            <Grid item lg={6}>
-                                <div style={{ width: '100%' }}>
-                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                        <Stack spacing={6}>
-                                            <DatePicker
+                            <Grid container spacing={10} >
+                                <Grid item lg={6}>
+                                    <div id="DatePicker1">
+                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                            <Stack spacing={6}>
+                                                <DatePicker
 
-                                                views={["month", "year"]}
-                                                label="From:"
-                                                minDate={new Date("2021-01-31")}
-                                                maxDate={new Date("2021-11-30")}
-                                                value={value}
-                                                inputProps={{ readOnly: true }}
+                                                    views={["month", "year"]}
+                                                    label="From:"
+                                                    minDate={new Date("2021-01-31")}
+                                                    maxDate={new Date("2021-11-30")}
+                                                    value={value}
+                                                    inputProps={{ readOnly: true }}
 
-                                                onChangeRaw={(e) => e.preventDefault()}
-                                                onChange={(newValue) => {
-                                                    setValue(newValue);
-                                                    setValue2(("0" + (newValue.getMonth() + 1)).slice(-2) + "/" + newValue.getFullYear());
+                                                    onChangeRaw={(e) => e.preventDefault()}
+                                                    onChange={(newValue) => {
+                                                        setValue(newValue);
+                                                        setValue2(("0" + (newValue.getMonth() + 1)).slice(-2) + "/" + newValue.getFullYear());
 
 
-                                                }}
+                                                    }}
 
-                                                renderInput={(params) => <TextField {...params} helperText={null} />}
-                                            />
-                                        </Stack>
-                                    </LocalizationProvider>
-                                </div>
+                                                    renderInput={(params) => <TextField {...params} helperText={null} />}
+                                                />
+                                            </Stack>
+                                        </LocalizationProvider>
+                                    </div>
+                                </Grid>
+
+                                <Grid item lg={6}>
+                                    <div id="DatePicker2">
+                                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                            <Stack spacing={6}>
+                                                <DatePicker
+
+                                                    views={["month", "year"]}
+                                                    label="To:"
+                                                    minDate={new Date("2021-01-31")}
+                                                    maxDate={new Date("2021-11-30")}
+                                                    value={value1}
+                                                    inputProps={{ readOnly: true }}
+                                                    onChangeRaw={(newValue1) => newValue1.preventDefault()}
+                                                    onChange={(newValue1) => {
+                                                        setValue1(newValue1);
+                                                        setValue3(("0" + (newValue1.getMonth() + 1)).slice(-2) + "/" + newValue1.getFullYear());
+
+                                                    }}
+
+                                                    renderInput={(params) => <TextField {...params} helperText={null} />}
+                                                />
+
+                                            </Stack>
+                                        </LocalizationProvider>
+                                    </div>
+                                </Grid>
+
                             </Grid>
-
-                            <Grid item lg={6}>
-                                <div style={{ width: '100%' }}>
-                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                        <Stack spacing={6}>
-                                            <DatePicker
-
-                                                views={["month", "year"]}
-                                                label="To:"
-                                                minDate={new Date("2021-01-31")}
-                                                maxDate={new Date("2021-11-30")}
-                                                value={value1}
-                                                inputProps={{ readOnly: true }}
-                                                onChangeRaw={(newValue1) => newValue1.preventDefault()}
-                                                onChange={(newValue1) => {
-                                                    setValue1(newValue1);
-                                                    setValue3(("0" + (newValue1.getMonth() + 1)).slice(-2) + "/" + newValue1.getFullYear());
-
-                                                }}
-
-                                                renderInput={(params) => <TextField {...params} helperText={null} />}
-                                            />
-
-                                        </Stack>
-                                    </LocalizationProvider>
-                                </div>
-                            </Grid>
-
-                        </Grid>
-                    </FormControl>
-                    <br />
-
-
-                    <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
+                        </FormControl>
                         <br />
 
-                        <ThemeProvider theme={theme} >
 
-                            <strong>
-                                <MUIDataTable id="muitable"
+                        <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
+                            <br />
 
-                                    data={data}
+                            <ThemeProvider theme={theme} >
 
-                                    columns={columns}
-                                    options={options}
+                                <strong>
+                                    <MUIDataTable id="muitable"
 
+                                        data={data}
+
+                                        columns={columns}
+                                        options={options}
+
+                                    />
+
+                                </strong>
+
+
+                            </ThemeProvider>
+                        </div>
+                        <br />
+                        <hr color="WhiteSmoke"></hr>
+                        <br />
+                        <h1>Consolidated Payslip</h1>
+                        <br />
+                        <br />
+                        <Button variant="outlined" onClick={handleClickOpen3mth} id="Button1" endIcon={<DownloadIcon />}>
+                            Past 3 months
+                        </Button>
+                        <Dialog open={open3mth} onClose={handleClose}>
+                            <DialogTitle>Download</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    To download the past 3 months payslip, please enter your password here.
+                                </DialogContentText>
+
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="password"
+                                    name="password"
+                                    label="Password:"
+
+                                    fullWidth
+                                    variant="standard"
+                                    value={password}
+                                    onChange={(e) => { setPassword(e.target.value) }}
+                                    type={passwordShown3mth ? "text" : "password"}
+                                    InputProps={{
+                                        endAdornment:
+                                            <IconButton
+                                                aria-label='toggle password visibility'
+                                                onClick={togglePassword}
+                                            >
+                                                {passwordShown3mth ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>,
+
+                                    }}
                                 />
+                                {Object.keys(passworderror).map((key) => {
+                                    return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
+                                })}
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose}>Cancel</Button>
+                                <Button type="submit" onClick={onSubmit3mth} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
+                            </DialogActions>
+                        </Dialog>
+                        &nbsp;
+                        &nbsp;
+                        <Button variant="outlined" onClick={handleClickOpen6mth} id="Button2" endIcon={<DownloadIcon />}>
+                            Past 6 months
+                        </Button>
+                        <Dialog open={open6mth} onClose={handleClose}>
+                            <DialogTitle>Download</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    To download the past 6 months payslip, please enter your password here.
+                                </DialogContentText>
 
-                            </strong>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="password"
+                                    name="password"
+                                    label="Password:"
 
+                                    fullWidth
+                                    variant="standard"
+                                    value={password}
+                                    onChange={(e) => { setPassword(e.target.value) }}
+                                    type={passwordShown6mth ? "text" : "password"}
+                                    InputProps={{
+                                        endAdornment:
+                                            <IconButton
+                                                aria-label='toggle password visibility'
+                                                onClick={togglePassword}
+                                            >
+                                                {passwordShown6mth ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>,
 
-                        </ThemeProvider>
-                    </div>
-                    <br />
-                    <hr color="WhiteSmoke"></hr>
-                    <br />
-                    <h1>Consolidated Payslip</h1>
-                    <br />
-                    <br />
-                    <Button variant="outlined" onClick={handleClickOpen3mth} size="large" endIcon={<DownloadIcon />}>
-                        Past 3 months
-                    </Button>
-                    <Dialog open={open3mth} onClose={handleClose}>
-                        <DialogTitle>Download</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                To download the past 3 months payslip, please enter your password here.
-                            </DialogContentText>
+                                    }}
+                                />
+                                {Object.keys(passworderror).map((key) => {
+                                    return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
+                                })}
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose}>Cancel</Button>
+                                <Button type="submit" onClick={onSubmit6mth} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
+                            </DialogActions>
+                        </Dialog>
+                        &nbsp;
+                        &nbsp;
+                        <Button variant="outlined" onClick={handleClickOpen9mth} id="Button3" endIcon={<DownloadIcon />}>
+                            Past 9 months
+                        </Button>
+                        <Dialog open={open9mth} onClose={handleClose}>
+                            <DialogTitle>Download</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    To download the past 9 months payslip, please enter your password here.
+                                </DialogContentText>
 
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                name="password"
-                                label="Password:"
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="password"
+                                    name="password"
+                                    label="Password:"
 
-                                fullWidth
-                                variant="standard"
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value) }}
-                                type={passwordShown3mth ? "text" : "password"}
-                                InputProps={{
-                                    endAdornment:
-                                        <IconButton
-                                            aria-label='toggle password visibility'
-                                            onClick={togglePassword}
-                                        >
-                                            {passwordShown3mth ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>,
+                                    fullWidth
+                                    variant="standard"
+                                    value={password}
+                                    onChange={(e) => { setPassword(e.target.value) }}
+                                    type={passwordShown9mth ? "text" : "password"}
+                                    InputProps={{
+                                        endAdornment:
+                                            <IconButton
+                                                aria-label='toggle password visibility'
+                                                onClick={togglePassword}
+                                            >
+                                                {passwordShown9mth ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>,
 
-                                }}
-                            />
-                            {Object.keys(passworderror).map((key) => {
-                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
-                            })}
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button type="submit" onClick={onSubmit3mth} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
-                        </DialogActions>
-                    </Dialog>
-                    &nbsp;
-                    &nbsp;
-                    <Button variant="outlined" onClick={handleClickOpen6mth} size="large" endIcon={<DownloadIcon />}>
-                        Past 6 months
-                    </Button>
-                    <Dialog open={open6mth} onClose={handleClose}>
-                        <DialogTitle>Download</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                To download the past 6 months payslip, please enter your password here.
-                            </DialogContentText>
+                                    }}
+                                />
+                                {Object.keys(passworderror).map((key) => {
+                                    return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
+                                })}
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose}>Cancel</Button>
+                                <Button type="submit" onClick={onSubmit9mth} target="_blank" rel="noreferrer">Download</Button>
+                            </DialogActions>
+                        </Dialog>
+                        &nbsp;
+                        &nbsp;
+                        <Button variant="outlined" onClick={handleClickOpen12mth} id="Button4" endIcon={<DownloadIcon />} >
+                            Past 12 months
+                        </Button>
+                        <Dialog open={open12mth} onClose={handleClose}>
+                            <DialogTitle>Download</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    To download the past 12 months payslip, please enter your password here.
+                                </DialogContentText>
 
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                name="password"
-                                label="Password:"
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="password"
+                                    name="password"
+                                    label="Password:"
 
-                                fullWidth
-                                variant="standard"
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value) }}
-                                type={passwordShown6mth ? "text" : "password"}
-                                InputProps={{
-                                    endAdornment:
-                                        <IconButton
-                                            aria-label='toggle password visibility'
-                                            onClick={togglePassword}
-                                        >
-                                            {passwordShown6mth ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>,
+                                    fullWidth
+                                    variant="standard"
+                                    value={password}
+                                    onChange={(e) => { setPassword(e.target.value) }}
+                                    type={passwordShown12mth ? "text" : "password"}
+                                    InputProps={{
+                                        endAdornment:
+                                            <IconButton
+                                                aria-label='toggle password visibility'
+                                                onClick={togglePassword}
+                                            >
+                                                {passwordShown12mth ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>,
 
-                                }}
-                            />
-                            {Object.keys(passworderror).map((key) => {
-                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
-                            })}
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button type="submit" onClick={onSubmit6mth} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
-                        </DialogActions>
-                    </Dialog>
-                    &nbsp;
-                    &nbsp;
-                    <Button variant="outlined" onClick={handleClickOpen9mth} size="large" endIcon={<DownloadIcon />}>
-                        Past 9 months
-                    </Button>
-                    <Dialog open={open9mth} onClose={handleClose}>
-                        <DialogTitle>Download</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                To download the past 9 months payslip, please enter your password here.
-                            </DialogContentText>
+                                    }}
+                                />
+                                {Object.keys(passworderror).map((key) => {
+                                    return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
+                                })}
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClose}>Cancel</Button>
+                                <Button type="submit" onClick={onSubmit12mth} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
+                            </DialogActions>
+                        </Dialog>
+                        <br />
+                    </center>
 
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                name="password"
-                                label="Password:"
-
-                                fullWidth
-                                variant="standard"
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value) }}
-                                type={passwordShown9mth ? "text" : "password"}
-                                InputProps={{
-                                    endAdornment:
-                                        <IconButton
-                                            aria-label='toggle password visibility'
-                                            onClick={togglePassword}
-                                        >
-                                            {passwordShown9mth ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>,
-
-                                }}
-                            />
-                            {Object.keys(passworderror).map((key) => {
-                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
-                            })}
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button type="submit" onClick={onSubmit9mth} target="_blank" rel="noreferrer">Download</Button>
-                        </DialogActions>
-                    </Dialog>
-                    &nbsp;
-                    &nbsp;
-                    <Button variant="outlined" onClick={handleClickOpen12mth} size="large" endIcon={<DownloadIcon />} >
-                        Past 12 months
-                    </Button>
-                    <Dialog open={open12mth} onClose={handleClose}>
-                        <DialogTitle>Download</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                To download the past 12 months payslip, please enter your password here.
-                            </DialogContentText>
-
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="password"
-                                name="password"
-                                label="Password:"
-
-                                fullWidth
-                                variant="standard"
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value) }}
-                                type={passwordShown12mth ? "text" : "password"}
-                                InputProps={{
-                                    endAdornment:
-                                        <IconButton
-                                            aria-label='toggle password visibility'
-                                            onClick={togglePassword}
-                                        >
-                                            {passwordShown12mth ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>,
-
-                                }}
-                            />
-                            {Object.keys(passworderror).map((key) => {
-                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
-                            })}
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button type="submit" onClick={onSubmit12mth} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
-                        </DialogActions>
-                    </Dialog>
-                    <br />
-                </center>
+                </div >
 
             </div >
         </>
