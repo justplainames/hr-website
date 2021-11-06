@@ -1,10 +1,10 @@
 #contentt{
   
     left: 850px;
-    padding-top: 20px;
+    padding-top: 40px;
     padding-left: 0px;
     position: absolute;
-    top:190px;
+    top:180px;
     display: inline-block;
     color:black;
     font-size: larger;
@@ -23,11 +23,11 @@ h2.title{
 }  
 
 #box1 {
-    border-radius: 15px;
+    border-radius: 10px 10px 10px 10px;
     background:white;
     margin-top:23px;
+    border-radius: 30px;
     color:black;
-    display: inline-block;
     height:1200px;
     width:1600px;
     } 
@@ -39,7 +39,7 @@ padding-left: 0px;
     border-radius: 15px;
     background:rgba(255, 255, 255, 0.726);
     border-inline-start-width: 0px;
-    margin-top:70px;
+    margin-top:90px;
     color:black;
     display: inline-block;
     height:850px;
@@ -162,4 +162,8 @@ padding-top:1px!important;
 
  .react-calendar__tile--active{
      color:black !important;
+ }
+
+ .react-calendar__tile--active{
+     background: white !important;
  }

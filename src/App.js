@@ -10,13 +10,6 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import ProtectedRoute from "./component/route/protectedroute";
 
 
-const Pages = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding-top:120px
-`;
 
 function App() {
 

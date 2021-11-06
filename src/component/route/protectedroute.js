@@ -10,7 +10,7 @@ const Pages = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
-  padding-top:120px
+  padding-top:90px
 `;
 function ProtectedRoute({ component: Component, ...restOfProps }) {
 

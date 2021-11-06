@@ -19,6 +19,7 @@ import { VisibilityOff } from '@mui/icons-material'
 import { cssname } from '../utils/cssname';
 const useStyles = makeStyles(theme => ({
     card: {
+       
         borderRadius: '30px',
         width: "1600px"
     },
@@ -207,7 +208,7 @@ const Home = () => {
     }, []);
 
     return (
-        <Box>
+        <Box mt={4}>
             <Card classes={{ root: classes.card }} >
                 <Box pt={5} ml={5}>
                     <Typography variant="h3">

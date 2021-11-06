@@ -579,12 +579,10 @@ export default function BasicTabs() {
 
 
     return (
-        <>
-
+        
+        <Box pt={1}>
             <div id="box1">
-                <center>
-
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider'  , backgroundColor:'white' , width:'1600px' ,paddingTop:'10px' ,paddingBottom:'10px',borderRadius:'30px 30px 0px 0px'}}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label="My Leave" {...a11yProps(0)} />
                             <Tab label="Team Leave" {...a11yProps(1)} />
@@ -592,13 +590,13 @@ export default function BasicTabs() {
                             <Tab label="Approve Leave" {...a11yProps(3)} />
                         </Tabs>
                     </Box>
-
+                <center>
                     <TabPanel value={value} index={0}>
                         {/* <pre>{JSON.stringify(formValues)}</pre> */}
                         <Box>
                             <Grid container>
                                 <Grid item xs={4.5}>
-                                    <Box pt={9}>
+                                    <Box pt={11.5}>
                                         <Calendar
                                             onChange={setCalendar}
                                             value={calendar}
@@ -610,7 +608,7 @@ export default function BasicTabs() {
                                         />
                                     </Box>
                                     <Box pt={4} sx={{width: '500px'}}>
-                                        <TableContainer component={Paper} sx={{borderRadius:'20px' ,width: '500px' }}>
+                                        <TableContainer component={Paper} sx={{borderRadius:'30px' ,width: '500px' }}>
                                             <Table sx={{ width: '500px' , maxHeight:'415px',height:'415px' }} aria-label="customized table">
                                                 <TableHead>
                                                     <TableRow>
@@ -982,6 +980,8 @@ export default function BasicTabs() {
 
                 </center>
             </div>
-        </>
+            
+            </Box>
+        
     );
 }
