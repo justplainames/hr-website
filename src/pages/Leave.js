@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -36,9 +36,8 @@ import axios from 'axios';
 import MomentUtils from '@date-io/moment';
 import moment from 'moment';
 import OutlinedInput from '@mui/material/OutlinedInput';
-
+import { FormatShapes } from '@mui/icons-material';
 //import TeamLeave from '../component/teamLeave/TeamLeave'
-
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
@@ -185,14 +184,16 @@ function getDifferenceInDays(dates) {
         .map(date => moment(date).format('MM/DD/YYYY'))
         .join(',')
       )
-      //return  parseDates(dates)
-    // const date1 = date.toString().split(',');
+    if (isNaN(((Math.abs(dates[1] -  dates[0]))/(1000 * 60 * 60 * 24))+1)) {
+        return "1"
+    }
+    else{
+        return(((Math.abs(dates[1] -  dates[0]))/(1000 * 60 * 60 * 24))+1) ;
+    }
+    //const days = 
     
-    const diffInMs = Math.abs(dates[1] -  dates[0]);
-    const ans = Math.round(diffInMs / (1000 * 60 * 60 * 24)+1);
-
-    return ans;
   }
+
 
 function getStartDate(dates) {
     const parseDates = dates => (
@@ -265,105 +266,210 @@ function a11yProps(index) {
     };
 }
 
+function split(value){
+  return value.toString().split(',')
+}
 
 export default function BasicTabs() {
     const [value, setValue] = React.useState(0);
-    const [leave, setLeave] = React.useState('');
-    const [day, setDay] = React.useState('');
-    const [startdatevalue, startdatesetValue] = React.useState(null);
-    const [enddatevalue, enddatesetValue] = React.useState(null);
-    const [dateRangevalue, setDateRange] = React.useState([null, null]);
-    const [rangevalue, setRange]= React.useState('');
-    const [recommendbyvalue, setRecommendby] = React.useState('');
-    const [approvebyvalue, setApproveby] = React.useState('');
+    // const [leave, setLeave] = React.useState('');
+    // const [day, setDay] = React.useState('');
+    // const [startdatevalue, startdatesetValue] = React.useState(null);
+    // const [enddatevalue, enddatesetValue] = React.useState(null);
+   
+    // const [rangevalue, setRange]= React.useState('');
+    // const [recommendbyvalue, setRecommendby] = React.useState('');
+    // const [approvebyvalue, setApproveby] = React.useState('');
     
-    const [ptdvalue, setPtd] = React.useState('');
-    const [ytdvalue, setYtd] = React.useState('');
-    const [remarksvalue, setRemarks] = React.useState('');
+    // const [ptdvalue, setPtd] = React.useState('');
+    // const [ytdvalue, setYtd] = React.useState('');
+    // const [remarksvalue, setRemarks] = React.useState('');
 
-    const [values, setValues] = React.useState({
+    // const initialValues={leavetype:'',
+    //   day:'',
+    //   // startdate:'',
+    //   // enddate:'',
+    //   daterange:[null, null],
+    //   noofdays:'',
+    //   recommendby:'',
+    //   approveby:'',
+    //   ptdvalue:'',
+    //   ytdvalue:'',
+    //   remarks:''};
+    // const [formValues, setFormValues] = React.useState(initialValues);
+    const [daterange, setDateRange] = React.useState([Date(), Date()]);
+    const [startdate, startdatesetValue] = React.useState( Date());
+    const [enddate, enddatesetValue] = React.useState(Date());
+    const [formErrors, setFormErrors] = React.useState({});
+    const [isSubmit, setIsSubmit] = React.useState(false);
+
+    const [formValues, setFormValues] = React.useState({
         leavetype:'',
-        day:{day},
-        // startdate:'',
-        // enddate:'',
-        daterange:{dateRangevalue},
-        recommendby:{recommendbyvalue},
-        approveby:{approvebyvalue},
-        remarks:{remarksvalue},
+        day:'',
+        // startdate: Date(),
+        // enddate: '',
+        //daterange:[null, null],
+        noofdays:'',
+        recommendby:'',
+        approveby:'',
+        ptdvalue:'',
+        ytdvalue:'',
+        remarks:'',
     });
+
+    const handleChanges = (e) => {
+      const {name,value} = e.target;
+      setFormValues({...formValues,[name]:value});
+    }
+
+  //   const handleChanges = (prop) => (event) => {
+  //     setFormValues({ ...formValues, [prop]: event.target.value });
+      
+  // };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      setFormErrors(validate(formValues));
+      setIsSubmit(true);
+      if (!(formValues.leavetype && formValues.day &&  formValues.approveby)) {
+          alert('Please input Empty fields')
+        }
+   
+      else{
+
+        axios.post('http://localhost:5000/apply',
+          {
+            "type":formValues.leavetype,
+            "from": getStartDate(daterange),
+            "to": getEndDate(daterange),
+            "days": getDifferenceInDays(daterange), //getDifferenceInDays(formValues.daterange),
+            "daytype": formValues.day,
+            "remarks": formValues.remarks
+          }).then(res => {
+                console.log(res)
+          })
+          .catch(error => {
+            console.error(error)
+          })
+
+        //if credentials wrong, prompt user for correct input
+      }
+    }
+
+    useEffect(() => {
+      console.log(formErrors);
+      if(Object.keys(formErrors).length === 0 && isSubmit){
+        console.log(formValues);
+      }
+    },[formErrors]);
+
+    const validate = (values) => {
+      const errors = {}
+      if(!values.leavetype){
+        errors.leavetype="Leave Type is required!";
+      }
+      if(!values.day){
+        errors.day="Day Type is required!";
+      }
+    //   if(!values.startdate){
+    //     errors.startdate="Start Date is required!";
+    //   }
+    //   if(!values.enddate){
+    //     errors.enddate="End Date is required!";
+    //   }
+      if(!values.approveby){
+        errors.approveby="Approved by Name is required!";
+      }
+
+      return errors;
+    };
     
 
-    
+
+
+
     //for tab
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    const handleChange1 = (prop) => (event) => {
-        setValues({ ...values, [prop]: event.target.value });
+//     const handleChange1 = (prop) => (event) => {
+//         setValues({ ...values, [prop]: event.target.value });
         
-    };
+//     };
 
-    //for leave
-    const handleChangeLeave = (event) => {
-        setLeave(event.target.value);
-    };
+//     //for leave
+//     const handleChangeLeave = (event) => {
+//         setLeave(event.target.value);
+//     };
     
-    //for day
-    const handleChangeDay = (event) => {
-    setDay(event.target.value);
-    }
+//     //for day
+//     const handleChangeDay = (event) => {
+//     setDay(event.target.value);
+//     }
 
-    //for date range
-    const handleRange = (event) => {
-        setRange(event.target.value);
-        }
+//     //for date range
+//     const handleRange = (event) => {
+//         setRange(event.target.value);
+//         }
 
-    //for recommendby
-    const handleChangeRecommend = (event) => {
-        setRecommendby(event.target.value);
-        }
-
-    
-        //for approveby
-    const handleChangeApprove = (event) => {
-        setApproveby(event.target.value);
-        }
-
-      //for approveby
-    const handleChangeRemark = (event) => {
-        setRemarks(event.target.value);
-    }
+//     //for recommendby
+//     const handleChangeRecommend = (event) => {
+//         setRecommendby(event.target.value);
+//         }
 
     
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        
-        if (leave && day && dateRangevalue && recommendbyvalue && approvebyvalue &&ptdvalue&&ytdvalue&&remarksvalue) {
-          console.log(leave, day, dateRangevalue, recommendbyvalue, approvebyvalue,ptdvalue,ytdvalue,remarksvalue)
-        }{
+//         //for approveby
+//     const handleChangeApprove = (event) => {
+//         setApproveby(event.target.value);
+//         }
 
-            axios.post('http://localhost:5000/apply',
-              {
-                "type":leave,
-                "from": getStartDate(dateRangevalue),
-                "to": getEndDate(dateRangevalue),
-                "days":  getDifferenceInDays(dateRangevalue),
-                "daytype": day,
-                "remarks": remarksvalue
-              }).then(res => {
-                    console.log(res)
-              })
-              .catch(error => {
-                console.error(error)
-              })
+//       //for approveby
+//     const handleChangeRemark = (event) => {
+//         setRemarks(event.target.value);
+//     }
+
+//     const validateee = () => {
+//       let temp={}
+//       temp.leave = leave?"":"This field is required"
+//       temp.remarksvalue = remarksvalue?"":"This field is required"
+//       setErrors({
+//         ...temp
+//       })
+//       return Object.values(temp).every(x => x =="")
+//   }
+
+    // const handleSubmittt = (e) => {
+    //     e.preventDefault()
+    //     if (validate())
+    //     window.alert('test...')
+    //     if (leave && day && dateRangevalue && recommendbyvalue && approvebyvalue &&ptdvalue&&ytdvalue&&remarksvalue) {
+    //       console.log(leave, day, dateRangevalue, recommendbyvalue, approvebyvalue,ptdvalue,ytdvalue,remarksvalue)
+    //     }{
+
+    //         axios.post('http://localhost:5000/apply',
+    //           {
+    //             "type":leave,
+    //             // "from": getStartDate(dateRangevalue),
+    //             // "to": getEndDate(dateRangevalue),
+    //             "from": startdate,
+    //             "to":enddate,
+    //             "days":  getDifferenceInDays(dateRangevalue),
+    //             "daytype": day,
+    //             "remarks": remarksvalue
+    //           }).then(res => {
+    //             localStorage.setItem("isAuthenticated", res._id)
+    //             window.location.pathname = "/";
+    //           })
+    //           .catch(error => {
+    //             console.error(error)
+    //           })
     
-            //if credentials wrong, prompt user for correct input
-          }
-      }
+    //         //if credentials wrong, prompt user for correct input
+    //       }
+    //   }
 
     
-
     
 
     return(
@@ -382,6 +488,7 @@ export default function BasicTabs() {
                 </Box>
                 
                 <TabPanel value={value} index={0}>
+                  {/* <pre>{JSON.stringify(formValues)}</pre> */}
                     <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                     <div id ="box2">
                         {/* <div style = {{display: ,justifyContent:'left',alignItems: 'left'}}>  
@@ -402,17 +509,18 @@ export default function BasicTabs() {
                                      
                                     <div>    
                                         <div style = {{display: 'flex',justifyContent:'left',alignItems: 'left'}}>  
-                                            <h3>Leave Type {leave} </h3>
+                                            <h3>Leave Type </h3>
                                         </div>
                                         <TextField
                                         required
                                         id="outlined-select-leavetype"
                                         select
                                         label="Select"
-                                        value={leave}
-                                        onChange={(e)=> setLeave(e.target.value)}
+                                        name="leavetype"
+                                        value={formValues.leavetype}
+                                        //onChange={(e)=> setLeave(e.target.value)}
                                         // value={values.leavetype}
-                                        // onChange={handleChange1('leavetype')}
+                                        onChange={handleChanges}
                                         >
                                         {leavetypes.map((option) => (
                                             <MenuItem key={option.value} value={option.value}>
@@ -422,21 +530,23 @@ export default function BasicTabs() {
                                         </TextField>
                                 
                                     </div>
-                                </Box>
+                                </Box> 
+                                <p style={{ color: "red" }}> {formErrors.leavetype}</p>
                             </div>   
+                           
 
 
                             <div id = "radio"> 
                                 <FormControl component="fieldset">
                                     {/* <FormLabel component="legend">Day</FormLabel> */}
                                     <div style = {{display: 'flex',justifyContent:'left',alignItems: 'left'}}>  
-                                        <h3>Day {day}</h3>
+                                        <h3>Day</h3>
                                     </div>
                                     <RadioGroup 
                                         row aria-label="Day" 
-                                        name="row-controlled-radio-buttons-group"
-                                        value= {day}
-                                        onChange={(e)=> setDay(e.target.value)}
+                                        name="day"
+                                        value= {formValues.day}
+                                        onChange={handleChanges}
                                         required>
                                         <FormControlLabel value="Full" control={<Radio />} label="Full" 
                                         sx={{
@@ -458,40 +568,12 @@ export default function BasicTabs() {
                                             }}/>
                                     </RadioGroup>
                                 </FormControl>
+                                <p style={{ color: "red" }} > {formErrors.day}</p>
                             </div>
+                            
 
 
-                            {/* <div id = "startdate">
-                                <div style = {{display: 'flex',justifyContent:'left',alignItems: 'left'}}>  
-                                            <h3>Start Date  </h3>
-                                        </div>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                        value={startdatevalue}
-                                        onChange={(newValue) => {
-                                        startdatesetValue(newValue);
-                                        }}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                    </LocalizationProvider>
-                            </div>
-
-                            <div id = "enddate">
-                                <div style = {{display: 'flex',justifyContent:'left',alignItems: 'left'}}>  
-                                            <h3>End Date </h3>
-                                        </div>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                        value={enddatevalue}
-                                        onChange={(newValue) => {
-                                        enddatesetValue(newValue);
-                                        }}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                    </LocalizationProvider>
-                            </div>
-
-                            <FormControl sx={{ m: 1, width: '100ch' }} variant="outlined">
+                            {/* <FormControl sx={{ m: 1, width: '100ch' }} variant="outlined">
                                             
                                 <OutlinedInput
                                     id="outlined-adornment-weight"
@@ -509,6 +591,7 @@ export default function BasicTabs() {
                                 />
                                 </FormControl> */}
 
+
                             
                             <div id = "daterange">
                                 <div style = {{display: 'flex',justifyContent:'left',alignItems: 'left'}}>  
@@ -520,10 +603,9 @@ export default function BasicTabs() {
                                             required
                                             startText="Start Date"
                                             endText="End Date"
-                                            value={dateRangevalue}
-                                            onChange={(e) => {
-                                                setDateRange(e);
-                                            }}
+                                            name="daterange"
+                                            value={daterange}
+                                            onChange={(e)=> setDateRange(e)}
                                             renderInput={(startProps, endProps) => (
                                                 <React.Fragment>
                                             
@@ -534,24 +616,46 @@ export default function BasicTabs() {
                                             )}
                                             />
                                 </LocalizationProvider>
-                                </div>
+                                {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                    <DatePicker
+                                    selected={formValues.startdate}
+                                    onChange={handleChanges}
+                                    selectsStart
+                                    startDate={formValues.startdate}
+                                    endDate={formValues.enddate}
+                                  />
+                                  <DatePicker
+                                    selected={formValues.enddate}
+                                    onChange={handleChanges}
+                                    selectsEnd
+                                    startDate={formValues.startdate}
+                                    endDate={formValues.enddate}
+                                    minDate={formValues.startdate}/>
+                                // {/* <p> {formErrors.daterange}</p> 
+                                </LocalizationProvider> */}
 
+                                </div> 
 
 
                                 <div id = "noofdays">
                                     <div style = {{display: 'flex',justifyContent:'left',alignItems: 'left'}}>  
                                                 <h3>No. of Days</h3>
                                         </div>
-                                    <FormControl sx={{ m: 1, width: '12ch' }} variant="outlined">
+                                    <FormControl sx={{ m: 1, width: '13ch' }} variant="outlined">
+
                                     <OutlinedInput
                                         id="outlined-adornment-weight"
-                                        value={getDifferenceInDays(dateRangevalue)}
+                                        
+                                        value={getDifferenceInDays(daterange)}
+                                        
+                                        // your code here.
+                                        
                                         //onChange={handleRange}
                                         // onChange={(newValue) => {
                                         //     setRange(newValue.getDays());
                                         // }}
                                         // onChange
-                                        onChange={(e)=> setRange(e.target.value)}
+                                        // onChange={handleChanges}
                                         endAdornment={<InputAdornment position="end">Days </InputAdornment>}
                                         aria-describedby="outlined-weight-helper-text"
                                                 inputProps={{
@@ -559,6 +663,7 @@ export default function BasicTabs() {
                                                 }}
                                             />
                                             </FormControl>
+                                            
                                 </div>
 
 
@@ -576,9 +681,9 @@ export default function BasicTabs() {
                                         >
                                         <TextField
                                             id="outlined-name"
-                                            
-                                            value={recommendbyvalue}
-                                            onChange={(e)=> setRecommendby(e.target.value)}
+                                            name="recommendby"
+                                            value={formValues.recommendby}
+                                            onChange={handleChanges}
                                         />
                                     </Box>
                                 </div>
@@ -599,10 +704,12 @@ export default function BasicTabs() {
                                         >
                                         <TextField
                                             id="outlined-name"
-                                            value={approvebyvalue}
-                                            onChange={(e)=> setApproveby(e.target.value)}
+                                            name="approveby"
+                                            value={formValues.approveby}
+                                            onChange={handleChanges}
                                         />
                                     </Box>
+                                    <p style={{ color: "red" }}> {formErrors.approveby}</p>
                                 </div>
 
                                 <div id = "ptdbalance">
@@ -619,8 +726,9 @@ export default function BasicTabs() {
                                         >
                                         <TextField
                                             id="outlined-name"
-                                            value={ptdvalue}
-                                            onChange={(e)=> setPtd(e.target.value)}
+                                            name="ptdvalue"
+                                            value={formValues.ptdvalue}
+                                            onChange={handleChanges}
                                         />
                                     </Box>
                                 </div>
@@ -639,8 +747,9 @@ export default function BasicTabs() {
                                         >
                                         <TextField
                                             id="outlined-name"
-                                            value={ytdvalue}
-                                            onChange={(e)=> setYtd(e.target.value)}
+                                            name="ytdvalue"
+                                            value={formValues.ytdvalue}
+                                            onChange={handleChanges}
                                         />
                                     </Box>
                                 </div>
@@ -656,8 +765,9 @@ export default function BasicTabs() {
                                         multiline
                                         rows={5}
                                         sx={{ m: 1, width: '70ch' }}
-                                        value = {remarksvalue}
-                                        onChange={(e)=> setRemarks(e.target.value)}
+                                        name="remarks"
+                                        value = {formValues.remarks}
+                                        onChange={handleChanges}
                                         />
                                 </div>
 
@@ -678,9 +788,8 @@ export default function BasicTabs() {
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
-                    
-                    
-                    {/* <TeamLeave /> */}
+                
+            
                 </TabPanel>
 
 
