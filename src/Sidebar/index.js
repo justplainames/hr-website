@@ -186,7 +186,7 @@ const TopBar = styled.div`
     display: inline-flex;
     background-color:#e5edf9;
     width:1920px;
-    height:90px;
+    height:115px;
 `;
 
 const isAuthenticated = localStorage.getItem("isAuthenticated");

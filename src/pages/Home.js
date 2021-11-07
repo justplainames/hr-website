@@ -117,7 +117,7 @@ const Home = () => {
     const [leaves, setleaves] = useState('');
     const [value, setValue] = useState(new Date());
     const [calenval, setcalenval] = useState([]);
-
+    const [secret, setsecret] = useState(true);
 
     const calendardetails = (data) => {
 
@@ -283,7 +283,9 @@ const Home = () => {
                                                 Payslip
                                             </Typography>
                                             <Box pl={2}>
-                                                <VisibilityOff sx={{ fontSize: 30 }}>
+                                                <VisibilityOff sx={{ fontSize: 30 }} onClick={() => {
+                                setsecret(prev => !prev)
+                            }}>
                                                 </VisibilityOff>
                                             </Box>
                                         </Box>
@@ -303,9 +305,20 @@ const Home = () => {
                                             </Typography>
                                         </Box>
                                         <Box pt={2} pb={5}>
+                                            <Box sx={{display:'flex'}}>
+                                                <Box>
                                             <Typography variant='h5'>
-                                                Upcoming :
+                                                Net Pay :
                                             </Typography>
+                                            </Box>
+                                            <Box pl={2}>
+                                            {secret === false ? <Typography variant="h5">
+                                                    $5,320
+                                                </Typography> :<Typography variant="h5">
+                                                    *****
+                                                </Typography>}
+                                            </Box>
+                                        </Box>
                                         </Box>
 
                                     </Grid>
@@ -321,21 +334,29 @@ const Home = () => {
                                             </Typography>
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1} pb={2} mr={5.5}>
-                                            <Typography variant="h4">
-                                                $6000
-                                            </Typography>
+                                            {secret === false ? <Typography variant="h4">
+                                                $6,000
+                                            </Typography> :<Typography variant="h4">
+                                                *****
+                                            </Typography>}
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1} pb={3} mr={5.5}>
-                                            <Typography variant="h4">
+                                        {secret === false ? <Typography variant="h4">
                                                 $680
-                                            </Typography>
+                                            </Typography> :<Typography variant="h4">
+                                                *****
+                                            </Typography>}
                                         </Box>
 
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }} pt={4} pb={5} mr={4}>
-                                            {/* BUTTON HERE */}
-                                            <Button href="/">
-                                                <DownloadForOfflineIcon sx={{ fontSize: 45, color: '#008BFF' }} onClick={onSubmitDownload} target="_blank" rel="noreferrer" ></DownloadForOfflineIcon>
-                                            </Button>
+                                        <Box sx={{ display: 'flex'}} ml={10}>
+                      
+
+                                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', }} pt={4} pb={5}>
+                                                {/* BUTTON HERE */}
+                                                <Button href="/">
+                                                    <DownloadForOfflineIcon sx={{ fontSize: 45, color: '#008BFF' }} onClick={onSubmitDownload} target="_blank" rel="noreferrer" ></DownloadForOfflineIcon>
+                                                </Button>
+                                            </Box>
                                         </Box>
 
                                     </Grid>
