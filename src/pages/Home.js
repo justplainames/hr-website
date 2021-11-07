@@ -120,12 +120,15 @@ const Home = () => {
     const [leaves, setleaves] = useState('');
     const [value, setValue] = useState(new Date());
     const [calenval, setcalenval] = useState([]);
-    const [secret, setsecret] = useState(true);
-    //payslip
+    //payslip    
     const [password, setPassword] = useState('');
     const [passworderror, setPasswordErr] = useState([]);
     const [openNov, setOpenNov] = useState(false);
     const [passwordShownNov, setPasswordShownNov] = useState(false);
+
+    const [secret, setsecret] = useState(true);
+    const [openPw, setOpenPw] = useState(false);
+    const [isValid, setIsValid] = useState(false);
 
     const calendardetails = (data) => {
 
@@ -231,6 +234,7 @@ const Home = () => {
     };
     const handleClose = () => {
         setOpenNov(false);
+        setOpenPw(false);
         setPasswordShownNov(false);
         resetInputField();
         resetError();
@@ -248,7 +252,7 @@ const Home = () => {
 
     const onSubmitNov = (e) => {
         e.preventDefault();
-        const isValid = formValidation();
+        const isValid = formValidation();       
         if (isValid) {
             window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905104061756502048/NOV.pdf';
             handleClose();
@@ -271,6 +275,21 @@ const Home = () => {
         }
         setPasswordErr(passworderror);
         return isValid;
+    };
+
+    //payslip secret
+    const handleClickOpenPw  = () => {
+        setOpenPw(true);
+    }; 
+
+    const onEnterPw = (e) => {
+        e.preventDefault(); 
+        setIsValid(formValidation());    
+        if (isValid) {
+            setsecret(false);  
+            handleClose();
+            resetInputField();
+        }
     };
 
 
@@ -349,11 +368,51 @@ const Home = () => {
                                             <Typography variant="h3" className={classes.bold_title}>
                                                 Payslip
                                             </Typography>
-                                            <Box pl={2}>
-                                                <VisibilityOff sx={{ fontSize: 30 }} onClick={() => {
-                                                    setsecret(prev => !prev)
-                                                }}>
-                                                </VisibilityOff>
+                                            <Box pl={2}> 
+                                                {console.log(isValid)}
+                                                {isValid ? <Visibility sx={{ fontSize: 30 }} onClick = {() => {setsecret(true); setIsValid(false)}} /> :
+                                                    <VisibilityOff sx={{ fontSize: 30 }} onClick={() => handleClickOpenPw()}/>                                                          
+                                                }
+                                                <Dialog open={openPw} onClose={handleClose}>
+                                                        <DialogTitle>View</DialogTitle>
+                                                        <DialogContent>
+                                                            <DialogContentText>
+                                                                To view the content of current payslip, please enter your password here.
+                                                            </DialogContentText>
+
+                                                            <TextField
+                                                                autoFocus
+                                                                margin="dense"
+                                                                id="password"
+                                                                name="password"
+                                                                label="Password:"
+
+                                                                fullWidth
+                                                                variant="standard"
+                                                                value={password}
+                                                                onChange={(e) => { setPassword(e.target.value) }}
+                                                                type={passwordShownNov ? "text" : "password"}
+                                                                InputProps={{
+                                                                    endAdornment:
+                                                                        <IconButton
+                                                                            aria-label='toggle password visibility'
+                                                                            onClick={togglePassword}
+                                                                        >
+                                                                            {passwordShownNov ? <VisibilityOff /> : <Visibility />}
+                                                                        </IconButton>,
+
+                                                                }}
+                                                            />
+                                                            {Object.keys(passworderror).map((key) => {
+                                                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
+                                                            })}
+                                                        </DialogContent>
+                                                        <DialogActions>
+                                                            <Button onClick={handleClose}>Cancel</Button>
+                                                            <Button type="submit" onClick={onEnterPw} target="_blank" rel="noreferrer" >Enter</Button>
+                                                        </DialogActions>
+                                                    </Dialog>
+
                                             </Box>
                                         </Box>
                                         <Box pt={7} pb={1}>
@@ -379,10 +438,10 @@ const Home = () => {
                                                     </Typography>
                                                 </Box>
                                                 <Box pl={2}>
-                                                    {secret === false ? <Typography variant="h5">
-                                                        $5,320
-                                                    </Typography> : <Typography variant="h5">
+                                                    {secret ? <Typography variant="h5">
                                                         *****
+                                                    </Typography> : <Typography variant="h5">
+                                                        $5,320
                                                     </Typography>}
                                                 </Box>
                                             </Box>
