@@ -497,7 +497,8 @@ export default function BasicTabs() {
                     "daytype": formValues.day,
                     "remarks": formValues.remarks === '' ? 'nil' : formValues.remarks,
                     "recomemdedby":formValues.recommendby,
-                    "approvedby":formValues.approveby
+                    "approvedby":formValues.approveby,
+                    "approved":false
                 }).then(res => {
                     if (isrecommended) {
                         axios.post('http://localhost:5000/acceptnoti', notificationprop).then(res => {

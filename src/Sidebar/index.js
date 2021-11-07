@@ -219,7 +219,7 @@ const Sidebar = () => {
         if (isAuthenticated) {
             fetchNoti()
         }
-    }, [notificationsitems]);
+    }, []);
 
     useEffect(()=>{
         if (showNoti) {
@@ -230,9 +230,10 @@ const Sidebar = () => {
 
             ).then(res=>{
                 setnotificationsitems([])
+                fetchNoti()
             })
         }
-    },[showNoti])
+    },[])
 
     const handleClick = () => setClick(!click);
     const classes = useStyles();

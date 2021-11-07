@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Leave from "./pages/Leave";
 import Payslip from "./pages/Payslip";
 import Login from './pages/Login'
+import Maintenance from './pages/Maintenance'
 import styled from "styled-components";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import ProtectedRoute from "./component/route/protectedroute";
@@ -30,6 +31,7 @@ function App() {
     <ProtectedRoute exact path='/' component={Home}/>
     <ProtectedRoute exact path='/payslip' component={Payslip}/>
     <ProtectedRoute exact path='/leave/' component={Leave}/>
+    <ProtectedRoute exact path='/maintenance/' component={Maintenance}/>
   </Switch>
    
     </>
