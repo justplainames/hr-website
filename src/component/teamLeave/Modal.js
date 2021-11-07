@@ -1,6 +1,6 @@
 import format from 'date-fns/format'
 import React from 'react'
-import "./Modal.css"
+//import "./Modal.css"
 
 function Modal({ closeModal, newData }) {
     console.log("test")

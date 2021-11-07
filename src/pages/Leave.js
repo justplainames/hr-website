@@ -70,7 +70,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:last-child td, &:last-child th': {
         border: 0,
     },
-    
+
 }));
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -85,8 +85,8 @@ const rows = [
     createData('Gingerbread', 356, 16.0, 49, 3.9),
     createData('Gingerbread', 356, 16.0, 49, 3.9),
     createData('Gingerbread', 356, 16.0, 49, 3.9),
-    
-    
+
+
 ];
 
 // leave types for my leave select leave type
@@ -243,6 +243,9 @@ function getDifferenceInDays(dates) {
 }
 
 
+const yourDate = new Date()
+const TodayDate = moment(yourDate, 'MM-DD-YYYY')
+
 function getStartDate(dates) {
     const parseDates = dates => (
         dates.toString()
@@ -370,8 +373,8 @@ export default function BasicTabs() {
     const [notificationprop, setNotificationProp] = useState();
     const [disablefromnoti, setDisableFromNoti] = useState(false);
     const [calendar, setCalendar] = useState(new Date());
+    const [isrecommended, setisrecommended] = useState(false);
 
- 
     useEffect(() => {
         const from = location.state
 
@@ -394,7 +397,7 @@ export default function BasicTabs() {
             setDisableFromNoti(true)
             const test = [new Date(from.from), new Date(from.to)]
             setDateRange(test)
-
+            setisrecommended(true)
             fixedformvalue.leavetype = stringconversionrevert(from.types)
 
             if (from.days > 0) {
@@ -437,16 +440,42 @@ export default function BasicTabs() {
                     "to": getEndDate(daterange),
                     "days": getDifferenceInDays(daterange), //getDifferenceInDays(formValues.daterange),
                     "daytype": formValues.day,
-                    "remarks": formValues.remarks
+                    "remarks": formValues.remarks === '' ? 'nil' : formValues.remarks,
+                    "recomemdedby":formValues.recommendby,
+                    "approvedby":formValues.approveby
                 }).then(res => {
-                    console.log(res)
-                    axios.post('http://localhost:5000/acceptnoti', notificationprop).then(res => {
-                        console.log("done with updatding leave recods , add applied leave to database and updated the notification")
-                        console.log("you may do a pop up notification here SUCH AS MUI BASIC ALERT")
-
-                        //then do a return to home page here
-                        window.location.pathname = '/'
-                    })
+                    if (isrecommended) {
+                        axios.post('http://localhost:5000/acceptnoti', notificationprop).then(res => {
+                            console.log("done with updatding leave recods , add applied leave to database and updated the notification")
+                            console.log("you may do a pop up notification here SUCH AS MUI BASIC ALERT")
+                            //then do a return to home page here
+                            window.location.pathname = '/'
+                        })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                    }
+                    else {
+                        axios.post('http://localhost:5000/createnoti', {
+                            "userId": id,
+                            "types": stringconversion(formValues.leavetype),
+                            "requester": { "id": "", "name": "" },
+                            "days": getDifferenceInDays(daterange),
+                            "from": getStartDate(daterange),
+                            "to": getEndDate(daterange),
+                            "daytype": formValues.day,
+                            "remarks": formValues.remarks === '' ? 'nil' : formValues.remarks,
+                            "requestedon": TodayDate,
+                            "recomemdedby":formValues.recommendby,
+                            "approvedby":formValues.approveby,
+                            "status": { "approved": false, "read": false, "accepted": "applied", "isrecommended": false }
+                        }).then(res => {
+                            console.log(res)
+                            window.location.pathname = '/'
+                        }).catch(error => {
+                            console.log(error)
+                        })
+                    }
                 })
                 .catch(error => {
                     console.error(error)
@@ -454,6 +483,7 @@ export default function BasicTabs() {
 
             //if credentials wrong, prompt user for correct input
         }
+
     }
 
     useEffect(() => {
@@ -579,17 +609,17 @@ export default function BasicTabs() {
 
 
     return (
-        
+
         <Box pt={1}>
             <div id="box1">
-            <Box sx={{ borderBottom: 1, borderColor: 'divider'  , backgroundColor:'white' , width:'1600px' ,paddingTop:'10px' ,paddingBottom:'10px',borderRadius:'30px 30px 0px 0px'}}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="My Leave" {...a11yProps(0)} />
-                            <Tab label="Team Leave" {...a11yProps(1)} />
-                            <Tab label="Leave Records" {...a11yProps(2)} />
-                            <Tab label="Approve Leave" {...a11yProps(3)} />
-                        </Tabs>
-                    </Box>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'white', width: '1600px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30px 30px 0px 0px' }}>
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <Tab label="My Leave" {...a11yProps(0)} />
+                        <Tab label="Team Leave" {...a11yProps(1)} />
+                        <Tab label="Leave Records" {...a11yProps(2)} />
+                        <Tab label="Approve Leave" {...a11yProps(3)} />
+                    </Tabs>
+                </Box>
                 <center>
                     <TabPanel value={value} index={0}>
                         {/* <pre>{JSON.stringify(formValues)}</pre> */}
@@ -601,34 +631,34 @@ export default function BasicTabs() {
                                             onChange={setCalendar}
                                             value={calendar}
                                             tileClassName={({ date, view }) => {
-                                                if(mark.find(x=>x===moment(date).format("MM-DD-YYYY"))){
-                                                 return 'highlight'
+                                                if (mark.find(x => x === moment(date).format("MM-DD-YYYY"))) {
+                                                    return 'highlight'
                                                 }
-                                              }}
+                                            }}
                                         />
                                     </Box>
-                                    <Box pt={4} sx={{width: '500px'}}>
-                                        <TableContainer component={Paper} sx={{borderRadius:'30px' ,width: '500px' }}>
-                                            <Table sx={{ width: '500px' , maxHeight:'415px',height:'415px' }} aria-label="customized table">
+                                    <Box pt={4} sx={{ width: '500px' }}>
+                                        <TableContainer component={Paper} sx={{ borderRadius: '30px', width: '500px' }}>
+                                            <Table sx={{ width: '500px', maxHeight: '415px', height: '415px' }} aria-label="customized table">
                                                 <TableHead>
                                                     <TableRow>
-                                                        <StyledTableCell sx ={{width:'160px'}}>Type</StyledTableCell>
-                                                        <StyledTableCell  align="right">Left</StyledTableCell>
+                                                        <StyledTableCell sx={{ width: '160px' }}>Type</StyledTableCell>
+                                                        <StyledTableCell align="right">Left</StyledTableCell>
                                                         <StyledTableCell align="right">Entitlement</StyledTableCell>
                                                         <StyledTableCell align="right">CarryForward</StyledTableCell>
-                                            
+
                                                     </TableRow>
                                                 </TableHead>
-                                                <TableBody sx={{height:'360px', position:'absolute', overflowY:'scroll' , borderRadius:'0px 0px 20px 20px', width: '500px' }}>
+                                                <TableBody sx={{ height: '360px', position: 'absolute', overflowY: 'scroll', borderRadius: '0px 0px 20px 20px', width: '500px' }}>
                                                     {rows.map((row) => (
                                                         <StyledTableRow key={row.name}>
-                                                            <StyledTableCell sx ={{width:'160px'}} component="th" scope="row">
+                                                            <StyledTableCell sx={{ width: '160px' }} component="th" scope="row">
                                                                 {row.name}
                                                             </StyledTableCell>
-                                                            <StyledTableCell sx ={{paddingLeft:'30px'}} align="right">{row.calories}</StyledTableCell>
-                                                            <StyledTableCell sx ={{paddingLeft:'60px'}} align="right">{row.fat}</StyledTableCell>
-                                                            <StyledTableCell sx ={{paddingLeft:'110px', paddingRight:'48px'}} align="right">{row.carbs}</StyledTableCell>
-                                                      
+                                                            <StyledTableCell sx={{ paddingLeft: '30px' }} align="right">{row.calories}</StyledTableCell>
+                                                            <StyledTableCell sx={{ paddingLeft: '60px' }} align="right">{row.fat}</StyledTableCell>
+                                                            <StyledTableCell sx={{ paddingLeft: '110px', paddingRight: '48px' }} align="right">{row.carbs}</StyledTableCell>
+
                                                         </StyledTableRow>
                                                     ))}
                                                 </TableBody>
@@ -979,8 +1009,8 @@ export default function BasicTabs() {
 
                 </center>
             </div>
-            
-            </Box>
-        
+
+        </Box>
+
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import logo from "../assets/logo.svg";
 import Home from "../assets/home-solid.svg";
@@ -204,21 +204,35 @@ const Sidebar = () => {
         const isAuthenticated = localStorage.getItem("isAuthenticated");
         await axios.get('http://localhost:5000/notifications', {
             params: {
-              id: isAuthenticated
+                id: isAuthenticated
             }
-          })
+        })
             .then(res => {
                 setnotificationsitems(res.data.notifications);
+                
             })
     }
 
     console.log(notificationsitems)
 
-    useEffect(() => {
-        if(isAuthenticated){
-        fetchNoti()
+    useEffect(() => {   
+        if (isAuthenticated) {
+            fetchNoti()
         }
-    }, []);
+    }, [notificationsitems]);
+
+    useEffect(()=>{
+        if (showNoti) {
+            axios.post('http://localhost:5000/updatenoti', {
+
+                "id": isAuthenticated
+            }
+
+            ).then(res=>{
+                setnotificationsitems([])
+            })
+        }
+    },[showNoti])
 
     const handleClick = () => setClick(!click);
     const classes = useStyles();
@@ -255,6 +269,7 @@ const Sidebar = () => {
                         <IconButton onClick={() => {
                             setShowProfile(prev => !prev)
                             setshowNoti(false)
+
                         }}>
                             <Box>
                                 <PermIdentityIcon sx={{ fontSize: 40 }} />
@@ -320,7 +335,7 @@ const Sidebar = () => {
                                                     <SettingsIcon color="action"></SettingsIcon>
                                                     <Box pl={2.5}>
                                                         <Typography >
-                                                        <Link href="/" underline="none" color="black">
+                                                            <Link href="/" underline="none" color="black">
                                                                 {'Setting'}
                                                             </Link>
                                                         </Typography>
@@ -331,11 +346,11 @@ const Sidebar = () => {
                                                     <LogoutIcon color="action"> </LogoutIcon>
                                                     <Box pl={2}>
                                                         <Typography >
-                                                        <Link onClick ={()=>{
-                                                                    localStorage.clear()
-                                                                    window.location.pathname = "/auth";
-                                                            
-                                                        }} underline="none" color="black">
+                                                            <Link onClick={() => {
+                                                                localStorage.clear()
+                                                                window.location.pathname = "/auth";
+
+                                                            }} underline="none" color="black">
                                                                 {'Log out'}
                                                             </Link>
                                                         </Typography>
@@ -366,7 +381,7 @@ const Sidebar = () => {
                         <Text clicked={click}>Leave</Text>
                     </Item>
                     <Item onClick={() => setClick(false)} activeClassName="active" to="/payslip">
-                        <img src={Payslip} alt="Payslip" style={{width: 35, height: 35}}/>
+                        <img src={Payslip} alt="Payslip" style={{ width: 35, height: 35 }} />
                         <Text clicked={click}>Payslip</Text>
                     </Item>
                 </SlickBar>
