@@ -668,7 +668,8 @@ export default function BasicTabs() {
         responsive: "scrollMaxHeight",
         selectableRows: "none",
         download: false,
-        print: false
+        print: false,
+        fixedHeader:false,
     };
 
     const onRowClick = (rowData, rowState) => {
@@ -688,6 +689,7 @@ export default function BasicTabs() {
         //selectableRows: "none",
         download: false,
         print: false,
+        fixedHeader:false,
     //     rowsSelected: selectedRows,
     //     onRowSelectionChange: (rowsSelectedData, allRows, rowsSelected) => {
     //     setSelectedRows(rowsSelected);
@@ -1102,6 +1104,8 @@ export default function BasicTabs() {
 
 
                     <TabPanel value={value} index={2}>
+                        <div style={{display:'table',tableLayout:'fixed',width:'90%'}}>
+                            <br />
                         <ThemeProvider theme={theme}>
                             <MUIDataTable
                                 title={"Leave Records"}
@@ -1110,11 +1114,13 @@ export default function BasicTabs() {
                                 options={optionsLeaveRecord}
                             />
                         </ThemeProvider>
+                        </div>
 
                     </TabPanel>
 
                     <TabPanel value={value} index={3}>
-                        
+                         <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
+                            <br />
                         <ThemeProvider theme={theme}>
                             {/* <div> 
                                 <Stack direction="row" spacing={5}>
@@ -1129,6 +1135,7 @@ export default function BasicTabs() {
                                 options={optionsApproveLeave}
                             />
                         </ThemeProvider>
+                        </div>
 
                     </TabPanel>
 
