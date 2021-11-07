@@ -48,6 +48,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TeamLeave from '../component/teamLeave/TeamLeave'
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
+
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
@@ -126,7 +133,7 @@ const leavetypes = [
 ];
 
 //columns for leave records
-const columns = [
+const columnsforRecord = [
     {
         name: "Date of Application",
         options: {
@@ -178,6 +185,77 @@ const columns = [
     },
 ];
 
+//columns for leave records
+const columnsforApprove = [
+    {
+        name: "Name of Applicant",
+        options: {
+            filter: true,
+        }
+    },
+    {
+        name: "Date of Application",
+        options: {
+            filter: true,
+        }
+    },
+    {
+        label: "Type",
+        name: "Title",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Start Date",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "End Date",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Days Applied",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Recommender",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Approver",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Status",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Approve",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Reject",
+        options: {
+            filter: true
+        }
+    },
+];
+
 const data = [
     ["20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"],
     ["20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending"],
@@ -197,31 +275,8 @@ const dataLeaveRecord = [
     ["31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Approved"],
 ];
 
-const dataApproveLeave = [
-    ["20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"],
-    ["20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending"],
-    ["31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Pending"],
-];
 
 
-const optionsLeaveRecord = {
-    filter: true,
-    filterType: "multiselect",
-    responsive: "scrollMaxHeight",
-    selectableRows: "none",
-    download: false,
-    print: false
-};
-
-
-const optionsApproveLeave = {
-    filter: true,
-    filterType: "multiselect",
-    responsive: "scrollMaxHeight",
-    //selectableRows: "none",
-    download: false,
-    print: false
-};
 
 
 function getDifferenceInDays(dates) {
@@ -605,8 +660,75 @@ export default function BasicTabs() {
     //       }
     //   }
 
+    
+    const optionsLeaveRecord = {
+        filter: true,
+        filterType: "multiselect",
+        responsive: "scrollMaxHeight",
+        selectableRows: "none",
+        download: false,
+        print: false
+    };
+
+    const onRowClick = (rowData, rowState) => {
+        console.log(rowData, rowState);
+     };
+
+    const handleRowClick = (rowData, rowMeta) => {
+        console.log(rowData, rowMeta);
+     };
+
+    const [selectedRows, setSelectedRows] = useState([]);
+    
+    const optionsApproveLeave = {
+        filter: true,
+        filterType: "checkbox",
+        responsive: "scrollMaxHeight",
+        //selectableRows: "none",
+        download: false,
+        print: false,
+    //     rowsSelected: selectedRows,
+    //     onRowSelectionChange: (rowsSelectedData, allRows, rowsSelected) => {
+    //     setSelectedRows(rowsSelected);
+    // },
+        customToolbar: () => (
+            <customToolbar
+            selectedRows={selectedRows}
+            onRowsDelete={() => {
+                //deleteSelected();
+                setSelectedRows([]);
+            } }
+            />
+        ),
+     };
+        
+        // onRowSelected: handleRowClick,
+        // onRowsDelete: (rowData, rowState) => {
+        //     handleDeleteCat(rowData, rowState);
+        //     },
+    //     onRowsDelete: (rowsDeleted, dataRows) => {
+    //         const idsToDelete = dataRows.map(d => data[d.dataIndex].id); // array of all ids to to be deleted
+    //         http.delete(idsToDelete, res).then(window.alert('Deleted!'));//onRowsDelete:(e)=>{console.log(e.data)},
+    // }
 
 
+    const handleDelete = () => {
+        this.props.onRowsDelete();
+      };
+    
+      
+    const dataApproveLeave = [
+        ["Mary Tan","20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending",
+            <Button variant="contained" color="success" size="large" onClick={handleDelete} >Approve</Button>,
+            <Button variant="contained" color="error" size="large" >Reject</Button>
+            ],
+        ["Ben Ong","20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending",
+        <Button variant="contained" color="success" size="large">Approve</Button>,
+        <Button variant="contained" color="error" size="large">Reject</Button>],
+        ["Mary Tan","31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Pending",
+        <Button variant="contained" color="success" size="large">Approve</Button>,
+        <Button variant="contained" color="error" size="large">Reject</Button>],
+    ];
 
     return (
 
@@ -711,7 +833,7 @@ export default function BasicTabs() {
 
                                                         </div>
                                                     </Box>
-                                                    <p style={{ color: "red" }}> {formErrors.leavetype}</p>
+                                                    <div> <p style={{ color: "red" }}> {formErrors.leavetype}</p> </div>
                                                 </div>
 
 
@@ -748,7 +870,7 @@ export default function BasicTabs() {
                                                                 }} />
                                                         </RadioGroup>
                                                     </FormControl>
-                                                    <p style={{ color: "red" }} > {formErrors.day}</p>
+                                                    <div> <p style={{ color: "red" }} > {formErrors.day}</p> </div>
                                                 </div>
 
 
@@ -892,7 +1014,7 @@ export default function BasicTabs() {
                                                             onChange={handleChanges}
                                                         />
                                                     </Box>
-                                                    <p style={{ color: "red" }}> {formErrors.approveby}</p>
+                                                    <div> <p style={{ color: "red" }}> {formErrors.approveby}</p> </div>
                                                 </div>
 
                                                 <div id="ptdbalance">
@@ -983,7 +1105,7 @@ export default function BasicTabs() {
                             <MUIDataTable
                                 title={"Leave Records"}
                                 data={dataLeaveRecord}
-                                columns={columns}
+                                columns={columnsforRecord}
                                 options={optionsLeaveRecord}
                             />
                         </ThemeProvider>
@@ -991,16 +1113,18 @@ export default function BasicTabs() {
                     </TabPanel>
 
                     <TabPanel value={value} index={3}>
-                        <Stack direction="row" spacing={5}>
+                        
+                        <ThemeProvider theme={theme}>
+                            {/* <div> 
+                                <Stack direction="row" spacing={5}>
                             <Button variant="contained" color="success" size="large">Approve</Button>
                             <Button variant="contained" color="error" size="large">Decline</Button>
-                        </Stack>
-                        <ThemeProvider theme={theme}>
+                                </Stack> </div> */}
                             <MUIDataTable
                                 title={""}
 
                                 data={dataApproveLeave}
-                                columns={columns}
+                                columns={columnsforApprove}
                                 options={optionsApproveLeave}
                             />
                         </ThemeProvider>
