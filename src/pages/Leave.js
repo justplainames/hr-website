@@ -944,8 +944,7 @@ export default function BasicTabs() {
                     </TabPanel>
 
                     <TabPanel value={value} index={1}>
-
-
+                        <TeamLeave />
                     </TabPanel>
 
 
