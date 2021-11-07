@@ -47,7 +47,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-//import TeamLeave from '../component/teamLeave/TeamLeave'
+import TeamLeave from '../component/teamLeave/TeamLeave'
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
