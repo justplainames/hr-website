@@ -12,14 +12,22 @@ import 'react-clock/dist/Clock.css';
 import Clock from 'react-clock';
 import AppliedList from '../component/applied/appliedList';
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
-import { VisibilityOff } from '@mui/icons-material'
+import { VisibilityOff, Visibility } from '@mui/icons-material'
 
+import { IconButton } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import DownloadIcon from '@mui/icons-material/Download';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 //...
 
 import { cssname } from '../utils/cssname';
 const useStyles = makeStyles(theme => ({
     card: {
-       
+
         borderRadius: '30px',
         width: "1600px"
     },
@@ -74,11 +82,6 @@ const useStyles = makeStyles(theme => ({
     }
 
 }))
-//payslip download pdf
-const onSubmitDownload = (e) => {
-    e.preventDefault();
-    window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905104061756502048/NOV.pdf';
-};
 
 
 const d = new Date();
@@ -118,6 +121,11 @@ const Home = () => {
     const [value, setValue] = useState(new Date());
     const [calenval, setcalenval] = useState([]);
     const [secret, setsecret] = useState(true);
+    //payslip
+    const [password, setPassword] = useState('');
+    const [passworderror, setPasswordErr] = useState([]);
+    const [openNov, setOpenNov] = useState(false);
+    const [passwordShownNov, setPasswordShownNov] = useState(false);
 
     const calendardetails = (data) => {
 
@@ -163,11 +171,11 @@ const Home = () => {
     }
 
     const fetchapplied = async (id) => {
-        await axios.get('http://localhost:5000/applied',{
+        await axios.get('http://localhost:5000/applied', {
             params: {
-              id: id
+                id: id
             }
-          })
+        })
             .then(res => {
                 console.log(res.data)
                 setapplied(res.data.applies);
@@ -176,11 +184,11 @@ const Home = () => {
     }
 
     const fetchleaves = async (id) => {
-        await axios.get('http://localhost:5000/leaves',{
+        await axios.get('http://localhost:5000/leaves', {
             params: {
-              id: id
+                id: id
             }
-          })
+        })
             .then(res => {
                 console.log(res.data)
                 setleaves(res.data);
@@ -206,6 +214,60 @@ const Home = () => {
             clearInterval(interval);
         }
     }, []);
+    //payslip download pdf
+
+    const handleClickOpenNov = () => {
+        setOpenNov(true);
+    };
+    const togglePassword = () => {
+        // When the handler is invoked
+        // inverse the boolean state of passwordShown
+        setPasswordShownNov(!passwordShownNov);
+    };
+    const handleClose = () => {
+        setOpenNov(false);
+        setPasswordShownNov(false);
+        resetInputField();
+        resetError();
+
+    };
+
+    const resetInputField = () => {
+        setPassword("");
+
+    };
+    const resetError = () => {
+        setPasswordErr("");
+
+    };
+
+    const onSubmitNov = (e) => {
+        e.preventDefault();
+        const isValid = formValidation();
+        if (isValid) {
+            window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905104061756502048/NOV.pdf';
+            handleClose();
+            resetInputField();
+        }
+    };
+
+
+    const formValidation = () => {
+        const passworderror = {};
+        let isValid = true;
+        if (password.trim().length == 0) {
+            passworderror.passwordlength = "Password need to be filled up before submitting"
+            isValid = false
+        }
+        else if (password != "hcipassword123") {
+            passworderror.passwordlength = "Incorrect Password! Please try again"
+            isValid = false
+
+        }
+        setPasswordErr(passworderror);
+        return isValid;
+    };
+
 
     return (
         <Box mt={4}>
@@ -284,8 +346,8 @@ const Home = () => {
                                             </Typography>
                                             <Box pl={2}>
                                                 <VisibilityOff sx={{ fontSize: 30 }} onClick={() => {
-                                setsecret(prev => !prev)
-                            }}>
+                                                    setsecret(prev => !prev)
+                                                }}>
                                                 </VisibilityOff>
                                             </Box>
                                         </Box>
@@ -305,20 +367,20 @@ const Home = () => {
                                             </Typography>
                                         </Box>
                                         <Box pt={2} pb={5}>
-                                            <Box sx={{display:'flex'}}>
+                                            <Box sx={{ display: 'flex' }}>
                                                 <Box>
-                                            <Typography variant='h5'>
-                                                Net Pay :
-                                            </Typography>
+                                                    <Typography variant='h5'>
+                                                        Net Pay :
+                                                    </Typography>
+                                                </Box>
+                                                <Box pl={2}>
+                                                    {secret === false ? <Typography variant="h5">
+                                                        $5,320
+                                                    </Typography> : <Typography variant="h5">
+                                                        *****
+                                                    </Typography>}
+                                                </Box>
                                             </Box>
-                                            <Box pl={2}>
-                                            {secret === false ? <Typography variant="h5">
-                                                    $5,320
-                                                </Typography> :<Typography variant="h5">
-                                                    *****
-                                                </Typography>}
-                                            </Box>
-                                        </Box>
                                         </Box>
 
                                     </Grid>
@@ -336,26 +398,67 @@ const Home = () => {
                                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1} pb={2} mr={5.5}>
                                             {secret === false ? <Typography variant="h4">
                                                 $6,000
-                                            </Typography> :<Typography variant="h4">
+                                            </Typography> : <Typography variant="h4">
                                                 *****
                                             </Typography>}
                                         </Box>
                                         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1} pb={3} mr={5.5}>
-                                        {secret === false ? <Typography variant="h4">
+                                            {secret === false ? <Typography variant="h4">
                                                 $680
-                                            </Typography> :<Typography variant="h4">
+                                            </Typography> : <Typography variant="h4">
                                                 *****
                                             </Typography>}
                                         </Box>
 
-                                        <Box sx={{ display: 'flex'}} ml={10}>
-                      
+                                        <Box sx={{ display: 'flex' }} ml={10}>
+
 
                                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', }} pt={4} pb={5}>
                                                 {/* BUTTON HERE */}
-                                                <Button href="/">
-                                                    <DownloadForOfflineIcon sx={{ fontSize: 45, color: '#008BFF' }} onClick={onSubmitDownload} target="_blank" rel="noreferrer" ></DownloadForOfflineIcon>
-                                                </Button>
+                                                <div>
+                                                    <Button>
+                                                        <DownloadForOfflineIcon sx={{ fontSize: 45, color: '#008BFF' }} onClick={handleClickOpenNov} ></DownloadForOfflineIcon>
+                                                    </Button>
+                                                    <Dialog open={openNov} onClose={handleClose}>
+                                                        <DialogTitle>Download</DialogTitle>
+                                                        <DialogContent>
+                                                            <DialogContentText>
+                                                                To download the November 2021 payslip, please enter your password here.
+                                                            </DialogContentText>
+
+                                                            <TextField
+                                                                autoFocus
+                                                                margin="dense"
+                                                                id="password"
+                                                                name="password"
+                                                                label="Password:"
+
+                                                                fullWidth
+                                                                variant="standard"
+                                                                value={password}
+                                                                onChange={(e) => { setPassword(e.target.value) }}
+                                                                type={passwordShownNov ? "text" : "password"}
+                                                                InputProps={{
+                                                                    endAdornment:
+                                                                        <IconButton
+                                                                            aria-label='toggle password visibility'
+                                                                            onClick={togglePassword}
+                                                                        >
+                                                                            {passwordShownNov ? <VisibilityOff /> : <Visibility />}
+                                                                        </IconButton>,
+
+                                                                }}
+                                                            />
+                                                            {Object.keys(passworderror).map((key) => {
+                                                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
+                                                            })}
+                                                        </DialogContent>
+                                                        <DialogActions>
+                                                            <Button onClick={handleClose}>Cancel</Button>
+                                                            <Button type="submit" onClick={onSubmitNov} target="_blank" rel="noreferrer" endIcon={<DownloadIcon />}>Download</Button>
+                                                        </DialogActions>
+                                                    </Dialog>
+                                                </div>
                                             </Box>
                                         </Box>
 
