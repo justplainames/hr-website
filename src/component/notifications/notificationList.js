@@ -55,10 +55,9 @@ export default function NotificationList({ id, details, ...others }) {
                    </Box>
                     :
                     details.status.accepted === "applied" ?
-                    <Typography>{details.days} Days</Typography>
-                    :
-                  
-                        <Typography>{details.status.accepted}</Typography>
+                    <Typography>{details.days===1 ? details.days + ' Day': details.days + ' Days'}</Typography>
+                    :                 
+                    <Typography>{details.status.accepted}</Typography>
               
                     
             }

@@ -324,7 +324,7 @@ const Sidebar = () => {
                                                             </Box>
                                                         </Box>
                                                         <Box ml={1} >
-                                                            <Link href="/" underline="hover">
+                                                            <Link href="/Maintenance" underline="hover">
                                                                 {'Manage'}
                                                             </Link>
                                                             {/* <Button className={classes.manageColor} onClick href="/">Manage</Button> */}
@@ -336,7 +336,7 @@ const Sidebar = () => {
                                                     <SettingsIcon color="action"></SettingsIcon>
                                                     <Box pl={2.5}>
                                                         <Typography >
-                                                            <Link href="/" underline="none" color="black">
+                                                            <Link href="/Maintenance" underline="none" color="black">
                                                                 {'Setting'}
                                                             </Link>
                                                         </Typography>

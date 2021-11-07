@@ -85,7 +85,7 @@ export default function Applied({ details, ...others }) {
                                 <Box pt={2}>
                                     <Typography>         
                                         {details.types==='meeting' ? 'Time: 9am - 10am' : ''}                                                                 
-                                        {details.types==='meeting' ? '' : details.days===1 ? details.days + ' day' : details.days + ' days'} 
+                                        {details.types==='meeting' ? '' : details.days===1 ? details.days + ' day' + ' (' + details.daytype + ')' : details.days + ' days' + ' (' + details.daytype + ')'} 
                                     </Typography>
                                 </Box>
 

@@ -201,7 +201,6 @@ const Home = () => {
     useEffect(() => {
         const id = localStorage.getItem("isAuthenticated");
         fetchapplied(id)
-        console.log("asdasdasd")
     }, []);
 
 
