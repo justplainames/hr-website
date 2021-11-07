@@ -159,7 +159,7 @@ const Home = () => {
                 template.year = yearr
                 template.month = monthh + 1
                 template.day = dayy
-                template.className = cssname(data[i].types)
+                template.className = cssname(data[i].types)[0]
                 setcalenval(oldArray => [...oldArray, template]);
                 if (z !== 0 && z == data[i].days - 1) {
                     break;
@@ -177,7 +177,7 @@ const Home = () => {
             }
         })
             .then(res => {
-                console.log(res.data)
+               // console.log(res.data)
                 setapplied(res.data.applies);
                 calendardetails(res.data.applies)
             })
@@ -190,17 +190,22 @@ const Home = () => {
             }
         })
             .then(res => {
-                console.log(res.data)
+                //console.log(res.data)
                 setleaves(res.data);
             })
     }
 
     useEffect(() => {
         const id = localStorage.getItem("isAuthenticated");
-        fetchleaves(id)
         fetchapplied(id)
+        console.log("asdasdasd")
     }, []);
 
+
+    useEffect(() => {
+        const id = localStorage.getItem("isAuthenticated");
+        fetchleaves(id)
+    }, []);
 
 
 
@@ -501,7 +506,7 @@ const Home = () => {
                                     </Box>
                                 </Box>
                             </Box>
-                            <Box sx={{ overflow: 'auto', maxHeight: '1000px' }}>
+                            <Box sx={{ overflow: 'auto', height: '840px' }}>
                                 <AppliedList items={applied} />
                             </Box>
                         </Card>
