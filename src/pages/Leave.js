@@ -683,13 +683,12 @@ export default function BasicTabs() {
             >
 
                 <DialogTitle id="alert-dialog-title">
-                    {"Use Google's location service?"}
+                    {"Confirm"}
                 </DialogTitle>
                 <DialogContent>
 
                     <DialogContentText id="alert-dialog-description">
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
+                        Are you sure you want to submit?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

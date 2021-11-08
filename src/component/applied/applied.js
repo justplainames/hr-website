@@ -59,6 +59,13 @@ export default function Applied({ details, ...others }) {
        seteditdateto(splitDateTo)
     }, []);
 
+    const startMonth = month[editdate[0]-1]
+    const startDay = editdate[1]
+    const startYear = editdate[2]
+    const endMonth = month[editdateto[0]-1]
+    const endDay = editdateto[1]
+    const endYear = editdateto[2]
+
     return (
         <Box pl={2.5} pt={3}>
             <Card className={classes.cardinfo}>
@@ -78,8 +85,8 @@ export default function Applied({ details, ...others }) {
                             </Box>
 
                             <Box pl={2} >
-                                <Box pt={2.5}>
-                                    <Typography>{month[editdate[0]-1]} {editdate[1]}, {editdate[2]} - {month[editdateto[0]-1]} {editdateto[1]}, {editdateto[2]}</Typography>
+                                <Box pt={2.5}>                     
+                                    {details.from === details.to ? <Typography>{startMonth} {startDay}, {startYear} </Typography> : <Typography> {startMonth} {startDay}, {startYear} - {endMonth} {endDay}, {endYear} </Typography>}                                           
                                 </Box>
 
                                 <Box pt={2}>
