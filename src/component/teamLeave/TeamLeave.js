@@ -4,10 +4,11 @@ import format from 'date-fns/format';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import getDay from "date-fns/getDay"
-import "react-big-calendar/lib/css/react-big-calendar.css"
+import "./react-big-calendar.css"
 import TeamLeaveData from './TeamLeaveData'
 import Modal from './Modal'
-
+import { Card, Typography, Box, Button } from '@material-ui/core'
+import Recommendation from './Recommendation'
 
 
 const locales = {
@@ -23,16 +24,19 @@ const localizer = dateFnsLocalizer({
 })
 
 const calendarStyle = ({id}) => {
-  const color = ['#264653', '#2a9d8f', '#e9c46a', '#f4a261','#e76f51' ]
+  const color = ['#f5bfd2', '#a1cdce', '#e5db9c', '#beb4c5','#e6a57e' ]
 	return {
 	  style: {
 		backgroundColor: color[id%5],
-		color: 'black' 
+		color: 'black',
+    border: "black 1px solid ",
+    borderRadius: "5px",
+
 	  }
 	}
 }
 
-function TeamLeave( {test}) {
+function TeamLeave( ) {
   var updated = []
   TeamLeaveData.map((person) => {
     const [sday,smonth,syear] = person.start.split("/")
@@ -41,9 +45,6 @@ function TeamLeave( {test}) {
     const end = `${emonth}/${eday}/${eyear}`
     updated.push({...person, start:new Date(start), end:new Date(end)})
   });
-
-
-
 
 
 // Customize toolbar
@@ -77,9 +78,11 @@ function TeamLeave( {test}) {
   }
 
 
-
   const [selectedEvent, setSelectedEvent] = useState(false)
   const [data, setData] = useState({})
+
+  const [selectedSlots, setSelectedSlots] = useState(false)
+  const [slots, setSlots] = useState([])
 
 
   const handleSelectedEvent = (event) => {
@@ -87,40 +90,38 @@ function TeamLeave( {test}) {
         setSelectedEvent(!selectedEvent)
   }
 
-  // const Modal = () => {
-  //   console.log("test")
-  //       return (
-  //           <div className="popup">
-  //             <div className='popup-inner'>
-  //               <button className="close-btn">close</button>
-  //             </div>
-              
-  //           </div>
-  //       )
-  //   }
-
-
+  const handleSelectSlot = (event) => {
+      setSlots(event.slots)
+      setSelectedSlots(!selectedEvent)
+      console.log(slots)
+  }
 
 
   return (
     <>
     {selectedEvent && <Modal closeModal={setSelectedEvent} newData={data}/>}
+    {selectedSlots && <Recommendation closeModal={setSelectedSlots} newSlots={slots}/>}
     <div className="app">
-    {/* {selectedEvent && <Modal />} */}
-     <h1>Team Calendar</h1>
+     <Typography variant = "h3">
+      Team Calendar
+     </Typography>
+
       <Calendar 
+      selectable
       onSelectEvent={(e)=> handleSelectedEvent(e)}
+      onSelectSlot={(e)=>handleSelectSlot(e)}
       localizer={localizer} 
       events={updated} 
       startAccessor="start" 
       endAccessor="end" 
-      style={{height:500, margin: "50px"}}
+      style={{height:500, margin: "50px" }}
       popup ={true}
       eventPropGetter={calendarStyle}
-      
-      
+
+  
       components={{
         toolbar: CustomToolbar,
+        
       }}/>
       
     </div>
