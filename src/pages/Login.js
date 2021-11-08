@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 
 //ICONS & Logo
-import { VisibilityOff, Visibility, Send, CodeSharp } from '@mui/icons-material'
+import { VisibilityOff, Visibility, Send, CodeSharp, ConstructionOutlined } from '@mui/icons-material'
 import LogInIcon from '@mui/icons-material/Login'
 import Logo from '../assets/logo.svg'
 import './Login.css'
@@ -62,7 +62,7 @@ export default function Login() {
             password: password,
           })
           .then((res) => {
-
+            console.log(res)
             localStorage.setItem("isAuthenticated", res.data._id)
             window.location.pathname = '/'
           })

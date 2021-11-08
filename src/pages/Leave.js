@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import "../Leave.css";
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
+import { Alert, AlertTitle } from '@mui/material';
 
 //LOADER FUYNCTION
 import { css } from "@emotion/react";
@@ -60,6 +61,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
 import Leaveapproval from '../pages/ApproveLeave.js'
+import { DateTimePicker } from '@material-ui/pickers';
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -93,8 +95,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 }));
 function createData(ltype, left, entitlement, carryforward) {
-    return {ltype, left, entitlement, carryforward };
+    return { ltype, left, entitlement, carryforward };
 }
+
 
 const rows = [
     createData('Adoption Leave', 159, 6.0, 24),
@@ -105,8 +108,6 @@ const rows = [
     createData('Shared Parental Leave', 356, 16.0, 49),
     createData('Sick Leave', 356, 16.0, 49),
     createData('Unpaid Infant Care Parental', 356, 16.0, 49),
-
-
 ];
 
 // leave types for my leave select leave type
@@ -276,6 +277,8 @@ function getEndDate(dates) {
 //   }));
 
 
+
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -335,7 +338,7 @@ export default function BasicTabs() {
     const [isSubmit, setIsSubmit] = React.useState(false);
 
     //LOADER CONTROLLER
-    let [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
 
     const [formValues, setFormValues] = React.useState({
@@ -359,10 +362,114 @@ export default function BasicTabs() {
 
     const [notificationprop, setNotificationProp] = useState();
     const [disablefromnoti, setDisableFromNoti] = useState(false);
+    const [disablefromloading, setdisablefromloading] = useState(false);
     const [calendar, setCalendar] = useState(new Date());
     const [isrecommended, setisrecommended] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [open3, setOpen3] = useState(false);
+    const [opac, setopac] = useState('1')
+    const [mark2, setmark2] = useState([]);
+    const [mark, setmark] = useState([]);
+    const [datedisabled, setdatedisabled] = useState([])
+    const [leaves,setleaves] = useState([])
+    // disableSpecific(datef) {
+    //     const dateRaw = [
+    //     new Date(date.getFullYear(),0,1),
+    //     new Date(date.getFullYear(),4,1)
+    //     ];
+        
+    //     return dateRaw.includes(datef.getTime());
+    //     }
+
+    const fetchleaves = async (id) => {
+        await axios.get('http://localhost:5000/leaves', {
+            params: {
+                id: id
+            }
+        })
+            .then(res => {
+                setleaves(res.data);
+            })
+    }
+
+    const calendardetails = (data) => {
+
+        for (var i = 0; i < data.length; i++) {
+            var datecounter;
+
+            for (var z = 0; z <= data[i].days; z++) {
+                var find = '/';
+                var re = new RegExp(find, 'g');
+                var date = data[i].from.replace(re, '-');
+                var dd;
+                if (z === 0) {
+                    if (data[i].types === 'annual') {
+                        dd = new Date(date)
+                        datecounter = dd
+                        setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                      
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
+                    else if (data[i].types === 'meeting') {
+                        dd = new Date(date)
+                        datecounter = dd
+                        setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
+
+                }
+                else {
+
+                    if (data[i].types === 'annual') {
+                        var set = new Date(datecounter)
+                        var set2 = set.setDate(set.getDate() + 1)
+                        dd = new Date(set2)
+                        datecounter = dd
+                        setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
+                    else if (data[i].types === 'meeting') {
+                        var set = new Date(datecounter)
+                        var set2 = set.setDate(set.getDate() + 1)
+                        dd = new Date(set2)
+                        datecounter = dd
+                        setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
+                }
+
+                if (z !== 0 && z == data[i].days - 1) {
+                    break;
+                }
+
+            }
+
+        }
+      
+    }
+
+    const fetchapplied = (id) => {
+        axios.get('http://localhost:5000/applied', {
+            params: {
+                id: id
+            }
+        })
+            .then(res => {
+                calendardetails(res.data.applies)
+            })
+    }
+
+
+    useEffect(() => {
+        const id = localStorage.getItem("isAuthenticated");
+        fetchapplied(id)
+        fetchleaves(id)
+    }, []);
+
+
+
+
+
     useEffect(() => {
         const from = location.state
 
@@ -400,13 +507,14 @@ export default function BasicTabs() {
 
 
 
-    const vali =(e)=>{
-        e.preventDefault(); 
+    const vali = (e) => {
+        e.preventDefault();
         if (!(formValues.leavetype && formValues.day && formValues.approveby)) {
-            setFormErrors(validate(formValues));  
+            setFormErrors(validate(formValues));
         }
         else {
             setOpen3(true)
+
         }
     }
 
@@ -416,6 +524,10 @@ export default function BasicTabs() {
         e.preventDefault();
         setFormErrors(validate(formValues));
         setIsSubmit(true);
+        setopac('0.4')
+        setLoading(true)
+        setDisableFromNoti(true)
+        setdisablefromloading(true)
         if (!(formValues.leavetype && formValues.day && formValues.approveby)) {
             alert('Please input Empty fields')
         }
@@ -429,19 +541,24 @@ export default function BasicTabs() {
                     "days": getDifferenceInDays(daterange), //getDifferenceInDays(formValues.daterange),
                     "daytype": formValues.day,
                     "remarks": formValues.remarks === '' ? 'nil' : formValues.remarks,
-                    "recomemdedby":formValues.recommendby,
-                    "approvedby":formValues.approveby,
-                    "approved":false
+                    "recomemdedby": formValues.recommendby,
+                    "approvedby": formValues.approveby,
+                    "approved": false
                 }).then(res => {
                     if (isrecommended) {
                         axios.post('http://localhost:5000/acceptnoti', notificationprop).then(res => {
-                            console.log("done with updatding leave recods , add applied leave to database and updated the notification")
-                            console.log("you may do a pop up notification here SUCH AS MUI BASIC ALERT")
-                            //then do a return to home page here
-                            window.location.pathname = '/'
+                            setOpen3(false)
+                            setTimeout(() => {
+                                setTimeout(() => {
+                                    window.location.pathname = '/leave';
+                                }, 1500);
+                                setopac('1')
+                                setLoading(false)
+                                setIsSubmitted(true);
+                            }, 2500);
                         })
                             .catch(error => {
-                                console.log(error)
+                          
                             })
                     }
                     else {
@@ -455,24 +572,27 @@ export default function BasicTabs() {
                             "daytype": formValues.day,
                             "remarks": formValues.remarks === '' ? 'nil' : formValues.remarks,
                             "requestedon": TodayDate,
-                            "recomemdedby":formValues.recommendby,
-                            "approvedby":formValues.approveby,
+                            "recomemdedby": formValues.recommendby,
+                            "approvedby": formValues.approveby,
                             "status": { "approved": false, "read": false, "accepted": "applied", "isrecommended": false }
                         }).then(res => {
-                            console.log(res)
                             setOpen3(false)
-                            setIsSubmitted(true);
                             setTimeout(() => {
-                                window.location.pathname = '/leave';
-                            },2000);
-    
+                                setTimeout(() => {
+                                    window.location.pathname = '/leave';
+                                }, 1500);
+                                setopac('1')
+                                setLoading(false)
+                                setIsSubmitted(true);
+                            }, 2500);
+
                         }).catch(error => {
-                            console.log(error)
+               
                         })
                     }
                 })
                 .catch(error => {
-                    console.error(error)
+         
                 })
 
             //if credentials wrong, prompt user for correct input
@@ -482,9 +602,7 @@ export default function BasicTabs() {
 
     useEffect(() => {
 
-        console.log(formErrors);
         if (Object.keys(formErrors).length === 0 && isSubmit) {
-            console.log(formValues);
         }
     }, [formErrors]);
 
@@ -511,24 +629,17 @@ export default function BasicTabs() {
     };
 
 
-    const mark = [
-        '11-04-2021',
-        '11-05-2021',
-        '11-06-2021'
-    ]
-
 
     const handleClose = () => {
-        console.log("its open ")
         setOpen3(false);
-      };
+    };
 
     //for tab
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    
+
     const optionsLeaveRecord = {
         filter: true,
         filterType: "multiselect",
@@ -536,25 +647,46 @@ export default function BasicTabs() {
         selectableRows: "none",
         download: false,
         print: false,
-        fixedHeader:false,
+        fixedHeader: false,
     };
 
-    //style={{backgroundColor:'gray',opacity:'0.6'}}
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    const [table, setTable] = useState([])
+
+    const fetchTable = async () => {
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        await axios.get('http://localhost:5000/leaves', {
+            params: {
+                id: isAuthenticated
+            }
+        })
+            .then(res => {
+                setTable(res.data);
+            })
+    }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            fetchTable()
+        }
+    }, []);
+
+
     return (
 
-        <Box pt={1}>
-        <Dialog
+        <Box pt={1} style={{ opacity: opac }}>
+            <Dialog
                 open={open3}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                
+
                 <DialogTitle id="alert-dialog-title">
                     {"Use Google's location service?"}
                 </DialogTitle>
                 <DialogContent>
-                    
+
                     <DialogContentText id="alert-dialog-description">
                         Let Google help apps determine location. This means sending anonymous
                         location data to Google, even when no apps are running.
@@ -568,12 +700,22 @@ export default function BasicTabs() {
                 </DialogActions>
             </Dialog>
 
-
+            <div style={{
+                position: 'absolute', left: '50%', top: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: 2000
+            }}>
+                {isSubmitted ? <Alert severity="success">
+                    <AlertTitle>Success</AlertTitle>
+                    You have applied successfully! — <strong>check it out!</strong>
+                </Alert> :
+                    false}
+            </div>
 
             <div id="box1">
-              <div style = { {position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)"} }>
-            {/* <FadeLoader  color={"black"} loading={loading} css={override} size={10} /> */}
-            </div>
+                <div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+                    <FadeLoader color={"black"} loading={loading} css={override} size={10} />
+                </div>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'white', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30px 30px 0px 0px' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="My Leave" {...a11yProps(0)} />
@@ -594,8 +736,12 @@ export default function BasicTabs() {
                                             value={calendar}
                                             tileClassName={({ date, view }) => {
                                                 if (mark.find(x => x === moment(date).format("MM-DD-YYYY"))) {
-                                                    return 'highlight'
+                                                    return 'highlight1'
                                                 }
+                                                if (mark2.find(x => x === moment(date).format("MM-DD-YYYY"))) {
+                                                    return 'highlight2'
+                                                }
+
                                             }}
                                         />
                                     </Box>
@@ -629,17 +775,17 @@ export default function BasicTabs() {
                                     </Box>
                                 </Grid>
                                 <Grid item xs={7.5}>
-                                    <Box> 
+                                    <Box>
                                         <div id="contentt">
-                                                    <h1> Apply for Leave </h1> </div>
+                                            <h1> Apply for Leave </h1> </div>
 
                                         <form noValidate autoComplete="off" onSubmit={vali}>
                                             <div id="box2">
                                                 {/* <div style = {{display: ,justifyContent:'left',alignItems: 'left'}}>  
                                                 <h3>Apply Leave </h3></div> */}
-                                               
-                                                
-                                               
+
+
+
 
                                                 <div id="selectbox">
                                                     <Box
@@ -726,10 +872,16 @@ export default function BasicTabs() {
                                                         <Typography sx={{ mt: 1, mb: 1 }}></Typography>
                                                         <DesktopDateRangePicker
                                                             required
+                                                            disablePast
                                                             startText="Start Date"
                                                             endText="End Date"
                                                             disabled={disablefromnoti}
                                                             name="daterange"
+                                                            shouldDisableDate={(date)=>{
+                                                                if (datedisabled.find(x => x.getTime() ===date.getTime())){
+                                                                  return date
+                                                                }
+                                                            }}
                                                             value={daterange}
                                                             onChange={(e) => setDateRange(e)}
                                                             renderInput={(startProps, endProps) => (
@@ -812,7 +964,7 @@ export default function BasicTabs() {
                                                         autoComplete="off"
                                                     >
                                                         <TextField
-                                                            disabled={disablefromnoti}
+                                                            disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="approveby"
                                                             value={formValues.approveby}
@@ -835,7 +987,7 @@ export default function BasicTabs() {
                                                         autoComplete="off"
                                                     >
                                                         <TextField
-                                                            disabled={disablefromnoti}
+                                                            disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="ptdvalue"
                                                             value={formValues.ptdvalue}
@@ -857,7 +1009,7 @@ export default function BasicTabs() {
                                                         autoComplete="off"
                                                     >
                                                         <TextField
-                                                            disabled={disablefromnoti}
+                                                            disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="ytdvalue"
                                                             value={formValues.ytdvalue}
@@ -873,7 +1025,7 @@ export default function BasicTabs() {
                                                     <TextField
                                                         //isRequired
                                                         id="outlined-multiline-static"
-                                                        disabled={disablefromnoti}
+                                                        disabled={disablefromloading}
                                                         multiline
                                                         rows={5}
                                                         sx={{ m: 1, width: '70ch' }}
@@ -885,7 +1037,7 @@ export default function BasicTabs() {
 
                                                 <div id="submitbutton">
                                                     <Button
-                                                        disabled={disablefromnoti}
+                                                        disabled={disablefromloading}
                                                         type="submit"
                                                         variant="contained"
                                                         color="success"
@@ -909,26 +1061,26 @@ export default function BasicTabs() {
 
 
                     <TabPanel value={value} index={2}>
-                        <div style={{display:'table',tableLayout:'fixed',width:'90%'}}>
+                        <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
                             <br />
-                        <ThemeProvider theme={theme}>
-                            <MUIDataTable
-                                title={"Leave Records"}
-                                data={dataLeaveRecord}
-                                columns={columnsforRecord}
-                                options={optionsLeaveRecord}
-                            />
-                        </ThemeProvider>
+                            <ThemeProvider theme={theme}>
+                                <MUIDataTable
+                                    title={"Leave Records"}
+                                    data={dataLeaveRecord}
+                                    columns={columnsforRecord}
+                                    options={optionsLeaveRecord}
+                                />
+                            </ThemeProvider>
                         </div>
 
                     </TabPanel>
 
                     <TabPanel value={value} index={3}>
-                         <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
+                        <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
                             <br />
 
                             <Leaveapproval />
-                       
+
                         </div>
                     </TabPanel>
 

@@ -191,6 +191,7 @@ const TopBar = styled.div`
 
 const isAuthenticated = localStorage.getItem("isAuthenticated");
 
+
 const Sidebar = () => {
 
     const [click, setClick] = useState(false); //nav bar
@@ -200,6 +201,8 @@ const Sidebar = () => {
     const [notificationsitems, setnotificationsitems] = useState([]);
 
     const [showProfile, setShowProfile] = useState(false);
+    const [profileItems, setProfileItems] = useState([])
+
     const fetchNoti = async () => {
         const isAuthenticated = localStorage.getItem("isAuthenticated");
         await axios.get('http://localhost:5000/notifications', {
@@ -212,8 +215,6 @@ const Sidebar = () => {
                 
             })
     }
-
-    console.log(notificationsitems)
 
     useEffect(() => {   
         if (isAuthenticated) {
@@ -235,11 +236,33 @@ const Sidebar = () => {
         }
     },[])
 
+    const fetchProfile = async () => {
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        await axios.get('http://localhost:5000/profiles', {
+            params: {
+                id: isAuthenticated
+            }
+        })
+            .then(res => {
+                setProfileItems(res.data);
+            })
+    }
+
+    useEffect(() => {   
+        if (isAuthenticated) {
+            fetchProfile()
+        }
+    }, []);
+
+
     const handleClick = () => setClick(!click);
     const classes = useStyles();
 
+    const [titleName, setTitleName] = useState("")
 
     return (
+        
+
         <Container>
 
             <TopBar>
@@ -249,7 +272,7 @@ const Sidebar = () => {
                 </Logo>
                 <Box sx={{ ml: 8, mt: 3 }}>
                     <Typography className={classes.bold} variant="h3" component="h3">
-                        Homepage
+                        {titleName==="" ? "Homepage" : titleName}
                     </Typography>
                 </Box>
 
@@ -317,10 +340,10 @@ const Sidebar = () => {
                                                     <Box>
                                                         <Box pl={1}>
                                                             <Box pb={0.8}>
-                                                                <Typography className={classes.bold}>Mary Tan</Typography>
+                                                                <Typography className={classes.bold}>{profileItems.name}</Typography>
                                                             </Box>
                                                             <Box pb={0.8}>
-                                                                <Typography >marytan123@gmail.com</Typography>
+                                                                <Typography >{profileItems.email}</Typography>
                                                             </Box>
                                                         </Box>
                                                         <Box ml={1} >
@@ -373,15 +396,15 @@ const Sidebar = () => {
                 <MenuButton clicked={click} onClick={() => handleClick()}>
                 </MenuButton>
                 <SlickBar clicked={click}>
-                    <Item onClick={() => setClick(false)} exact activeClassName="active" to="/">
+                    <Item onClick={() => {setClick(false); setTitleName("Homepage");}} exact activeClassName="active" to="/">
                         <img src={Home} alt="Home" />
                         <Text clicked={click}>Home</Text>
                     </Item>
-                    <Item onClick={() => setClick(false)} activeClassName="active" to="/leave">
+                    <Item onClick={() => {setClick(false); setTitleName("Leave");}} activeClassName="active" to="/leave">
                         <img src={Leave} alt="Leave" />
                         <Text clicked={click}>Leave</Text>
                     </Item>
-                    <Item onClick={() => setClick(false)} activeClassName="active" to="/payslip">
+                    <Item onClick={() => {setClick(false); setTitleName("Payslip");}} activeClassName="active" to="/payslip">
                         <img src={Payslip} alt="Payslip" style={{ width: 35, height: 35 }} />
                         <Text clicked={click}>Payslip</Text>
                     </Item>

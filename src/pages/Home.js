@@ -173,8 +173,8 @@ const Home = () => {
 
     }
 
-    const fetchapplied = async (id) => {
-        await axios.get('http://localhost:5000/applied', {
+    const fetchapplied =  (id) => {
+         axios.get('http://localhost:5000/applied', {
             params: {
                 id: id
             }
@@ -291,13 +291,34 @@ const Home = () => {
         }
     };
 
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    const [firstName, setFirstName] = useState("")
+
+    const fetchProfile = async () => {
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        await axios.get('http://localhost:5000/profiles', {
+            params: {
+                id: isAuthenticated
+            }
+        })
+            .then(res => {
+                setFirstName((res.data.name).split(" ")[0]);
+            })
+    }
+
+    useEffect(() => {   
+        if (isAuthenticated) {
+            fetchProfile()
+        }
+    }, []);
+
 
     return (
         <Box mt={4}>
             <Card classes={{ root: classes.card }} >
                 <Box pt={5} ml={5}>
                     <Typography variant="h3">
-                        Welcome, Mary!
+                        Welcome, {firstName}!
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex' }}>
@@ -368,7 +389,7 @@ const Home = () => {
                                                 Payslip
                                             </Typography>
                                             <Box pl={2}> 
-                                                {console.log(isValid)}
+                                                
                                                 {isValid ? <Visibility sx={{ fontSize: 30 }} onClick = {() => {setsecret(true); setIsValid(false)}} /> :
                                                     <VisibilityOff sx={{ fontSize: 30 }} onClick={() => handleClickOpenPw()}/>                                                          
                                                 }
