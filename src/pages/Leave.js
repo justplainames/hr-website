@@ -25,7 +25,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import InputAdornment from '@mui/material/InputAdornment';
-import Stack from '@mui/material/Stack';
+
 import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 // import React from "react";
@@ -51,54 +51,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TeamLeave from '../component/teamLeave/TeamLeave'
+
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-// import { DataGrid } from '@mui/x-data-grid';
-import { DataGrid } from "@material-ui/data-grid";
-//import { Button } from "@material-ui/core";
-import MaterialTable from 'material-table'
 import Button from '@mui/material/Button';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import { forwardRef } from 'react';
 
-import AddBox from '@material-ui/icons/AddBox';
-import ArrowDownward from '@material-ui/icons/ArrowDownward';
-import Check from '@material-ui/icons/Check';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import Clear from '@material-ui/icons/Clear';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
-import Edit from '@material-ui/icons/Edit';
-import FilterList from '@material-ui/icons/FilterList';
-import FirstPage from '@material-ui/icons/FirstPage';
-import LastPage from '@material-ui/icons/LastPage';
-import Remove from '@material-ui/icons/Remove';
-import SaveAlt from '@material-ui/icons/SaveAlt';
-import Search from '@material-ui/icons/Search';
-import ViewColumn from '@material-ui/icons/ViewColumn';
-
-const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-};
+import Leaveapproval from '../pages/ApproveLeave.js'
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -131,19 +92,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 
 }));
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+function createData(ltype, left, entitlement, carryforward) {
+    return {ltype, left, entitlement, carryforward };
 }
 
 const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    createData('Adoption Leave', 159, 6.0, 24),
+    createData('Annual Leave', 237, 9.0, 37),
+    createData('Childcare Leave', 262, 16.0, 24),
+    createData('Maternity Leave', 305, 3.7, 67),
+    createData('Parental Leave', 356, 16.0, 49),
+    createData('Shared Parental Leave', 356, 16.0, 49),
+    createData('Sick Leave', 356, 16.0, 49),
+    createData('Unpaid Infant Care Parental', 356, 16.0, 49),
 
 
 ];
@@ -306,13 +267,6 @@ function getEndDate(dates) {
     return parseDates(dates[1]);
 }
 
-//   function getDifferenceInDays1(date1,date2) {
-//     //var date1 = date.toString().split(',');
-//     const diffInMs = Math.abs(date2 -  date1);
-
-//     return date1//Math.round(diffInMs / (1000 * 60 * 60 * 24));
-//   }
-
 
 // const Item = styled(Paper)(({ theme }) => ({
 //     ...theme.typography.body2,
@@ -369,226 +323,11 @@ function a11yProps(index) {
 //     setTableData(temp);
 //  }
 
-const Leaveapproval = () => {
-    const columnsforApprove = [
-        { field: "id", title: "ID",width: 100 },
-        { field: "nameofapplicant",title:"Name of applicant", width: 200 },
-        { field: "dateofapplication",title: "Date of Application", width: 130 },
-        { field: "type", title: "Type", width: 130 },
-        { field: "startdate", title: "Start Date", width: 130 },
-        { field: "enddate",title: "End Date", width: 130 },
-        { field: "daysapplied",title: "Days Applied",width: 90},
-        { field: "recommender",title: "Recommender", width: 160},
-        { field: "approver", title: "Approver" ,width: 200 },
-        { field: "status", title: "Status", width: 200 }
-    ];
 
-    const dataApproveLeave = [
-        {
-            id:1,
-            nameofapplicant:"Mary Tan",
-            dateofapplication:"20/10/2021",
-            type:"Annual",
-            startdate:"02/11/2021",
-            enddate:"02/11/2021",
-            daysapplied:1,
-            recommender:"Benjamin Tan",
-            approver:"Benjamin Tan",
-            status:"Pending"
-        },
-        {
-            id:2,
-            nameofapplicant:"Ben Ong",
-            dateofapplication:"20/10/2021",
-            type:"Annual",
-            startdate:"30/10/2021",
-            enddate:"30/10/2021",
-            daysapplied:1,
-            recommender:"N.A",
-            approver:"Benjamin Tan",
-            status:"Pending"
-        },
-        {
-            id:3,
-            nameofapplicant:"Mary Tan",
-            dateofapplication:"31/10/2021",
-            type:"Unpaid",
-            startdate:"02/10/2021",
-            enddate:"03/10/2021",
-            daysapplied:2,
-            recommender:"Alice Tay",
-            approver:"Alison Ng",
-            status:"Pending"
-        }
-    ];    
-        
-        
-        // ["Mary Tan","", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"
-        //     ],
-        // ["Ben Ong","20/10/2021", "", "", "", 1, ".", "", ""
-        // ],
-        // ["Mary Tan","31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Pending"
-        // ],
-    
-
-    const [tableData, setTableData] =  React.useState(dataApproveLeave);
-    const [selectedRows, setSelectedRows] =  React.useState([]);
-
-    // const handleRowSelection = (e) => {
-    //     setDeletedRows([...deletedRows, ...rowss.filter((r) => r.id === e.data.id)]);
-    // };
-
-    
-    // const handlePurge = () => {
-    //     setRows(rowss.filter((r) => deletedRows.filter((sr) => sr.id === r.id).length < 1)
-    //     );
-    // };
-
-    const handleBulkDelete = () => {
-        const updatedData = tableData.filter(row => !selectedRows.includes(row))
-        setTableData(updatedData);
-        setOpen(false);
-      }
-
-    const [open, setOpen] = React.useState(false);
-    const [open1, setOpen1] = React.useState(false);
-
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClickOpen1 = () => {
-        setOpen1(true);
-    };
-
-    const theme = createMuiTheme({
-        palette: {
-          primary: {
-            main: '#4caf50',
-          },
-          secondary: {
-            main: '#ff9100',
-          },
-        },
-    
-      });
-
-    const handleClose = () => {
-        setOpen(false);
-        setOpen1(false);
-        //onRowsDelete(true);
-    };
-
-      return (
-        <MuiThemeProvider theme={theme}>
-            <div className="LeaveApprove">
-            <h1 align="Left">Approve Leave</h1>
-            {/* <h4 align='center'>Bulk Delete with Material Table</h4> */}
-            
-                <Stack direction="row" spacing={5}>
-                    <Button variant="contained" color="success" size = "large" onClick={handleClickOpen}> Approve </Button>
-                    {/* <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button> */}
-                        <Dialog open ={open} onClose={handleBulkDelete}>
-                            <DialogTitle>Confirmation</DialogTitle>
-                            <DialogContent>
-                            <DialogContentText>
-                                Please confirm that you want to approve the leave for:
-                            </DialogContentText>
-                            show details of leave 
-                            </DialogContent>
-                            <DialogActions>
-                            <Button  onClick={handleBulkDelete}>Yes</Button>
-                            <Button  onClick={handleClose}>No</Button>
-                            </DialogActions>
-                        </Dialog>
-                    <Button variant="contained" color="error" size = "large" onClick={handleClickOpen1}> Reject </Button>
-                    {/* <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button> */}
-                        <Dialog open ={open1} onClose={handleBulkDelete}>
-                            <DialogTitle>Confirmation</DialogTitle>
-                            <DialogContent>
-                            <DialogContentText>
-                                Please confirm that you want to reject the leave for:
-                            </DialogContentText>
-                            show details of leave 
-                            </DialogContent>
-                            <DialogActions>
-                            <Button  onClick={handleBulkDelete}>Yes</Button>
-                            <Button  onClick={handleClose}>No</Button>
-                            </DialogActions>
-                        </Dialog>
-                </Stack>
-                <MaterialTable
-                    title="Employee Data"
-                    data={tableData}
-                    onSelectionChange={(rows) => setSelectedRows(rows)}
-                    columns={columnsforApprove}
-                    icons={tableIcons}
-                    options={{
-                    selection: true
-                    }}
-                // actions={[
-                //   {
-                //     icon: 'delete',
-                //     tooltip: "Delete all selected rows",
-                //     onClick: () => handleBulkDelete()
-                //   }
-                // ]}
-            />
-            
-            </div>
-        </MuiThemeProvider>
-
-
-        // <div className="LeaveApprove">
-        //     <h1 style={{ fontFamily: "Stone" }}>Elgible Contracts {handlePurge}</h1>
-        //     <span className="horizontal-line" />
-        //     <div className="centerDiv" style={{ height: 380, width: 950 }}>
-        //     <DataGrid
-        //         rows={rowss}
-        //         columns={columns}
-        //         pageSize={10}
-        //         checkboxSelection
-        //         onRowSelected={handleRowSelection}
-        //     />
-        //     </div>
-        //     <br />
-        //     <Button variant="contained" color="primary" onClick={handlePurge}>
-        //     Purge
-        //     </Button>
-        //     </div>
-      );
-    }
-    
 
 export default function BasicTabs() {
     const location = useLocation()
     const [value, setValue] = React.useState(0);
-    // const [leave, setLeave] = React.useState('');
-    // const [day, setDay] = React.useState('');
-    // const [startdatevalue, startdatesetValue] = React.useState(null);
-    // const [enddatevalue, enddatesetValue] = React.useState(null);
-
-    // const [rangevalue, setRange]= React.useState('');
-    // const [recommendbyvalue, setRecommendby] = React.useState('');
-    // const [approvebyvalue, setApproveby] = React.useState('');
-
-    // const [ptdvalue, setPtd] = React.useState('');
-    // const [ytdvalue, setYtd] = React.useState('');
-    // const [remarksvalue, setRemarks] = React.useState('');
-
-    // const initialValues={leavetype:'',
-    //   day:'',
-    //   // startdate:'',
-    //   // enddate:'',
-    //   daterange:[null, null],
-    //   noofdays:'',
-    //   recommendby:'',
-    //   approveby:'',
-    //   ptdvalue:'',
-    //   ytdvalue:'',
-    //   remarks:''};
-    // const [formValues, setFormValues] = React.useState(initialValues);
     const [daterange, setDateRange] = React.useState([Date(), Date()]);
     const [startdate, startdatesetValue] = React.useState(Date());
     const [enddate, enddatesetValue] = React.useState(Date());
@@ -597,7 +336,6 @@ export default function BasicTabs() {
 
     //LOADER CONTROLLER
     let [loading, setLoading] = useState(true);
-
 
 
     const [formValues, setFormValues] = React.useState({
@@ -614,6 +352,10 @@ export default function BasicTabs() {
         remarks: '',
     });
 
+    const handleChanges = (e) => {
+        const { name, value } = e.target;
+        setFormValues({ ...formValues, [name]: value });
+    }
 
     const [notificationprop, setNotificationProp] = useState();
     const [disablefromnoti, setDisableFromNoti] = useState(false);
@@ -657,17 +399,6 @@ export default function BasicTabs() {
     }, [notificationprop]);
 
 
-
-
-    const handleChanges = (e) => {
-        const { name, value } = e.target;
-        setFormValues({ ...formValues, [name]: value });
-    }
-
-    //   const handleChanges = (prop) => (event) => {
-    //     setFormValues({ ...formValues, [prop]: event.target.value });
-
-    // };
 
     const vali =(e)=>{
         e.preventDefault(); 
@@ -797,82 +528,6 @@ export default function BasicTabs() {
         setValue(newValue);
     };
 
-    //     const handleChange1 = (prop) => (event) => {
-    //         setValues({ ...values, [prop]: event.target.value });
-
-    //     };
-
-    //     //for leave
-    //     const handleChangeLeave = (event) => {
-    //         setLeave(event.target.value);
-    //     };
-
-    //     //for day
-    //     const handleChangeDay = (event) => {
-    //     setDay(event.target.value);
-    //     }
-
-    //     //for date range
-    //     const handleRange = (event) => {
-    //         setRange(event.target.value);
-    //         }
-
-    //     //for recommendby
-    //     const handleChangeRecommend = (event) => {
-    //         setRecommendby(event.target.value);
-    //         }
-
-
-    //         //for approveby
-    //     const handleChangeApprove = (event) => {
-    //         setApproveby(event.target.value);
-    //         }
-
-    //       //for approveby
-    //     const handleChangeRemark = (event) => {
-    //         setRemarks(event.target.value);
-    //     }
-
-    //     const validateee = () => {
-    //       let temp={}
-    //       temp.leave = leave?"":"This field is required"
-    //       temp.remarksvalue = remarksvalue?"":"This field is required"
-    //       setErrors({
-    //         ...temp
-    //       })
-    //       return Object.values(temp).every(x => x =="")
-    //   }
-
-    // const handleSubmittt = (e) => {
-    //     e.preventDefault()
-    //     if (validate())
-    //     window.alert('test...')
-    //     if (leave && day && dateRangevalue && recommendbyvalue && approvebyvalue &&ptdvalue&&ytdvalue&&remarksvalue) {
-    //       console.log(leave, day, dateRangevalue, recommendbyvalue, approvebyvalue,ptdvalue,ytdvalue,remarksvalue)
-    //     }{
-
-    //         axios.post('http://localhost:5000/apply',
-    //           {
-    //             "type":leave,
-    //             // "from": getStartDate(dateRangevalue),
-    //             // "to": getEndDate(dateRangevalue),
-    //             "from": startdate,
-    //             "to":enddate,
-    //             "days":  getDifferenceInDays(dateRangevalue),
-    //             "daytype": day,
-    //             "remarks": remarksvalue
-    //           }).then(res => {
-    //             localStorage.setItem("isAuthenticated", res._id)
-    //             window.location.pathname = "/";
-    //           })
-    //           .catch(error => {
-    //             console.error(error)
-    //           })
-
-    //         //if credentials wrong, prompt user for correct input
-    //       }
-    //   }
-
     
     const optionsLeaveRecord = {
         filter: true,
@@ -884,84 +539,11 @@ export default function BasicTabs() {
         fixedHeader:false,
     };
 
-    // const onRowClick = (rowData, rowState) => {
-    //     console.log(rowData, rowState);
-    //  };
-
-    // const handleRowClick = (rowData, rowMeta) => {
-    //     console.log(rowData, rowMeta);
-    //  };
-
-    // const [selectedRows, setSelectedRows] = useState([]);
-    
-    // const optionsApproveLeave = {
-    //     filter: true,
-    //     filterType: "checkbox",
-    //     responsive: "scrollMaxHeight",
-    //     //selectableRows: "none",
-    //     download: false,
-    //     print: false,
-    //     fixedHeader:false,
-    // //     rowsSelected: selectedRows,
-    // //     onRowSelectionChange: (rowsSelectedData, allRows, rowsSelected) => {
-    // //     setSelectedRows(rowsSelected);
-    // // },
-    //     customToolbar: () => (
-    //         <customToolbar
-    //         selectedRows={selectedRows}
-    //         onRowsDelete={() => {
-    //             //deleteSelected();
-    //             setSelectedRows([]);
-    //         } }
-    //         />
-    //     ),
-    //  };
-        
-        // onRowSelected: handleRowClick,
-        // onRowsDelete: (rowData, rowState) => {
-        //     handleDeleteCat(rowData, rowState);
-        //     },
-    //     onRowsDelete: (rowsDeleted, dataRows) => {
-    //         const idsToDelete = dataRows.map(d => data[d.dataIndex].id); // array of all ids to to be deleted
-    //         http.delete(idsToDelete, res).then(window.alert('Deleted!'));//onRowsDelete:(e)=>{console.log(e.data)},
-    // }
-
-
-    // const handleDelete = () => {
-    //     this.props.onRowsDelete();
-    //   };
-    
-    // const [open, setOpen] = React.useState(false);
-
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    // };
-
-    // const handleClose = () => {
-    //     setOpen(false);
-    //     //onRowsDelete(true);
-    // };
-
-    
-    
-    // const [rowss, setRows] = useState(dataApproveLeave);
-    // const [deletedRows, setDeletedRows] = useState([]);
-
-
-    // const [items, setItems] = React.useState(dataApproveLeave)
-    // const [selection, setSelection] = React.useState([]);
-    // const [deleted, setDeleted] = React.useState([])
-    // const handlePurge = () => {
-    //     setDeleted([...deleted, ...selection])
-    //     setItems(items.filter(i=> !selection.some(s=> s.id === i.id)))
-    //     setSelection([])
-    // }
-
     //style={{backgroundColor:'gray',opacity:'0.6'}}
     return (
 
         <Box pt={1}>
-<Dialog
+        <Dialog
                 open={open3}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
@@ -985,7 +567,6 @@ export default function BasicTabs() {
                     </Button>
                 </DialogActions>
             </Dialog>
-
 
 
 
@@ -1032,13 +613,13 @@ export default function BasicTabs() {
                                                 </TableHead>
                                                 <TableBody sx={{ height: '360px', position: 'absolute', overflowY: 'scroll', borderRadius: '0px 0px 20px 20px', width: '500px' }}>
                                                     {rows.map((row) => (
-                                                        <StyledTableRow key={row.name}>
+                                                        <StyledTableRow key={row.ltype}>
                                                             <StyledTableCell sx={{ width: '160px' }} component="th" scope="row">
-                                                                {row.name}
+                                                                {row.ltype}
                                                             </StyledTableCell>
-                                                            <StyledTableCell sx={{ paddingLeft: '30px' }} align="right">{row.calories}</StyledTableCell>
-                                                            <StyledTableCell sx={{ paddingLeft: '60px' }} align="right">{row.fat}</StyledTableCell>
-                                                            <StyledTableCell sx={{ paddingLeft: '110px', paddingRight: '48px' }} align="right">{row.carbs}</StyledTableCell>
+                                                            <StyledTableCell sx={{ paddingLeft: '30px' }} align="right">{row.left}</StyledTableCell>
+                                                            <StyledTableCell sx={{ paddingLeft: '60px' }} align="right">{row.entitlement}</StyledTableCell>
+                                                            <StyledTableCell sx={{ paddingLeft: '110px', paddingRight: '48px' }} align="right">{row.carryforward}</StyledTableCell>
 
                                                         </StyledTableRow>
                                                     ))}
@@ -1073,7 +654,7 @@ export default function BasicTabs() {
 
                                                         <div>
                                                             <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
-                                                                <h3>Leave Type </h3>
+                                                                <h3>Leave Type* </h3>
                                                             </div>
                                                             <TextField
                                                                 required
@@ -1105,7 +686,7 @@ export default function BasicTabs() {
                                                     <FormControl component="fieldset">
                                                         {/* <FormLabel component="legend">Day</FormLabel> */}
                                                         <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
-                                                            <h3>Day</h3>
+                                                            <h3>Day*</h3>
                                                         </div>
                                                         <RadioGroup
                                                             row aria-label="Day"
@@ -1137,30 +718,9 @@ export default function BasicTabs() {
                                                 </div>
 
 
-
-                                                {/* <FormControl sx={{ m: 1, width: '100ch' }} variant="outlined">
-                                            
-                                <OutlinedInput
-                                    id="outlined-adornment-weight"
-                                    value={enddatevalue}
-                                    //onChange={handleRange}
-                                    // onChange={(newValue) => {
-                                    //     setRange(newValue.getDays());
-                                    // }}
-                                    // onChange
-                                    endAdornment={<InputAdornment position="end">Days </InputAdornment>}
-                                    aria-describedby="outlined-weight-helper-text"
-                                    inputProps={{
-                                    'aria-label': 'days',
-                                    }}
-                                />
-                                </FormControl> */}
-
-
-
                                                 <div id="daterange">
                                                     <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
-                                                        <h3>Start Date to End Date</h3>
+                                                        <h3>Start Date to End Date*</h3>
                                                     </div>
                                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                                                         <Typography sx={{ mt: 1, mb: 1 }}></Typography>
@@ -1182,24 +742,6 @@ export default function BasicTabs() {
                                                             )}
                                                         />
                                                     </LocalizationProvider>
-                                                    {/* <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                    selected={formValues.startdate}
-                                    onChange={handleChanges}
-                                    selectsStart
-                                    startDate={formValues.startdate}
-                                    endDate={formValues.enddate}
-                                  />
-                                  <DatePicker
-                                    selected={formValues.enddate}
-                                    onChange={handleChanges}
-                                    selectsEnd
-                                    startDate={formValues.startdate}
-                                    endDate={formValues.enddate}
-                                    minDate={formValues.startdate}/>
-                                // {/* <p> {formErrors.daterange}</p> 
-                                </LocalizationProvider> */}
-
                                                 </div>
 
 
@@ -1259,7 +801,7 @@ export default function BasicTabs() {
 
                                                 <div id="approveby">
                                                     <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
-                                                        <h3>To be approved by:</h3>
+                                                        <h3>To be approved by:*</h3>
                                                     </div>
                                                     <Box
                                                         component="form"
@@ -1386,40 +928,6 @@ export default function BasicTabs() {
                             <br />
 
                             <Leaveapproval />
-
-
-
-                        {/* <ThemeProvider theme={theme}>
-                            <div> 
-                                <Stack direction="row" spacing={5}>
-                            <Button variant="contained" color="success" size="large">Approve</Button>
-                            <Button variant="contained" color="error" size="large">Decline</Button>
-                                </Stack> </div>
-
-<div>
-                <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button>
-                <Dialog open ={open} onClose={handleClose}>
-                    <DialogTitle>Confirmation</DialogTitle>
-                    <DialogContent>
-                    <DialogContentText>
-                        Please confirm that you want to approve the leave for:
-                    </DialogContentText>
-                    show details of leave 
-                    </DialogContent>
-                    <DialogActions>
-                    <Button onClick={handleClose}>Yes</Button>
-                    <Button onClick={handleClose}>No</Button>
-                    </DialogActions>
-                </Dialog>
-                </div>
-                            <MUIDataTable
-                                title={""}
-
-                                data={dataApproveLeave}
-                                columns={columnsforApprove}
-                                options={optionsApproveLeave}
-                            />
-                        </ThemeProvider> */}
                        
                         </div>
                     </TabPanel>
