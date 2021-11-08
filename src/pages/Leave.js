@@ -9,6 +9,10 @@ import "../Leave.css";
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 
+//LOADER FUYNCTION
+import { css } from "@emotion/react";
+import FadeLoader from "react-spinners/FadeLoader";
+
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -98,6 +102,13 @@ const tableIcons = {
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
+
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -226,104 +237,6 @@ const columnsforRecord = [
     },
 ];
 
-//columns for approve records
-// const columnsforApprove = [
-//     {
-//         name: "Name of Applicant",
-//         options: {
-//             filter: true,
-//         }
-//     },
-//     {
-//         name: "Date of Application",
-//         options: {
-//             filter: true,
-//         }
-//     },
-//     {
-//         label: "Type",
-//         name: "Title",
-//         options: {
-//             filter: true
-//         }
-//     },
-//     {
-//         name: "Start Date",
-//         options: {
-//             filter: true
-//         }
-//     },
-//     {
-//         name: "End Date",
-//         options: {
-//             filter: true
-//         }
-//     },
-//     {
-//         name: "Days Applied",
-//         options: {
-//             filter: true
-//         }
-//     },
-//     {
-//         name: "Recommender",
-//         options: {
-//             filter: true
-//         }
-//     },
-//     {
-//         name: "Approver",
-//         options: {
-//             filter: true
-//         }
-//     },
-//     {
-//         name: "Status",
-//         options: {
-//             filter: true
-//         }
-//     },
-//     {
-//         name: "Approve",
-//         options: {
-//             filter: true
-//         }
-//     },
-//     {
-//         name: "Reject",
-//         options: {
-//             filter: true
-//         }
-//     },
-// ];
-
-
-
-
-
-//         }
-//     },
-//     {
-//         label: "Type",
-//         name: "Title",
-//         options: {
-//             filter: true
-//         }
-//     },
-//     {
-//         name: "Start Date",
-//         options: {
-//             filter: true
-//         }
-//     },
-//     {
-//         name: "End Date",
-//         options: {
-//             filter: true
-//         }
-//     },
-//  
-//    
 
 
 const data = [
@@ -682,6 +595,11 @@ export default function BasicTabs() {
     const [formErrors, setFormErrors] = React.useState({});
     const [isSubmit, setIsSubmit] = React.useState(false);
 
+    //LOADER CONTROLLER
+    let [loading, setLoading] = useState(true);
+
+
+
     const [formValues, setFormValues] = React.useState({
         leavetype: '',
         day: '',
@@ -701,7 +619,8 @@ export default function BasicTabs() {
     const [disablefromnoti, setDisableFromNoti] = useState(false);
     const [calendar, setCalendar] = useState(new Date());
     const [isrecommended, setisrecommended] = useState(false);
-
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [open3, setOpen3] = useState(false);
     useEffect(() => {
         const from = location.state
 
@@ -749,6 +668,17 @@ export default function BasicTabs() {
     //     setFormValues({ ...formValues, [prop]: event.target.value });
 
     // };
+
+    const vali =(e)=>{
+        e.preventDefault(); 
+        if (!(formValues.leavetype && formValues.day && formValues.approveby)) {
+            setFormErrors(validate(formValues));  
+        }
+        else {
+            setOpen3(true)
+        }
+    }
+
 
     const handleSubmit = (e) => {
         const id = localStorage.getItem("isAuthenticated");
@@ -799,7 +729,12 @@ export default function BasicTabs() {
                             "status": { "approved": false, "read": false, "accepted": "applied", "isrecommended": false }
                         }).then(res => {
                             console.log(res)
-                            window.location.pathname = '/'
+                            setOpen3(false)
+                            setIsSubmitted(true);
+                            setTimeout(() => {
+                                window.location.pathname = '/leave';
+                            },2000);
+    
                         }).catch(error => {
                             console.log(error)
                         })
@@ -851,6 +786,11 @@ export default function BasicTabs() {
         '11-06-2021'
     ]
 
+
+    const handleClose = () => {
+        console.log("its open ")
+        setOpen3(false);
+      };
 
     //for tab
     const handleChange = (event, newValue) => {
@@ -1017,11 +957,42 @@ export default function BasicTabs() {
     //     setSelection([])
     // }
 
-    
+    //style={{backgroundColor:'gray',opacity:'0.6'}}
     return (
 
         <Box pt={1}>
+<Dialog
+                open={open3}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                
+                <DialogTitle id="alert-dialog-title">
+                    {"Use Google's location service?"}
+                </DialogTitle>
+                <DialogContent>
+                    
+                    <DialogContentText id="alert-dialog-description">
+                        Let Google help apps determine location. This means sending anonymous
+                        location data to Google, even when no apps are running.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Disagree</Button>
+                    <Button onClick={handleSubmit} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+
+
+
             <div id="box1">
+              <div style = { {position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)"} }>
+            {/* <FadeLoader  color={"black"} loading={loading} css={override} size={10} /> */}
+            </div>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'white', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30px 30px 0px 0px' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="My Leave" {...a11yProps(0)} />
@@ -1081,7 +1052,7 @@ export default function BasicTabs() {
                                         <div id="contentt">
                                                     <h1> Apply for Leave </h1> </div>
 
-                                        <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+                                        <form noValidate autoComplete="off" onSubmit={vali}>
                                             <div id="box2">
                                                 {/* <div style = {{display: ,justifyContent:'left',alignItems: 'left'}}>  
                                                 <h3>Apply Leave </h3></div> */}
@@ -1322,6 +1293,7 @@ export default function BasicTabs() {
                                                         autoComplete="off"
                                                     >
                                                         <TextField
+                                                            disabled={disablefromnoti}
                                                             id="outlined-name"
                                                             name="ptdvalue"
                                                             value={formValues.ptdvalue}
@@ -1343,6 +1315,7 @@ export default function BasicTabs() {
                                                         autoComplete="off"
                                                     >
                                                         <TextField
+                                                            disabled={disablefromnoti}
                                                             id="outlined-name"
                                                             name="ytdvalue"
                                                             value={formValues.ytdvalue}
@@ -1358,7 +1331,7 @@ export default function BasicTabs() {
                                                     <TextField
                                                         //isRequired
                                                         id="outlined-multiline-static"
-
+                                                        disabled={disablefromnoti}
                                                         multiline
                                                         rows={5}
                                                         sx={{ m: 1, width: '70ch' }}
@@ -1370,6 +1343,7 @@ export default function BasicTabs() {
 
                                                 <div id="submitbutton">
                                                     <Button
+                                                        disabled={disablefromnoti}
                                                         type="submit"
                                                         variant="contained"
                                                         color="success"

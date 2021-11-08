@@ -197,7 +197,7 @@ padding-top:1px!important;
  }
 
  .react-calendar__tile--active{
-     background: white !important;
+     background: green !important;
  }
   /*Responsiveness*/
 @media only screen and (max-width: 1760px) {
