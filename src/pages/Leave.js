@@ -22,7 +22,6 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import InputAdornment from '@mui/material/InputAdornment';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 // import React from "react";
@@ -53,7 +52,49 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+// import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid } from "@material-ui/data-grid";
+//import { Button } from "@material-ui/core";
+import MaterialTable from 'material-table'
+import Button from '@mui/material/Button';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { forwardRef } from 'react';
 
+import AddBox from '@material-ui/icons/AddBox';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import Check from '@material-ui/icons/Check';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import Clear from '@material-ui/icons/Clear';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Edit from '@material-ui/icons/Edit';
+import FilterList from '@material-ui/icons/FilterList';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import Remove from '@material-ui/icons/Remove';
+import SaveAlt from '@material-ui/icons/SaveAlt';
+import Search from '@material-ui/icons/Search';
+import ViewColumn from '@material-ui/icons/ViewColumn';
+
+const tableIcons = {
+  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+  DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+};
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
@@ -185,76 +226,105 @@ const columnsforRecord = [
     },
 ];
 
-//columns for leave records
-const columnsforApprove = [
-    {
-        name: "Name of Applicant",
-        options: {
-            filter: true,
-        }
-    },
-    {
-        name: "Date of Application",
-        options: {
-            filter: true,
-        }
-    },
-    {
-        label: "Type",
-        name: "Title",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Start Date",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "End Date",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Days Applied",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Recommender",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Approver",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Status",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Approve",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Reject",
-        options: {
-            filter: true
-        }
-    },
-];
+//columns for approve records
+// const columnsforApprove = [
+//     {
+//         name: "Name of Applicant",
+//         options: {
+//             filter: true,
+//         }
+//     },
+//     {
+//         name: "Date of Application",
+//         options: {
+//             filter: true,
+//         }
+//     },
+//     {
+//         label: "Type",
+//         name: "Title",
+//         options: {
+//             filter: true
+//         }
+//     },
+//     {
+//         name: "Start Date",
+//         options: {
+//             filter: true
+//         }
+//     },
+//     {
+//         name: "End Date",
+//         options: {
+//             filter: true
+//         }
+//     },
+//     {
+//         name: "Days Applied",
+//         options: {
+//             filter: true
+//         }
+//     },
+//     {
+//         name: "Recommender",
+//         options: {
+//             filter: true
+//         }
+//     },
+//     {
+//         name: "Approver",
+//         options: {
+//             filter: true
+//         }
+//     },
+//     {
+//         name: "Status",
+//         options: {
+//             filter: true
+//         }
+//     },
+//     {
+//         name: "Approve",
+//         options: {
+//             filter: true
+//         }
+//     },
+//     {
+//         name: "Reject",
+//         options: {
+//             filter: true
+//         }
+//     },
+// ];
+
+
+
+
+
+//         }
+//     },
+//     {
+//         label: "Type",
+//         name: "Title",
+//         options: {
+//             filter: true
+//         }
+//     },
+//     {
+//         name: "Start Date",
+//         options: {
+//             filter: true
+//         }
+//     },
+//     {
+//         name: "End Date",
+//         options: {
+//             filter: true
+//         }
+//     },
+//  
+//    
+
 
 const data = [
     ["20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"],
@@ -372,9 +442,211 @@ function a11yProps(index) {
     };
 }
 
-function split(value) {
-    return value.toString().split(',')
-}
+// function deleteSelectedRow(selectedRows) {
+//     // Collect all row indicies from selected rows.
+//     const indexesToDelete = selectedRows.data.map((row, k) => row.dataIndex);
+//    // Create a temp list and insert data that are not in selected rows.
+//     let temp = [];
+//     for (var i = 0; i < data.length; i++) {
+//       if (!indexesToDelete.includes(i)) {
+//         temp.push(tableData[i]);
+//       }
+//     }
+//     // Set table 
+//     setTableData(temp);
+//  }
+
+const Leaveapproval = () => {
+    const columnsforApprove = [
+        { field: "id", title: "ID",width: 100 },
+        { field: "nameofapplicant",title:"Name of applicant", width: 200 },
+        { field: "dateofapplication",title: "Date of Application", width: 130 },
+        { field: "type", title: "Type", width: 130 },
+        { field: "startdate", title: "Start Date", width: 130 },
+        { field: "enddate",title: "End Date", width: 130 },
+        { field: "daysapplied",title: "Days Applied",width: 90},
+        { field: "recommender",title: "Recommender", width: 160},
+        { field: "approver", title: "Approver" ,width: 200 },
+        { field: "status", title: "Status", width: 200 }
+    ];
+
+    const dataApproveLeave = [
+        {
+            id:1,
+            nameofapplicant:"Mary Tan",
+            dateofapplication:"20/10/2021",
+            type:"Annual",
+            startdate:"02/11/2021",
+            enddate:"02/11/2021",
+            daysapplied:1,
+            recommender:"Benjamin Tan",
+            approver:"Benjamin Tan",
+            status:"Pending"
+        },
+        {
+            id:2,
+            nameofapplicant:"Ben Ong",
+            dateofapplication:"20/10/2021",
+            type:"Annual",
+            startdate:"30/10/2021",
+            enddate:"30/10/2021",
+            daysapplied:1,
+            recommender:"N.A",
+            approver:"Benjamin Tan",
+            status:"Pending"
+        },
+        {
+            id:3,
+            nameofapplicant:"Mary Tan",
+            dateofapplication:"31/10/2021",
+            type:"Unpaid",
+            startdate:"02/10/2021",
+            enddate:"03/10/2021",
+            daysapplied:2,
+            recommender:"Alice Tay",
+            approver:"Alison Ng",
+            status:"Pending"
+        }
+    ];    
+        
+        
+        // ["Mary Tan","", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"
+        //     ],
+        // ["Ben Ong","20/10/2021", "", "", "", 1, ".", "", ""
+        // ],
+        // ["Mary Tan","31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Pending"
+        // ],
+    
+
+    const [tableData, setTableData] =  React.useState(dataApproveLeave);
+    const [selectedRows, setSelectedRows] =  React.useState([]);
+
+    // const handleRowSelection = (e) => {
+    //     setDeletedRows([...deletedRows, ...rowss.filter((r) => r.id === e.data.id)]);
+    // };
+
+    
+    // const handlePurge = () => {
+    //     setRows(rowss.filter((r) => deletedRows.filter((sr) => sr.id === r.id).length < 1)
+    //     );
+    // };
+
+    const handleBulkDelete = () => {
+        const updatedData = tableData.filter(row => !selectedRows.includes(row))
+        setTableData(updatedData);
+        setOpen(false);
+      }
+
+    const [open, setOpen] = React.useState(false);
+    const [open1, setOpen1] = React.useState(false);
+
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClickOpen1 = () => {
+        setOpen1(true);
+    };
+
+    const theme = createMuiTheme({
+        palette: {
+          primary: {
+            main: '#4caf50',
+          },
+          secondary: {
+            main: '#ff9100',
+          },
+        },
+    
+      });
+
+    const handleClose = () => {
+        setOpen(false);
+        setOpen1(false);
+        //onRowsDelete(true);
+    };
+
+      return (
+        <MuiThemeProvider theme={theme}>
+            <div className="LeaveApprove">
+            <h1 align="Left">Approve Leave</h1>
+            {/* <h4 align='center'>Bulk Delete with Material Table</h4> */}
+            
+                <Stack direction="row" spacing={5}>
+                    <Button variant="contained" color="success" size = "large" onClick={handleClickOpen}> Approve </Button>
+                    {/* <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button> */}
+                        <Dialog open ={open} onClose={handleBulkDelete}>
+                            <DialogTitle>Confirmation</DialogTitle>
+                            <DialogContent>
+                            <DialogContentText>
+                                Please confirm that you want to approve the leave for:
+                            </DialogContentText>
+                            show details of leave 
+                            </DialogContent>
+                            <DialogActions>
+                            <Button  onClick={handleBulkDelete}>Yes</Button>
+                            <Button  onClick={handleClose}>No</Button>
+                            </DialogActions>
+                        </Dialog>
+                    <Button variant="contained" color="error" size = "large" onClick={handleClickOpen1}> Reject </Button>
+                    {/* <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button> */}
+                        <Dialog open ={open1} onClose={handleBulkDelete}>
+                            <DialogTitle>Confirmation</DialogTitle>
+                            <DialogContent>
+                            <DialogContentText>
+                                Please confirm that you want to reject the leave for:
+                            </DialogContentText>
+                            show details of leave 
+                            </DialogContent>
+                            <DialogActions>
+                            <Button  onClick={handleBulkDelete}>Yes</Button>
+                            <Button  onClick={handleClose}>No</Button>
+                            </DialogActions>
+                        </Dialog>
+                </Stack>
+                <MaterialTable
+                    title="Employee Data"
+                    data={tableData}
+                    onSelectionChange={(rows) => setSelectedRows(rows)}
+                    columns={columnsforApprove}
+                    icons={tableIcons}
+                    options={{
+                    selection: true
+                    }}
+                // actions={[
+                //   {
+                //     icon: 'delete',
+                //     tooltip: "Delete all selected rows",
+                //     onClick: () => handleBulkDelete()
+                //   }
+                // ]}
+            />
+            
+            </div>
+        </MuiThemeProvider>
+
+
+        // <div className="LeaveApprove">
+        //     <h1 style={{ fontFamily: "Stone" }}>Elgible Contracts {handlePurge}</h1>
+        //     <span className="horizontal-line" />
+        //     <div className="centerDiv" style={{ height: 380, width: 950 }}>
+        //     <DataGrid
+        //         rows={rowss}
+        //         columns={columns}
+        //         pageSize={10}
+        //         checkboxSelection
+        //         onRowSelected={handleRowSelection}
+        //     />
+        //     </div>
+        //     <br />
+        //     <Button variant="contained" color="primary" onClick={handlePurge}>
+        //     Purge
+        //     </Button>
+        //     </div>
+      );
+    }
+    
 
 export default function BasicTabs() {
     const location = useLocation()
@@ -672,38 +944,38 @@ export default function BasicTabs() {
         fixedHeader:false,
     };
 
-    const onRowClick = (rowData, rowState) => {
-        console.log(rowData, rowState);
-     };
+    // const onRowClick = (rowData, rowState) => {
+    //     console.log(rowData, rowState);
+    //  };
 
-    const handleRowClick = (rowData, rowMeta) => {
-        console.log(rowData, rowMeta);
-     };
+    // const handleRowClick = (rowData, rowMeta) => {
+    //     console.log(rowData, rowMeta);
+    //  };
 
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     
-    const optionsApproveLeave = {
-        filter: true,
-        filterType: "checkbox",
-        responsive: "scrollMaxHeight",
-        //selectableRows: "none",
-        download: false,
-        print: false,
-        fixedHeader:false,
-    //     rowsSelected: selectedRows,
-    //     onRowSelectionChange: (rowsSelectedData, allRows, rowsSelected) => {
-    //     setSelectedRows(rowsSelected);
-    // },
-        customToolbar: () => (
-            <customToolbar
-            selectedRows={selectedRows}
-            onRowsDelete={() => {
-                //deleteSelected();
-                setSelectedRows([]);
-            } }
-            />
-        ),
-     };
+    // const optionsApproveLeave = {
+    //     filter: true,
+    //     filterType: "checkbox",
+    //     responsive: "scrollMaxHeight",
+    //     //selectableRows: "none",
+    //     download: false,
+    //     print: false,
+    //     fixedHeader:false,
+    // //     rowsSelected: selectedRows,
+    // //     onRowSelectionChange: (rowsSelectedData, allRows, rowsSelected) => {
+    // //     setSelectedRows(rowsSelected);
+    // // },
+    //     customToolbar: () => (
+    //         <customToolbar
+    //         selectedRows={selectedRows}
+    //         onRowsDelete={() => {
+    //             //deleteSelected();
+    //             setSelectedRows([]);
+    //         } }
+    //         />
+    //     ),
+    //  };
         
         // onRowSelected: handleRowClick,
         // onRowsDelete: (rowData, rowState) => {
@@ -715,29 +987,42 @@ export default function BasicTabs() {
     // }
 
 
-    const handleDelete = () => {
-        this.props.onRowsDelete();
-      };
+    // const handleDelete = () => {
+    //     this.props.onRowsDelete();
+    //   };
     
-      
-    const dataApproveLeave = [
-        ["Mary Tan","20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending",
-            <Button variant="contained" color="success" size="large" onClick={handleDelete} >Approve</Button>,
-            <Button variant="contained" color="error" size="large" >Reject</Button>
-            ],
-        ["Ben Ong","20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending",
-        <Button variant="contained" color="success" size="large">Approve</Button>,
-        <Button variant="contained" color="error" size="large">Reject</Button>],
-        ["Mary Tan","31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Pending",
-        <Button variant="contained" color="success" size="large">Approve</Button>,
-        <Button variant="contained" color="error" size="large">Reject</Button>],
-    ];
+    // const [open, setOpen] = React.useState(false);
 
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
+
+    // const handleClose = () => {
+    //     setOpen(false);
+    //     //onRowsDelete(true);
+    // };
+
+    
+    
+    // const [rowss, setRows] = useState(dataApproveLeave);
+    // const [deletedRows, setDeletedRows] = useState([]);
+
+
+    // const [items, setItems] = React.useState(dataApproveLeave)
+    // const [selection, setSelection] = React.useState([]);
+    // const [deleted, setDeleted] = React.useState([])
+    // const handlePurge = () => {
+    //     setDeleted([...deleted, ...selection])
+    //     setItems(items.filter(i=> !selection.some(s=> s.id === i.id)))
+    //     setSelection([])
+    // }
+
+    
     return (
 
         <Box pt={1}>
             <div id="box1">
-                <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'white', width: '1600px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30px 30px 0px 0px' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: 'white', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30px 30px 0px 0px' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="My Leave" {...a11yProps(0)} />
                         <Tab label="Team Leave" {...a11yProps(1)} />
@@ -792,13 +1077,17 @@ export default function BasicTabs() {
                                     </Box>
                                 </Grid>
                                 <Grid item xs={7.5}>
-                                    <Box>
+                                    <Box> 
+                                        <div id="contentt">
+                                                    <h1> Apply for Leave </h1> </div>
+
                                         <form noValidate autoComplete="off" onSubmit={handleSubmit}>
                                             <div id="box2">
                                                 {/* <div style = {{display: ,justifyContent:'left',alignItems: 'left'}}>  
                                                 <h3>Apply Leave </h3></div> */}
-                                                <div id="contentt">
-                                                    <h1> Apply for Leave </h1></div>
+                                               
+                                                
+                                               
 
                                                 <div id="selectbox">
                                                     <Box
@@ -1121,12 +1410,34 @@ export default function BasicTabs() {
                     <TabPanel value={value} index={3}>
                          <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
                             <br />
-                        <ThemeProvider theme={theme}>
-                            {/* <div> 
+
+                            <Leaveapproval />
+
+
+
+                        {/* <ThemeProvider theme={theme}>
+                            <div> 
                                 <Stack direction="row" spacing={5}>
                             <Button variant="contained" color="success" size="large">Approve</Button>
                             <Button variant="contained" color="error" size="large">Decline</Button>
-                                </Stack> </div> */}
+                                </Stack> </div>
+
+<div>
+                <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button>
+                <Dialog open ={open} onClose={handleClose}>
+                    <DialogTitle>Confirmation</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText>
+                        Please confirm that you want to approve the leave for:
+                    </DialogContentText>
+                    show details of leave 
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleClose}>Yes</Button>
+                    <Button onClick={handleClose}>No</Button>
+                    </DialogActions>
+                </Dialog>
+                </div>
                             <MUIDataTable
                                 title={""}
 
@@ -1134,9 +1445,9 @@ export default function BasicTabs() {
                                 columns={columnsforApprove}
                                 options={optionsApproveLeave}
                             />
-                        </ThemeProvider>
+                        </ThemeProvider> */}
+                       
                         </div>
-
                     </TabPanel>
 
                 </center>
