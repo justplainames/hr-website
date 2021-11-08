@@ -130,7 +130,8 @@ button.rbc-input::-moz-focus-inner {
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
-  font-size: 50px;
+  padding-bottom: 10px;
+  font-size: 20px;
 }
 .rbc-toolbar .rbc-toolbar-label {
   flex-grow: 1;

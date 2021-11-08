@@ -93,14 +93,14 @@ function TeamLeave( ) {
   const handleSelectSlot = (event) => {
       setSlots(event.slots)
       setSelectedSlots(!selectedEvent)
-      console.log(slots)
+    
   }
 
 
   return (
     <>
-    {selectedEvent && <Modal closeModal={setSelectedEvent} newData={data}/>}
-    {selectedSlots && <Recommendation closeModal={setSelectedSlots} newSlots={slots}/>}
+    {selectedEvent && <Modal openPopup={setSelectedEvent} newData={data}/>}
+    {selectedSlots && <Recommendation openPopup={setSelectedSlots} newSlots={slots}/>}
     <div className="app">
      <Typography variant = "h3">
       Team Calendar
@@ -114,7 +114,7 @@ function TeamLeave( ) {
       events={updated} 
       startAccessor="start" 
       endAccessor="end" 
-      style={{height:500, margin: "50px" }}
+      style={{height:'70vh', margin: "50px" }}
       popup ={true}
       eventPropGetter={calendarStyle}
 

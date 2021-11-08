@@ -9,12 +9,12 @@ const useStyles = makeStyles({
       padding: 0,
       "& .MuiButtonBase-root": {
         padding: 0,
-        paddingLeft: 10
+        paddingRight: 10
       },
       "& .MuiInputBase-input": {
         padding: 18.5,
         margin: 0,
-        paddingLeft: 0
+        paddingLeft: 20,
       }
     }
   }
@@ -33,13 +33,11 @@ function DatePicker(props) {
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker disableToolbar variant="inline" inputVariant="outlined"
             label={label}
-            formate="dd/mm/yyyy"
+            format="dd/MM/yyyy"
             name={name}
             value={value}
             onChange={date =>onChange(convertToDefEventPara(name,date))}
             className={classes.root}
-            
-            
         />
 
     

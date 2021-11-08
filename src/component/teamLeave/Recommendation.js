@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import "./ModalRecommendation.css"
-import {FormControl, InputLabel, Grid, Box, MenuItem, Button, Typography} from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
+import {Grid, Typography, Dialog, DialogTitle, DialogContent} from '@material-ui/core'
 import {useForm, Form} from './useForm';
 import Controls from "./controls/Controls"
 import TeamLeaveData from './TeamLeaveData';
-import id from 'date-fns/esm/locale/id/index.js';
+import { makeStyles } from '@material-ui/core';
+import {Close} from '@material-ui/icons/';
+
 
 
 const initialFValues = {
@@ -15,11 +16,12 @@ const initialFValues = {
     comments: '',
 }
 
-
-function Recommendation({ closeModal, newSlots }) {
-
-    const info = newSlots
-
+function Recommendation({ openPopup, newSlots }) {
+    
+    let info = newSlots
+    console.log(info[0])
+    initialFValues.startDate = info[0]
+    initialFValues.endDate=info[info.length-1]
     const validate = (fieldValues = values) => {
         let temp = {...errors}
         if('name' in fieldValues){
@@ -42,26 +44,33 @@ function Recommendation({ closeModal, newSlots }) {
         resetForm
     } = useForm(initialFValues, true, validate)
 
+
+    
+
     const handleSubmit = e => {
         e.preventDefault()
         if (validate()){
             window.alert("Add code to Post data")
-            closeModal(false)
+            openPopup(false)
         }
 
     }
 
     return (
-        <div className="modalBackground">
-           <div className="modalContainer">
-               <Button onClick={()=> closeModal(false)}>X</Button>
-               <Box sx={{pb:6}}> 
-                    <Typography>Recommend Leave</Typography>      
-                </Box>
+        <Dialog open={openPopup}>
+            <DialogTitle>
+                <div style={{display:'flex'}}>
+                    <Typography variant='h6' component='div' style={{flexGrow: 1}}>Recommend Leave</Typography>         
+                <Controls.ActionButton color="secondary" onClick={() => {openPopup(false)}}>
+                    <Close />
+                </Controls.ActionButton>
+                </div>
+            </DialogTitle>
+            <DialogContent dividers>
                 <Form onSubmit = {handleSubmit}>
-                   <Grid container>
-                       <Grid item xs={6}>
-                           <Controls.Select 
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <Controls.Select 
                             name="name"
                             label="Employee Name"
                             value={values.name}
@@ -69,16 +78,14 @@ function Recommendation({ closeModal, newSlots }) {
                             items={TeamLeaveData}
                             error={errors.name}
                             />
-                           <Controls.Input
+                            <Controls.Input
                             name='comments'
                             label='Comments'
                             value={values.comments}
                             onChange={handleInputChange}
-                           />
-                        
+                            />
                         </Grid>
-                        <Grid item xs={6}>
-                           
+                        <Grid item xs={6}>       
                             <Controls.DatePicker
                                 marginTop="0px"
                                 name="startDate"
@@ -96,18 +103,18 @@ function Recommendation({ closeModal, newSlots }) {
                                 <Controls.Button
                                 type="submit"
                                 text="submit"
-                                 />
-                                 <Controls.Button
+                                />  
+                                <Controls.Button
                                 color="default"
                                 text="reset"
                                 onClick={resetForm}
-                                 />
+                                />  
                             </div>    
                         </Grid>                   
-                   </Grid>
-               </Form>
-           </div>
-        </div>
+                    </Grid>
+                </Form>
+            </DialogContent>
+    </Dialog>
     )
 }
 
