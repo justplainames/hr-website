@@ -2,6 +2,10 @@
   background-color: rgba(156, 136, 255, 0.7) !important;
 }
 
+.leaveDayApproved:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
+  background-color: rgba(136, 255, 186, 0.7) !important;
+}
+
 .meetingDay:not(.-selectedStart):not(.-selectedBetween):not(.-selectedEnd):not(.-selected) {
   background-color: rgba(74, 153, 255, 0.7) !important;
 }

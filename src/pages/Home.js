@@ -162,7 +162,18 @@ const Home = () => {
                 template.year = yearr
                 template.month = monthh + 1
                 template.day = dayy
-                template.className = cssname(data[i].types)[0]
+
+                if (data[i].approved && (data[i].types === 'meeting' || data[i].types === 'course')) {
+                    template.className = cssname(data[i].types)[0]
+                }
+                else if (data[i].approved) {
+                    template.className = cssname('approved')[0]
+                    console.log(template.className)
+                }
+                else {
+                    template.className = cssname(data[i].types)[0]  
+                }
+
                 setcalenval(oldArray => [...oldArray, template]);
                 if (z !== 0 && z == data[i].days - 1) {
                     break;
