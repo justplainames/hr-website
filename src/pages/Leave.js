@@ -356,22 +356,23 @@ export default function BasicTabs() {
     const [mark2, setmark2] = useState([]);
     const [mark, setmark] = useState([]);
     const [datedisabled, setdatedisabled] = useState([]);
-const [tabledata , settabledata] = useState([])
+    const [leaves, setleaves] = useState([]);
+    const [tabledata, settabledata] = useState([])
 
     function createData(ltype, left, entitlement, carryforward) {
         return { ltype, left, entitlement, carryforward };
     }
-    
-    
+
+
     const rows = [
-        createData('Adoption Leave', 232, 6.0, 24),
-        createData('Annual Leave', 237, 9.0, 37),
-        createData('Childcare Leave', 262, 16.0, 24),
-        createData('Maternity Leave', 305, 3.7, 67),
-        createData('Parental Leave', 356, 16.0, 49),
-        createData('Shared Parental Leave', 356, 16.0, 49),
-        createData('Sick Leave', 356, 16.0, 49),
-        createData('Unpaid Infant Care Parental', 356, 16.0, 49),
+        'Adoption Leave',
+        'Annual Leave',
+        'Childcare Leave',
+        'Maternity Leave',
+        'Parental Leave',
+        'Shared Parental Leave',
+        'Sick Leave',
+        'Unpaid Infant Care Parental',
     ];
 
 
@@ -380,7 +381,7 @@ const [tabledata , settabledata] = useState([])
     //     new Date(date.getFullYear(),0,1),
     //     new Date(date.getFullYear(),4,1)
     //     ];
-        
+
     //     return dateRaw.includes(datef.getTime());
     //     }
 
@@ -390,16 +391,17 @@ const [tabledata , settabledata] = useState([])
                 id: id
             }
         })
-            .then(res => { 
-                    settabledata(oldArray => [...oldArray, createData('Annual Leave',res.data.left.annual , res.data.annual, res.data.carryforward.annual)])
-                    settabledata(oldArray => [...oldArray, createData('Adoption Leave', res.data.left.adoption, res.data.adoption, res.data.carryforward.adoption)]);
-                    settabledata(oldArray => [...oldArray, createData('Childcare Leave', res.data.left.childcare, res.data.childcare, res.data.carryforward.childcare)]);
-                    settabledata(oldArray => [...oldArray, createData('Maternity Leave', res.data.left.maternity, res.data.maternity, res.data.carryforward.maternity)]);
-                    settabledata(oldArray => [...oldArray, createData('Parental Leave', res.data.left.paternity, res.data.paternity, res.data.carryforward.paternity)]);
-                    settabledata(oldArray => [...oldArray, createData('Shared Parental Leave', res.data.left.sharedparental, res.data.sharedparental, res.data.carryforward.sharedparental)]);
-                    settabledata(oldArray => [...oldArray, createData('Unpaid Infant Care Parental', res.data.left.infantcare, res.data.infantcare, res.data.carryforward.infantcare)]);
-                    
-              
+            .then(res => {
+                setleaves(res.data)
+                settabledata(oldArray => [...oldArray, createData('Annual Leave', res.data.left.annual, res.data.annual, res.data.carryforward.annual)])
+                settabledata(oldArray => [...oldArray, createData('Adoption Leave', res.data.left.adoption, res.data.adoption, res.data.carryforward.adoption)]);
+                settabledata(oldArray => [...oldArray, createData('Childcare Leave', res.data.left.childcare, res.data.childcare, res.data.carryforward.childcare)]);
+                settabledata(oldArray => [...oldArray, createData('Maternity Leave', res.data.left.maternity, res.data.maternity, res.data.carryforward.maternity)]);
+                settabledata(oldArray => [...oldArray, createData('Parental Leave', res.data.left.paternity, res.data.paternity, res.data.carryforward.paternity)]);
+                settabledata(oldArray => [...oldArray, createData('Shared Parental Leave', res.data.left.sharedparental, res.data.sharedparental, res.data.carryforward.sharedparental)]);
+                settabledata(oldArray => [...oldArray, createData('Unpaid Infant Care Parental', res.data.left.infantcare, res.data.infantcare, res.data.carryforward.infantcare)]);
+
+
             })
     }
     const fetchapplied = (id) => {
@@ -435,7 +437,7 @@ const [tabledata , settabledata] = useState([])
                         dd = new Date(date)
                         datecounter = dd
                         setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
-                      
+
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
                     }
                     else if (data[i].types === 'meeting') {
@@ -447,8 +449,10 @@ const [tabledata , settabledata] = useState([])
 
                 }
                 else {
-
-                    if (data[i].types === 'annual') {
+                    if(data[i].days===1) {
+                        break;
+                    }
+                    else if (data[i].types === 'annual') {
                         var set = new Date(datecounter)
                         var set2 = set.setDate(set.getDate() + 1)
                         dd = new Date(set2)
@@ -463,7 +467,8 @@ const [tabledata , settabledata] = useState([])
                         datecounter = dd
                         setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
-                    }
+                    
+                }   
                 }
 
                 if (z !== 0 && z == data[i].days - 1) {
@@ -473,7 +478,7 @@ const [tabledata , settabledata] = useState([])
             }
 
         }
-      
+
     }
 
 
@@ -565,7 +570,7 @@ const [tabledata , settabledata] = useState([])
                             }, 2500);
                         })
                             .catch(error => {
-                          
+
                             })
                     }
                     else {
@@ -587,19 +592,19 @@ const [tabledata , settabledata] = useState([])
                             setTimeout(() => {
                                 setTimeout(() => {
                                     window.location.pathname = '/leave';
-                                }, 1500);
+                                }, 1000);
                                 setopac('1')
                                 setLoading(false)
                                 setIsSubmitted(true);
-                            }, 2500);
+                            }, 1000);
 
                         }).catch(error => {
-               
+
                         })
                     }
                 })
                 .catch(error => {
-         
+
                 })
 
             //if credentials wrong, prompt user for correct input
@@ -799,9 +804,9 @@ const [tabledata , settabledata] = useState([])
                                                                 // value={values.leavetype}
                                                                 onChange={handleChanges}
                                                             >
-                                                                {rows.map((option) => (
-                                                                    <MenuItem key={option.value} value={option.value}>
-                                                                        {option.label}
+                                                                {tabledata.map((option) => (
+                                                                    <MenuItem key={option.ltype} value={option.ltype}>
+                                                                        {option.ltype}
                                                                     </MenuItem>
                                                                 ))}
                                                             </TextField>
@@ -862,9 +867,9 @@ const [tabledata , settabledata] = useState([])
                                                             endText="End Date"
                                                             disabled={disablefromnoti}
                                                             name="daterange"
-                                                            shouldDisableDate={(date)=>{
-                                                                if (datedisabled.find(x => x.getTime() ===date.getTime())){
-                                                                  return date
+                                                            shouldDisableDate={(date) => {
+                                                                if (datedisabled.find(x => x.getTime() === date.getTime())) {
+                                                                    return date
                                                                 }
                                                             }}
                                                             value={daterange}

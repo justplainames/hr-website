@@ -6,10 +6,16 @@ import CircleIcon from '@mui/icons-material/Circle';
 import Grid from '@mui/material/Grid';
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Toolbar, TextField, InputAdornment, Box } from '@material-ui/core'
 import Button from '@mui/material/Button';
-
+import { css } from "@emotion/react";
+import FadeLoader from "react-spinners/FadeLoader";
 import { cssname } from '../../utils/cssname';
 import axios from 'axios';
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import { Alert, AlertTitle } from '@mui/material';
+import DialogTitle from '@mui/material/DialogTitle';
 const useStyles = makeStyles(theme => ({
     cardinfo: {
         borderRadius: '15px',
@@ -18,6 +24,13 @@ const useStyles = makeStyles(theme => ({
     }
 
 }))
+
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 const d = new Date();
 const weekday = new Array(7);
@@ -49,49 +62,121 @@ month[11] = "Dec";
 export default function Applied({ details, ...others }) {
     const classes = useStyles();
     //console.log("These are the details:")
-    const [editdate,seteditdate] = useState(0);
-    const [editdateto,seteditdateto] = useState(0);
+    const [editdate, seteditdate] = useState(0);
+    const [editdateto, seteditdateto] = useState(0);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
+    const [open3, setOpen3] = useState(false);
+
+
+
 
     useEffect(() => {
-       const date = details.from
-       const dateTo = details.to
-       const splitDate = date.split("/");
-       const splitDateTo = dateTo.split("/");
-       seteditdate(splitDate)
-       seteditdateto(splitDateTo)
+        const date = details.from
+        const dateTo = details.to
+        const splitDate = date.split("/");
+        const splitDateTo = dateTo.split("/");
+        seteditdate(splitDate)
+        seteditdateto(splitDateTo)
     }, []);
 
-    const startMonth = month[editdate[0]-1]
+    const startMonth = month[editdate[0] - 1]
     const startDay = editdate[1]
     const startYear = editdate[2]
-    const endMonth = month[editdateto[0]-1]
+    const endMonth = month[editdateto[0] - 1]
     const endDay = editdateto[1]
     const endYear = editdateto[2]
-
+    const [opac, setopac] = useState('1')
+    const [loading, setLoading] = useState(false);
     const handleDelete = (e) => {
-        const id = localStorage.getItem("isAuthenticated");
-        e.preventDefault();
-
+        e.preventDefault()
+        setopac('0.4')
+        setLoading(true)    
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        const id = details._id
         axios.post('http://localhost:5000/deleteApplied',
-        {
-            "userId": id,
-        }).then(res=>{
-            localStorage.setItem("isAuthenticated", res.data._id)
-        })
+            {
+                
+                "userId": isAuthenticated,
+                "id": id
+            }).then(res => {
+                setOpen3(false)
+                setTimeout(() => {
+                    setTimeout(() => {
+                        window.location.pathname = '/';
+                    }, 300);
+                    setopac('1')
+                    setLoading(false)
+                    setIsSubmitted(true);
+                }, 500);
+            })
     }
-    
+
+
+    const handleClose = () => {
+        setOpen3(false);
+    };
+
+
+    const vali = (e) => {
+        e.preventDefault();
+        setOpen3(true)
+    }
+
 
     return (
         <Box pl={2.5} pt={3}>
+            
+                <Dialog
+                    fullWidth={true}
+                    maxWidth="sm"
+                    open={open3}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+
+                    <DialogTitle id="alert-dialog-title">
+                        {"Confirmation"}
+                    </DialogTitle>
+                    <DialogContent>
+
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to cancel?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button onClick={handleDelete} autoFocus>
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+            <div style={{
+                position: 'absolute', left: '50%', top: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: 2000
+            }}>
+                {isSubmitted ? <Alert severity="success">
+                    <AlertTitle>Success</AlertTitle>
+                    You have canceled the leave for {startMonth} {startDay}, {startYear} - {endMonth} {endDay}, {endYear}
+                </Alert> :
+                    false}
+            </div>
+
+            <div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+                <FadeLoader color={"black"} loading={loading} css={override} size={10} />
+            </div>
             <Card className={classes.cardinfo}>
-                <Box sx={{ display: 'flex' }} pl = {2}>
+                <Box sx={{ display: 'flex' }} pl={2}>
                     <Box>
-                        <Box sx={{ display: 'flex'}} >
-                            <Box pl ={2} pt={1.8} mr = {1}>
-                                <Typography variant="h5">{details.types.charAt(0).toUpperCase() + details.types.slice(1)}  {details.types==='meeting' | details.types==='course' ? '' : 'Leave'} </Typography>
+                        <Box sx={{ display: 'flex' }} >
+                            <Box pl={2} pt={1.8} mr={1}>
+                                <Typography variant="h5">{details.types.charAt(0).toUpperCase() + details.types.slice(1)}  {details.types === 'meeting' | details.types === 'course' ? '' : 'Leave'} </Typography>
                             </Box>
-                            <Box pt={2}>                                                                
-                                {<CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} />}                              
+                            <Box pt={2}>
+                                {<CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} />}
                             </Box>
                         </Box>
 
@@ -100,33 +185,33 @@ export default function Applied({ details, ...others }) {
 
 
                             <Box >
-                                <Box pt={2.5}>                     
-                                    {details.from === details.to ? <Typography>{startMonth} {startDay}, {startYear} </Typography> : <Typography> {startMonth} {startDay}, {startYear} - {endMonth} {endDay}, {endYear} </Typography>}                                           
+                                <Box pt={2.5}>
+                                    {details.from === details.to ? <Typography>{startMonth} {startDay}, {startYear} </Typography> : <Typography> {startMonth} {startDay}, {startYear} - {endMonth} {endDay}, {endYear} </Typography>}
                                 </Box>
 
                                 <Box pt={2}>
-                                    <Typography>         
-                                        {details.types==='meeting' ? 'Time: 9am - 10am' : ''}                                                                 
-                                        {details.types==='meeting' ? '' : details.days===1 ? details.days + ' day' + ' (' + details.daytype + ')' : details.days + ' days' + ' (' + details.daytype + ')'} 
+                                    <Typography>
+                                        {details.types === 'meeting' ? 'Time: 9am - 10am' : ''}
+                                        {details.types === 'meeting' ? '' : details.days === 1 ? details.days + ' day' + ' (' + details.daytype + ')' : details.days + ' days' + ' (' + details.daytype + ')'}
                                     </Typography>
                                 </Box>
 
-                                <Box sx={{display: "flex"}}>
-                                    <Box pt={2} style={{width:'200px'}}>
+                                <Box sx={{ display: "flex" }}>
+                                    <Box pt={2} style={{ width: '200px' }}>
                                         {
                                             details.remarks === 'nil' ?
                                                 <Typography >
                                                     {''}
-                                                </Typography> 
+                                                </Typography>
                                                 :
                                                 <Typography>
-                                                    Details: {details.remarks} 
+                                                    Details: {details.remarks}
                                                 </Typography>
                                         }
                                     </Box>
 
-                                    <Box pt = {4} pl = {1}>
-                                        {details.types !== 'meeting' && details.types !== 'course' ? <Button onClick={handleDelete} variant="outlined" color="error" size="small"> Cancel Leave </Button> : ''} 
+                                    <Box pt={4} pl={1}>
+                                        {details.types !== 'meeting' && details.types !== 'course' ? <Button onClick={vali} variant="outlined" color="error" size="small"> Cancel Leave </Button> : ''}
                                     </Box>
 
 

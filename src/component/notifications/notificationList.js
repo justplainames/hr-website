@@ -11,7 +11,6 @@ import { ConstructionOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom'
 export default function NotificationList({ id, details, ...others }) {
 
-
     return (
         <Box pt={2}>
 
@@ -43,13 +42,13 @@ export default function NotificationList({ id, details, ...others }) {
             <Box pl={8} pb={2} sx={{ display: 'flex' }}>
             {
                 details.status.accepted === "null" ?
-                   <Box>
-                        <Box pr={1}>
-                            <Button variant="contained" color="success" size="small" id={id} >
-                                <Link to={{ pathname: "/leave", state: details }} >Accept</Link>
+                   <Box sx={{ display: 'flex' }} pl={2}>
+                        <Box pr={2}>
+                            <Button variant="contained" color="success" size="medium" id={id} >
+                                <Link style={{textDecoration: "none", color:"#fff"}} to={{ pathname: "/leave", state: details }} >Accept</Link>
                             </Button>
                         </Box>
-                        <Button variant="outlined" color="error" size="small">
+                        <Button variant="outlined" color="error" size="medium">
                             Decline
                         </Button>
                    </Box>

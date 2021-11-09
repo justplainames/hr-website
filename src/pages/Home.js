@@ -148,11 +148,16 @@ const Home = () => {
                     datecounter = dd
                 }
                 else {
+                    if(data[i].days ===1)
+                    {
+                        break;
+                    }
+                    else{
                     var set = new Date(datecounter)
                     var set2 = set.setDate(set.getDate() + 1)
                     dd = new Date(set2)
                     datecounter = dd
-
+                    }
                 }
 
 
@@ -581,7 +586,7 @@ const Home = () => {
                         <Card className={classes.leaveinfo}  >
                             <Box className={classes.infoheader} sx={{ display: 'flex' }} pt={2} >
                                 <Box sx={{ display: 'flex' }}>
-                                    <Box mt={7.5} pl={2.5}>
+                                    <Box mt={7.5}>
 
                                         <Typography variant='h4'>
                                             {weekday[d.getDay()]}
