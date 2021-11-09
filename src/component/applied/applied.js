@@ -173,10 +173,22 @@ export default function Applied({ details, ...others }) {
                     <Box>
                         <Box sx={{ display: 'flex' }} >
                             <Box pl={2} pt={1.8} mr={1}>
-                                <Typography variant="h5">{details.types.charAt(0).toUpperCase() + details.types.slice(1)}  {details.types === 'meeting' | details.types === 'course' ? '' : 'Leave'} </Typography>
+                                <Typography variant="h5">
+                                    {details.types.charAt(0).toUpperCase() + details.types.slice(1)}  {details.types === 'meeting' || details.types === 'course' ? '' : 'Leave'}
+                                 </Typography>
+
                             </Box>
                             <Box pt={2}>
-                                {<CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} />}
+                                {details.types === 'meeting' || details.types === 'course' 
+                                ? <CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} /> 
+                                :[
+                                    (details.approved 
+                                        ? <CircleIcon sx={{ fontSize: 25, color: cssname('approved')[1]}} /> 
+                                        : <CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1]}}/>
+                                    ),
+                                ]
+                                }
+                                
                             </Box>
                         </Box>
 

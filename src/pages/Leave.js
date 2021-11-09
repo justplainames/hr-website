@@ -354,6 +354,7 @@ export default function BasicTabs() {
     const [open3, setOpen3] = useState(false);
     const [opac, setopac] = useState('1')
     const [mark2, setmark2] = useState([]);
+    const [mark3, setmark3] = useState([]);
     const [mark, setmark] = useState([]);
     const [datedisabled, setdatedisabled] = useState([]);
     const [leaves, setleaves] = useState([]);
@@ -433,17 +434,22 @@ export default function BasicTabs() {
                 var date = data[i].from.replace(re, '-');
                 var dd;
                 if (z === 0) {
-                    if (data[i].types === 'annual') {
+                    if (data[i].types === 'course') {
                         dd = new Date(date)
                         datecounter = dd
-                        setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
-
+                        setmark3(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
                     }
                     else if (data[i].types === 'meeting') {
                         dd = new Date(date)
                         datecounter = dd
                         setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
+                    else{
+                        dd = new Date(date)
+                        datecounter = dd
+                        setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
                     }
 
@@ -452,12 +458,12 @@ export default function BasicTabs() {
                     if(data[i].days===1) {
                         break;
                     }
-                    else if (data[i].types === 'annual') {
+                    else if (data[i].types === 'course') {
                         var set = new Date(datecounter)
                         var set2 = set.setDate(set.getDate() + 1)
                         dd = new Date(set2)
                         datecounter = dd
-                        setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setmark3(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
                     }
                     else if (data[i].types === 'meeting') {
@@ -467,8 +473,16 @@ export default function BasicTabs() {
                         datecounter = dd
                         setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
-                    
-                }   
+               
+                    }  
+                    else{
+                        var set = new Date(datecounter)
+                        var set2 = set.setDate(set.getDate() + 1)
+                        dd = new Date(set2)
+                        datecounter = dd
+                        setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    } 
                 }
 
                 if (z !== 0 && z == data[i].days - 1) {
@@ -726,11 +740,15 @@ export default function BasicTabs() {
                                             value={calendar}
                                             tileClassName={({ date, view }) => {
                                                 if (mark.find(x => x === moment(date).format("MM-DD-YYYY"))) {
-                                                    return 'highlight1'
+                                                    return 'highlight'
                                                 }
                                                 if (mark2.find(x => x === moment(date).format("MM-DD-YYYY"))) {
+                                                    return 'highlight1'
+                                                }
+                                                if (mark3.find(x => x === moment(date).format("MM-DD-YYYY"))) {
                                                     return 'highlight2'
                                                 }
+
 
                                             }}
                                         />

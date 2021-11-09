@@ -206,13 +206,22 @@ padding-top:1px!important;
 }  
 
 
+
+
+
  .react-calendar__tile--active{
      color:black !important;
  }
 
  .react-calendar__tile--active{
-     background: green !important;
+     background: rgb(241, 255, 115) !important;
  }
+
+ .react-calendar__tile--now {
+    text-decoration: underline !important;
+    font-weight: bold !important;
+}
+
   /*Responsiveness*/
 @media only screen and (max-width: 1760px) {
     #box1 {
