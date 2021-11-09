@@ -94,21 +94,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 
 }));
-function createData(ltype, left, entitlement, carryforward) {
-    return { ltype, left, entitlement, carryforward };
-}
-
-
-const rows = [
-    createData('Adoption Leave', 159, 6.0, 24),
-    createData('Annual Leave', 237, 9.0, 37),
-    createData('Childcare Leave', 262, 16.0, 24),
-    createData('Maternity Leave', 305, 3.7, 67),
-    createData('Parental Leave', 356, 16.0, 49),
-    createData('Shared Parental Leave', 356, 16.0, 49),
-    createData('Sick Leave', 356, 16.0, 49),
-    createData('Unpaid Infant Care Parental', 356, 16.0, 49),
-];
 
 // leave types for my leave select leave type
 const leavetypes = [
@@ -370,8 +355,26 @@ export default function BasicTabs() {
     const [opac, setopac] = useState('1')
     const [mark2, setmark2] = useState([]);
     const [mark, setmark] = useState([]);
-    const [datedisabled, setdatedisabled] = useState([])
-    const [leaves,setleaves] = useState([])
+    const [datedisabled, setdatedisabled] = useState([]);
+const [tabledata , settabledata] = useState([])
+
+    function createData(ltype, left, entitlement, carryforward) {
+        return { ltype, left, entitlement, carryforward };
+    }
+    
+    
+    const rows = [
+        createData('Adoption Leave', 232, 6.0, 24),
+        createData('Annual Leave', 237, 9.0, 37),
+        createData('Childcare Leave', 262, 16.0, 24),
+        createData('Maternity Leave', 305, 3.7, 67),
+        createData('Parental Leave', 356, 16.0, 49),
+        createData('Shared Parental Leave', 356, 16.0, 49),
+        createData('Sick Leave', 356, 16.0, 49),
+        createData('Unpaid Infant Care Parental', 356, 16.0, 49),
+    ];
+
+
     // disableSpecific(datef) {
     //     const dateRaw = [
     //     new Date(date.getFullYear(),0,1),
@@ -387,10 +390,35 @@ export default function BasicTabs() {
                 id: id
             }
         })
-            .then(res => {
-                setleaves(res.data);
+            .then(res => { 
+                    settabledata(oldArray => [...oldArray, createData('Annual Leave',res.data.left.annual , res.data.annual, res.data.carryforward.annual)])
+                    settabledata(oldArray => [...oldArray, createData('Adoption Leave', res.data.left.adoption, res.data.adoption, res.data.carryforward.adoption)]);
+                    settabledata(oldArray => [...oldArray, createData('Childcare Leave', res.data.left.childcare, res.data.childcare, res.data.carryforward.childcare)]);
+                    settabledata(oldArray => [...oldArray, createData('Maternity Leave', res.data.left.maternity, res.data.maternity, res.data.carryforward.maternity)]);
+                    settabledata(oldArray => [...oldArray, createData('Parental Leave', res.data.left.paternity, res.data.paternity, res.data.carryforward.paternity)]);
+                    settabledata(oldArray => [...oldArray, createData('Shared Parental Leave', res.data.left.sharedparental, res.data.sharedparental, res.data.carryforward.sharedparental)]);
+                    settabledata(oldArray => [...oldArray, createData('Unpaid Infant Care Parental', res.data.left.infantcare, res.data.infantcare, res.data.carryforward.infantcare)]);
+                    
+              
             })
     }
+    const fetchapplied = (id) => {
+        axios.get('http://localhost:5000/applied', {
+            params: {
+                id: id
+            }
+        })
+            .then(res => {
+                calendardetails(res.data.applies)
+            })
+    }
+
+
+    useEffect(() => {
+        const id = localStorage.getItem("isAuthenticated");
+        fetchapplied(id)
+        fetchleaves(id)
+    }, []);
 
     const calendardetails = (data) => {
 
@@ -447,27 +475,6 @@ export default function BasicTabs() {
         }
       
     }
-
-    const fetchapplied = (id) => {
-        axios.get('http://localhost:5000/applied', {
-            params: {
-                id: id
-            }
-        })
-            .then(res => {
-                calendardetails(res.data.applies)
-            })
-    }
-
-
-    useEffect(() => {
-        const id = localStorage.getItem("isAuthenticated");
-        fetchapplied(id)
-        fetchleaves(id)
-    }, []);
-
-
-
 
 
     useEffect(() => {
@@ -650,27 +657,6 @@ export default function BasicTabs() {
         fixedHeader: false,
     };
 
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
-    const [table, setTable] = useState([])
-
-    const fetchTable = async () => {
-        const isAuthenticated = localStorage.getItem("isAuthenticated");
-        await axios.get('http://localhost:5000/leaves', {
-            params: {
-                id: isAuthenticated
-            }
-        })
-            .then(res => {
-                setTable(res.data);
-            })
-    }
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            fetchTable()
-        }
-    }, []);
-
 
     return (
 
@@ -757,14 +743,14 @@ export default function BasicTabs() {
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody sx={{ height: '360px', position: 'absolute', overflowY: 'scroll', borderRadius: '0px 0px 20px 20px', width: '500px' }}>
-                                                    {rows.map((row) => (
+                                                    {tabledata.map((row) => (
                                                         <StyledTableRow key={row.ltype}>
                                                             <StyledTableCell sx={{ width: '160px' }} component="th" scope="row">
                                                                 {row.ltype}
                                                             </StyledTableCell>
                                                             <StyledTableCell sx={{ paddingLeft: '30px' }} align="right">{row.left}</StyledTableCell>
                                                             <StyledTableCell sx={{ paddingLeft: '60px' }} align="right">{row.entitlement}</StyledTableCell>
-                                                            <StyledTableCell sx={{ paddingLeft: '110px', paddingRight: '48px' }} align="right">{row.carryforward}</StyledTableCell>
+                                                            <StyledTableCell sx={{ paddingLeft: '110px', paddingRight: '68px' }} align="right">{row.carryforward}</StyledTableCell>
 
                                                         </StyledTableRow>
                                                     ))}
@@ -813,7 +799,7 @@ export default function BasicTabs() {
                                                                 // value={values.leavetype}
                                                                 onChange={handleChanges}
                                                             >
-                                                                {leavetypes.map((option) => (
+                                                                {rows.map((option) => (
                                                                     <MenuItem key={option.value} value={option.value}>
                                                                         {option.label}
                                                                     </MenuItem>
