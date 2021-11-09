@@ -364,19 +364,6 @@ export default function BasicTabs() {
         return { ltype, left, entitlement, carryforward };
     }
 
-
-    const rows = [
-        'Adoption Leave',
-        'Annual Leave',
-        'Childcare Leave',
-        'Maternity Leave',
-        'Parental Leave',
-        'Shared Parental Leave',
-        'Sick Leave',
-        'Unpaid Infant Care Parental',
-    ];
-
-
     // disableSpecific(datef) {
     //     const dateRaw = [
     //     new Date(date.getFullYear(),0,1),
@@ -394,12 +381,12 @@ export default function BasicTabs() {
         })
             .then(res => {
                 setleaves(res.data)
-                settabledata(oldArray => [...oldArray, createData('Annual Leave', res.data.left.annual, res.data.annual, res.data.carryforward.annual)])
-                settabledata(oldArray => [...oldArray, createData('Adoption Leave', res.data.left.adoption, res.data.adoption, res.data.carryforward.adoption)]);
-                settabledata(oldArray => [...oldArray, createData('Childcare Leave', res.data.left.childcare, res.data.childcare, res.data.carryforward.childcare)]);
-                settabledata(oldArray => [...oldArray, createData('Maternity Leave', res.data.left.maternity, res.data.maternity, res.data.carryforward.maternity)]);
-                settabledata(oldArray => [...oldArray, createData('Parental Leave', res.data.left.paternity, res.data.paternity, res.data.carryforward.paternity)]);
-                settabledata(oldArray => [...oldArray, createData('Shared Parental Leave', res.data.left.sharedparental, res.data.sharedparental, res.data.carryforward.sharedparental)]);
+                settabledata(oldArray => [...oldArray, createData('Annual', res.data.left.annual, res.data.annual, res.data.carryforward.annual)])
+                settabledata(oldArray => [...oldArray, createData('Adoption', res.data.left.adoption, res.data.adoption, res.data.carryforward.adoption)]);
+                settabledata(oldArray => [...oldArray, createData('Childcare', res.data.left.childcare, res.data.childcare, res.data.carryforward.childcare)]);
+                settabledata(oldArray => [...oldArray, createData('Maternity', res.data.left.maternity, res.data.maternity, res.data.carryforward.maternity)]);
+                settabledata(oldArray => [...oldArray, createData('Paternity', res.data.left.paternity, res.data.paternity, res.data.carryforward.paternity)]);
+                settabledata(oldArray => [...oldArray, createData('Shared Parental', res.data.left.sharedparental, res.data.sharedparental, res.data.carryforward.sharedparental)]);
                 settabledata(oldArray => [...oldArray, createData('Unpaid Infant Care Parental', res.data.left.infantcare, res.data.infantcare, res.data.carryforward.infantcare)]);
 
 
@@ -758,7 +745,7 @@ export default function BasicTabs() {
                                             <Table sx={{ width: '500px', maxHeight: '415px', height: '415px' }} aria-label="customized table">
                                                 <TableHead>
                                                     <TableRow>
-                                                        <StyledTableCell sx={{ width: '160px' }}>Type</StyledTableCell>
+                                                        <StyledTableCell sx={{ width: '160px' }}>Type (Leave)</StyledTableCell>
                                                         <StyledTableCell align="right">Left</StyledTableCell>
                                                         <StyledTableCell align="right">Entitlement</StyledTableCell>
                                                         <StyledTableCell align="right">CarryForward</StyledTableCell>

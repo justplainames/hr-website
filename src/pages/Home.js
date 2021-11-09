@@ -217,9 +217,7 @@ const Home = () => {
     useEffect(() => {
         const id = localStorage.getItem("isAuthenticated");
         fetchapplied(id)
-    }, []);
-
-    console.log(applied)
+    }, []);    
 
 
     useEffect(() => {
@@ -360,7 +358,7 @@ const Home = () => {
                                         </Box>
                                         <Box pt={6} pb={5}>
                                             <Typography variant='h5'>
-                                                Upcoming :
+                                                Upcoming : 
                                             </Typography>
                                         </Box>
 
