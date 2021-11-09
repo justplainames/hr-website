@@ -174,7 +174,16 @@ export default function Applied({ details, ...others }) {
                         <Box sx={{ display: 'flex' }} >
                             <Box pl={2} pt={1.8} mr={1}>
                                 <Typography variant="h5">
-                                    {details.types.charAt(0).toUpperCase() + details.types.slice(1)}  {details.types === 'meeting' || details.types === 'course' ? '' : 'Leave'}
+                                    {details.types.charAt(0).toUpperCase() + details.types.slice(1)}  
+                                    {details.types === 'meeting' || details.types === 'course' 
+                                    ? '' 
+                                    :[ 
+                                        (details.approved
+                                            ? ' Leave'
+                                            : ' Leave (Pending)' 
+                                        ),
+                                    ]
+                                }
                                  </Typography>
 
                             </Box>
