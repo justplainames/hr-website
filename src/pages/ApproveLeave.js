@@ -118,6 +118,7 @@ const Leaveapproval = () => {
         const updatedData = tableData.filter(row => !selectedRows.includes(row))
         setTableData(updatedData);
         setOpen(false);
+        setOpen1(false);
       }
 
     const [open, setOpen] = React.useState(false);
@@ -163,9 +164,9 @@ const Leaveapproval = () => {
                             <DialogTitle>Confirmation</DialogTitle>
                             <DialogContent>
                             <DialogContentText>
-                                Please confirm that you want to approve the leave for:
+                                Please confirm that you want to APPROVE the leave:
                             </DialogContentText>
-                            show details of leave 
+                            {/* show details of leave  */}
                             </DialogContent>
                             <DialogActions>
                             <Button onClick={handleClose}>No</Button>
@@ -178,9 +179,9 @@ const Leaveapproval = () => {
                             <DialogTitle>Confirmation</DialogTitle>
                             <DialogContent>
                             <DialogContentText>
-                                Please confirm that you want to reject the leave for:
+                                Please confirm that you want to REJECT the leave:
                             </DialogContentText>
-                            show details of leave 
+                            {/* show details of leave  */}
                             </DialogContent>
                             <DialogActions>
                             <Button onClick={handleClose}>No</Button>

@@ -27,10 +27,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-// import React from "react";
-import MUIDataTable from "mui-datatables";
+
 import InputLabel from '@mui/material/InputLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Select from '@mui/material/Select';
@@ -60,6 +58,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
+import Leaverecord from '../pages/LeaveRecord.js'
 import Leaveapproval from '../pages/ApproveLeave.js'
 import { DateTimePicker } from '@material-ui/pickers';
 
@@ -94,21 +93,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 
 }));
+
 function createData(ltype, left, entitlement, carryforward) {
     return { ltype, left, entitlement, carryforward };
 }
-
-
-const rows = [
-    createData('Adoption Leave', 159, 6.0, 24),
-    createData('Annual Leave', 237, 9.0, 37),
-    createData('Childcare Leave', 262, 16.0, 24),
-    createData('Maternity Leave', 305, 3.7, 67),
-    createData('Parental Leave', 356, 16.0, 49),
-    createData('Shared Parental Leave', 356, 16.0, 49),
-    createData('Sick Leave', 356, 16.0, 49),
-    createData('Unpaid Infant Care Parental', 356, 16.0, 49),
-];
 
 // leave types for my leave select leave type
 const leavetypes = [
@@ -142,85 +130,16 @@ const leavetypes = [
     },
     {
         value: 'Unpaid Infant Care Leave',
-        label: 'Unpaid Infant Care Parental',
+        label: 'Unpaid Infant Care Leave',
     },
 ];
 
-//columns for leave records
-const columnsforRecord = [
-    {
-        name: "Date of Application",
-        options: {
-            filter: true,
-        }
-    },
-    {
-        label: "Type",
-        name: "Title",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Start Date",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "End Date",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Days Applied",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Recommender",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Approver",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Status",
-        options: {
-            filter: true
-        }
-    },
-];
-
-
-
-const data = [
-    ["20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"],
-    ["20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending"],
-    ["31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Approved"],
-
-];
 
 const options = {
     filter: true,
     filterType: "multiselect",
     responsive: "scrollMaxHeight"
 };
-
-const dataLeaveRecord = [
-    ["20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"],
-    ["20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending"],
-    ["31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Approved"],
-];
-
-
 
 
 
@@ -381,6 +300,8 @@ export default function BasicTabs() {
     //     return dateRaw.includes(datef.getTime());
     //     }
 
+    
+
     const fetchleaves = async (id) => {
         await axios.get('http://localhost:5000/leaves', {
             params: {
@@ -463,12 +384,15 @@ export default function BasicTabs() {
     useEffect(() => {
         const id = localStorage.getItem("isAuthenticated");
         fetchapplied(id)
+    }, []);
+
+    useEffect(() => {
+        const id = localStorage.getItem("isAuthenticated");
         fetchleaves(id)
     }, []);
 
 
-
-
+    // console.log(leaves.annual)
 
     useEffect(() => {
         const from = location.state
@@ -517,7 +441,7 @@ export default function BasicTabs() {
 
         }
     }
-
+    
 
     const handleSubmit = (e) => {
         const id = localStorage.getItem("isAuthenticated");
@@ -640,16 +564,6 @@ export default function BasicTabs() {
     };
 
 
-    const optionsLeaveRecord = {
-        filter: true,
-        filterType: "multiselect",
-        responsive: "scrollMaxHeight",
-        selectableRows: "none",
-        download: false,
-        print: false,
-        fixedHeader: false,
-    };
-
     const isAuthenticated = localStorage.getItem("isAuthenticated");
     const [table, setTable] = useState([])
 
@@ -671,6 +585,53 @@ export default function BasicTabs() {
         }
     }, []);
 
+    
+
+    const rows = [
+        createData('Adoption Leave', leaves.left.adoption,leaves.adoption, leaves.carryforward.adoption),
+        createData('Annual Leave', leaves.left.annual,leaves.annual, leaves.carryforward.annual),
+        createData('Childcare Leave', leaves.left.childcare,leaves.childcare, leaves.carryforward.childcare),
+        createData('Maternity Leave', leaves.left.maternity,leaves.maternity, leaves.carryforward.maternity),
+        createData('Paternity Leave', leaves.left.paternity,leaves.paternity, leaves.carryforward.paternity),
+        createData('Shared Parental Leave',leaves.left.sharedparental,leaves.sharedparental, leaves.carryforward.sharedparental),
+        createData('Sick Leave', leaves.left.sickleave,leaves.sickleave, leaves.carryforward.sickleave),
+        createData('Unpaid Infant Care Leave',leaves.left.infantcare,leaves.infantcare, leaves.carryforward.infantcare),
+    ];
+    
+    function ptd(leave){
+        if (leave === "Adoption Leave"){
+            var num = (leaves.adoption *11/12)
+            return num.toFixed(2);
+        }
+        else if (leave === "Annual Leave"){
+            var num = (leaves.annual *11/12)
+            return num.toFixed(2);
+        }
+        else if (leave === "Childcare Leave"){
+            var num = (leaves.childcare *11/12)
+            return num.toFixed(2);
+        }
+        else if (leave === "Maternity Leave"){
+            var num = (leaves.maternity *11/12)
+            return num.toFixed(2);
+        }
+        else if (leave === "Paternity Leave"){
+            var num = (leaves.paternity *11/12)
+            return num.toFixed(2);
+        }
+        else if (leave === "Shared Parental Leave"){
+            var num = (leaves.sharedparental *11/12)
+            return num.toFixed(2);
+        }
+        else if (leave === "Sick Leave"){
+            var num = (leaves.sickleave *11/12)
+            return num.toFixed(2);
+        }
+        else if (leave === "Unpaid Infant Care Leave"){
+            var num = (leaves.infantcare *11/12)
+            return num.toFixed(2);
+        }
+    }
 
     return (
 
@@ -752,7 +713,7 @@ export default function BasicTabs() {
                                                         <StyledTableCell sx={{ width: '160px' }}>Type</StyledTableCell>
                                                         <StyledTableCell align="right">Left</StyledTableCell>
                                                         <StyledTableCell align="right">Entitlement</StyledTableCell>
-                                                        <StyledTableCell align="right">CarryForward</StyledTableCell>
+                                                        <StyledTableCell align="right"> Carry Forward</StyledTableCell>
 
                                                     </TableRow>
                                                 </TableHead>
@@ -784,7 +745,7 @@ export default function BasicTabs() {
                                                 <h3>Apply Leave </h3></div> */}
 
 
-
+                                            
 
                                                 <div id="selectbox">
                                                     <Box
@@ -907,6 +868,7 @@ export default function BasicTabs() {
 
                                                             value={getDifferenceInDays(daterange)}
                                                             disabled={disablefromnoti}
+                                                            disabled
                                                             // your code here.
 
                                                             //onChange={handleRange}
@@ -989,7 +951,7 @@ export default function BasicTabs() {
                                                             disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="ptdvalue"
-                                                            value={formValues.ptdvalue}
+                                                            value={ptd(formValues.leavetype)}
                                                             onChange={handleChanges}
                                                         />
                                                     </Box>
@@ -1011,7 +973,7 @@ export default function BasicTabs() {
                                                             disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="ytdvalue"
-                                                            value={formValues.ytdvalue}
+                                                            value={ptd(formValues.leavetype)}
                                                             onChange={handleChanges}
                                                         />
                                                     </Box>
@@ -1062,24 +1024,14 @@ export default function BasicTabs() {
                     <TabPanel value={value} index={2}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
                             <br />
-                            <ThemeProvider theme={theme}>
-                                <MUIDataTable
-                                    title={"Leave Records"}
-                                    data={dataLeaveRecord}
-                                    columns={columnsforRecord}
-                                    options={optionsLeaveRecord}
-                                />
-                            </ThemeProvider>
+                            <Leaverecord />
                         </div>
-
                     </TabPanel>
 
                     <TabPanel value={value} index={3}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
                             <br />
-
                             <Leaveapproval />
-
                         </div>
                     </TabPanel>
 
