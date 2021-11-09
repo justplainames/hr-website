@@ -4,9 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import CircleIcon from '@mui/icons-material/Circle';
 import Grid from '@mui/material/Grid';
-import { Card, CardActionArea, CardMedia, CardContent, Typography, Toolbar, TextField, InputAdornment, Box, Button } from '@material-ui/core'
+import { Card, CardActionArea, CardMedia, CardContent, Typography, Toolbar, TextField, InputAdornment, Box } from '@material-ui/core'
+import Button from '@mui/material/Button';
 
 import { cssname } from '../../utils/cssname';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
     cardinfo: {
@@ -66,25 +68,38 @@ export default function Applied({ details, ...others }) {
     const endDay = editdateto[1]
     const endYear = editdateto[2]
 
+    const handleDelete = (e) => {
+        const id = localStorage.getItem("isAuthenticated");
+        e.preventDefault();
+
+        axios.post('http://localhost:5000/deleteApplied',
+        {
+            "userId": id,
+        }).then(res=>{
+            localStorage.setItem("isAuthenticated", res.data._id)
+        })
+    }
+    
+
     return (
         <Box pl={2.5} pt={3}>
             <Card className={classes.cardinfo}>
-                <Box sx={{ display: 'flex' }} pl = {3}>
+                <Box sx={{ display: 'flex' }} pl = {2}>
                     <Box>
-                        <Box pt={2} pl ={2}>
-                            <Typography variant="h5">{details.types.charAt(0).toUpperCase() + details.types.slice(1)}  {details.types==='meeting' | details.types==='course' ? '' : 'Leave'} </Typography>
+                        <Box sx={{ display: 'flex'}} >
+                            <Box pl ={2} pt={1.8} mr = {1}>
+                                <Typography variant="h5">{details.types.charAt(0).toUpperCase() + details.types.slice(1)}  {details.types==='meeting' | details.types==='course' ? '' : 'Leave'} </Typography>
+                            </Box>
+                            <Box pt={2}>                                                                
+                                {<CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} />}                              
+                            </Box>
                         </Box>
 
 
                         <Box sx={{ display: 'flex' }} ml={2}>
 
-                            <Box pt={2} >                                
-                                
-                                {<CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} />}
-                               
-                            </Box>
 
-                            <Box pl={2} >
+                            <Box >
                                 <Box pt={2.5}>                     
                                     {details.from === details.to ? <Typography>{startMonth} {startDay}, {startYear} </Typography> : <Typography> {startMonth} {startDay}, {startYear} - {endMonth} {endDay}, {endYear} </Typography>}                                           
                                 </Box>
@@ -96,17 +111,24 @@ export default function Applied({ details, ...others }) {
                                     </Typography>
                                 </Box>
 
-                                <Box pt={2} style={{width:'300px'}}>
-                                    {
-                                        details.remarks === 'nil' ?
-                                            <Typography >
-                                                {''}
-                                            </Typography> 
-                                            :
-                                            <Typography noWrap>
-                                                {details.remarks} 
-                                            </Typography>
-                                    }
+                                <Box sx={{display: "flex"}}>
+                                    <Box pt={2} style={{width:'200px'}}>
+                                        {
+                                            details.remarks === 'nil' ?
+                                                <Typography >
+                                                    {''}
+                                                </Typography> 
+                                                :
+                                                <Typography>
+                                                    Details: {details.remarks} 
+                                                </Typography>
+                                        }
+                                    </Box>
+
+                                    <Box pt = {4} pl = {1}>
+                                        {details.types !== 'meeting' && details.types !== 'course' ? <Button onClick={handleDelete} variant="outlined" color="error" size="small"> Cancel Leave </Button> : ''} 
+                                    </Box>
+
 
                                 </Box>
 
