@@ -11,7 +11,6 @@ import {Typography, Box} from '@material-ui/core'
 import Recommendation from './Recommendation'
 import axios from 'axios'
 
-
 const locales = {
   'en-US': require("date-fns/locale/en-US")
 }
@@ -77,10 +76,8 @@ function TeamLeave( ) {
     updated.push({...person, start:new Date(start), end:new Date(end)})
   });
 
-  //console.log(updated)
-
   const [newUpdated, setNewUpdated] = useState(updated)
-  //console.log(newUpdated)
+
   const fetchapplied = async (id) => {
          axios.get('http://localhost:5000/applied', {
             params: {
@@ -98,11 +95,8 @@ function TeamLeave( ) {
                   const end = new Date(`${emonth}/${eday}/${eyear}`)
                   setNewUpdated((newUpdated) =>[...newUpdated ,{id:6, title:"MaryTan", type:leave.types, start:start, end:end}])
                 })
-                //calendardetails(res.data.applies)
             })
   }
-
-  console.log(newUpdated)
 
 
   const [selectedEvent, setSelectedEvent] = useState(false)
