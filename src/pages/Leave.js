@@ -27,10 +27,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 // import React from "react";
-import MUIDataTable from "mui-datatables";
 import InputLabel from '@mui/material/InputLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Select from '@mui/material/Select';
@@ -60,6 +58,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
+import Leaverecord from '../pages/LeaveRecord.js'
 import Leaveapproval from '../pages/ApproveLeave.js'
 import { DateTimePicker } from '@material-ui/pickers';
 
@@ -132,57 +131,7 @@ const leavetypes = [
 ];
 
 //columns for leave records
-const columnsforRecord = [
-    {
-        name: "Date of Application",
-        options: {
-            filter: true,
-        }
-    },
-    {
-        label: "Type",
-        name: "Title",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Start Date",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "End Date",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Days Applied",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Recommender",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Approver",
-        options: {
-            filter: true
-        }
-    },
-    {
-        name: "Status",
-        options: {
-            filter: true
-        }
-    },
-];
+
 
 
 
@@ -198,15 +147,6 @@ const options = {
     filterType: "multiselect",
     responsive: "scrollMaxHeight"
 };
-
-const dataLeaveRecord = [
-    ["20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"],
-    ["20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending"],
-    ["31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Approved"],
-];
-
-
-
 
 
 function getDifferenceInDays(dates) {
@@ -381,17 +321,54 @@ export default function BasicTabs() {
         })
             .then(res => {
                 setleaves(res.data)
-                settabledata(oldArray => [...oldArray, createData('Annual', res.data.left.annual, res.data.annual, res.data.carryforward.annual)])
+                settabledata(oldArray => [...oldArray, createData('Annual', res.data.left.annual, res.data.annual, res.data.carryforward.annual)]);
                 settabledata(oldArray => [...oldArray, createData('Adoption', res.data.left.adoption, res.data.adoption, res.data.carryforward.adoption)]);
                 settabledata(oldArray => [...oldArray, createData('Childcare', res.data.left.childcare, res.data.childcare, res.data.carryforward.childcare)]);
                 settabledata(oldArray => [...oldArray, createData('Maternity', res.data.left.maternity, res.data.maternity, res.data.carryforward.maternity)]);
                 settabledata(oldArray => [...oldArray, createData('Paternity', res.data.left.paternity, res.data.paternity, res.data.carryforward.paternity)]);
                 settabledata(oldArray => [...oldArray, createData('Shared Parental', res.data.left.sharedparental, res.data.sharedparental, res.data.carryforward.sharedparental)]);
+                settabledata(oldArray => [...oldArray, createData('Sick', res.data.left.sickleave, res.data.sickleave, res.data.carryforward.sickleave)]);
                 settabledata(oldArray => [...oldArray, createData('Unpaid Infant Care Parental', res.data.left.infantcare, res.data.infantcare, res.data.carryforward.infantcare)]);
 
 
             })
     }
+
+        function ptd(leave) {
+        if (leave === "Adoption") {
+            var num = (leaves.adoption *11/12)
+            return Math.round(num);
+        }
+        else if (leave === "Annual") {
+            var num = (leaves.annual *11/12)
+            return Math.round(num);
+        }
+        else if (leave === "Childcare") {
+            var num = (leaves.childcare *11/12)
+            return Math.round(num);
+        }
+        else if (leave === "Maternity") {
+            var num = (leaves.maternity *11/12)
+            return Math.round(num);
+        }
+        else if (leave === "Paternity") {
+            var num = (leaves.paternity *11/12)
+            return Math.round(num);
+        }
+        else if (leave === "Shared Parental") {
+            var num = (leaves.sharedparental *11/12)
+            return Math.round(num);
+        }
+        else if (leave === "Sick Leave") {
+            var num = (leaves.sickleave *11/12)
+            return Math.round(num);
+        }
+        else if (leave === "Unpaid Infant Care") {
+            var num = (leaves.infantcare *11/12)
+            return Math.round(num);
+        }
+    };
+
     const fetchapplied = (id) => {
         axios.get('http://localhost:5000/applied', {
             params: {
@@ -650,17 +627,6 @@ export default function BasicTabs() {
     //for tab
     const handleChange = (event, newValue) => {
         setValue(newValue);
-    };
-
-
-    const optionsLeaveRecord = {
-        filter: true,
-        filterType: "multiselect",
-        responsive: "scrollMaxHeight",
-        selectableRows: "none",
-        download: false,
-        print: false,
-        fixedHeader: false,
     };
 
 
@@ -985,8 +951,11 @@ export default function BasicTabs() {
                                                             disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="ptdvalue"
-                                                            value={formValues.ptdvalue}
+                                                            value={ptd(formValues.leavetype)}
                                                             onChange={handleChanges}
+                                                            inputProps={
+                                                                { readOnly: true }
+                                                            }
                                                         />
                                                     </Box>
                                                 </div>
@@ -1007,8 +976,11 @@ export default function BasicTabs() {
                                                             disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="ytdvalue"
-                                                            value={formValues.ytdvalue}
+                                                            value={ptd(formValues.leavetype)}
                                                             onChange={handleChanges}
+                                                            inputProps={
+                                                                { readOnly: true }
+                                                            }
                                                         />
                                                     </Box>
                                                 </div>
@@ -1058,14 +1030,7 @@ export default function BasicTabs() {
                     <TabPanel value={value} index={2}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
                             <br />
-                            <ThemeProvider theme={theme}>
-                                <MUIDataTable
-                                    title={"Leave Records"}
-                                    data={dataLeaveRecord}
-                                    columns={columnsforRecord}
-                                    options={optionsLeaveRecord}
-                                />
-                            </ThemeProvider>
+                            <Leaverecord />
                         </div>
 
                     </TabPanel>
