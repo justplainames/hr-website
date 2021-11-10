@@ -4,6 +4,7 @@ import { forwardRef } from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import MaterialTable from 'material-table';
+import Box from '@material-ui/core/Box';
 
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import {Typography} from '@material-ui/core'
@@ -158,43 +159,48 @@ const Leaveapproval = () => {
       return (
         // <ThemeProvider theme={theme}>
             <div className="LeaveApprove">
-           <Typography variant = "h3">
-                    Approve Leave
-                </Typography>
+                <Box sx={{display: "flex"}}>
+                    <Box >
+                        <Typography variant = "h4">
+                            Approve Leave Records
+                        </Typography>
+                    </Box>
             {/* <h4 align='center'>Bulk Delete with Material Table</h4> */}
             
-                <Stack direction="row" spacing={5} alignItems="flex-start" justifyContent="flex-end">
-                    <Button variant="contained" color="success" size = "large" onClick={handleClickOpen}> Approve </Button>
-                    {/* <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button> */}
-                        <Dialog open ={open} onClose={handleBulkDelete}>
-                            <DialogTitle>Confirmation</DialogTitle>
-                            <DialogContent>
-                            <DialogContentText>
-                                Please confirm that you want to approve the leave for:
-                            </DialogContentText>
-                            show details of leave 
-                            </DialogContent>
-                            <DialogActions>
-                            <Button onClick={handleClose}>No</Button>
-                            <Button onClick={handleBulkDelete}>Yes</Button>
-                            </DialogActions>
-                        </Dialog>
-                    <Button variant="contained" color="error" size = "large" onClick={handleClickOpen1}> Reject </Button>
-                    {/* <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button> */}
-                        <Dialog open ={open1} onClose={handleBulkDelete}>
-                            <DialogTitle>Confirmation</DialogTitle>
-                            <DialogContent>
-                            <DialogContentText>
-                                Please confirm that you want to reject the leave for:
-                            </DialogContentText>
-                            show details of leave 
-                            </DialogContent>
-                            <DialogActions>
-                            <Button onClick={handleClose}>No</Button>
-                            <Button onClick={handleBulkDelete}>Yes</Button>
-                            </DialogActions>
-                        </Dialog>
-                </Stack>
+                    <Stack direction="row" spacing={5} alignItems="flex-start" justifyContent="flex-end" pb = {4} pl = {89}>
+                        <Button variant="contained" color="success" size = "large" onClick={handleClickOpen}> Approve </Button>
+                        {/* <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button> */}
+                            <Dialog open ={open} onClose={handleBulkDelete}>
+                                <DialogTitle>Confirmation</DialogTitle>
+                                <DialogContent>
+                                <DialogContentText>
+                                    Please confirm that you want to approve the leave for:
+                                </DialogContentText>
+                                show details of leave 
+                                </DialogContent>
+                                <DialogActions>
+                                <Button onClick={handleClose}>No</Button>
+                                <Button onClick={handleBulkDelete}>Yes</Button>
+                                </DialogActions>
+                            </Dialog>
+                        <Button variant="contained" color="error" size = "large" onClick={handleClickOpen1}> Reject </Button>
+                        {/* <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button> */}
+                            <Dialog open ={open1} onClose={handleBulkDelete}>
+                                <DialogTitle>Confirmation</DialogTitle>
+                                <DialogContent>
+                                <DialogContentText>
+                                    Please confirm that you want to reject the leave for:
+                                </DialogContentText>
+                                show details of leave 
+                                </DialogContent>
+                                <DialogActions>
+                                <Button onClick={handleClose}>No</Button>
+                                <Button onClick={handleBulkDelete}>Yes</Button>
+                                </DialogActions>
+                            </Dialog>
+                    </Stack>
+                </Box>
+
                 <MaterialTable
                     title=""
                     data={tableData}
@@ -212,7 +218,6 @@ const Leaveapproval = () => {
                 //   }
                 // ]}
             />
-            
             </div>
         // </ThemeProvider>
 

@@ -5,8 +5,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Box from '@material-ui/core/Box';
 
-import "../LeaveRecord.css";
-
 import { stringconversion } from '../utils/conversion';
 
 import { makeStyles } from '@material-ui/core/styles';
