@@ -97,35 +97,35 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 // leave types for my leave select leave type
 const leavetypes = [
     {
-        value: 'Adoption',
+        value: 'adoption',
         label: 'Adoption',
     },
     {
-        value: 'Annual',
+        value: 'annual',
         label: 'Annual',
     },
     {
-        value: 'Childcare',
+        value: 'childcare',
         label: 'Childcare',
     },
     {
-        value: 'Maternity',
+        value: 'maternity',
         label: 'Maternity',
     },
     {
-        value: 'Paternity',
+        value: 'paternity',
         label: 'Paternity',
     },
     {
-        value: 'Shared Parental',
+        value: 'sharedparental',
         label: 'Shared Parental',
     },
     {
-        value: 'Sick Leave',
+        value: 'sickleave',
         label: 'Sick Leave',
     },
     {
-        value: 'Unpaid Infant Care Parental',
+        value: 'infantcare',
         label: 'Unpaid Infant Care Parental',
     },
 ];
@@ -300,6 +300,10 @@ export default function BasicTabs() {
     const [leaves, setleaves] = useState([]);
     const [tabledata, settabledata] = useState([])
 
+    function lower(value){
+        return value.replace(/\s+/g, '').toLowerCase()
+    }
+
     function createData(ltype, left, entitlement, carryforward) {
         return { ltype, left, entitlement, carryforward };
     }
@@ -312,6 +316,7 @@ export default function BasicTabs() {
 
     //     return dateRaw.includes(datef.getTime());
     //     }
+
 
     const fetchleaves = async (id) => {
         await axios.get('http://localhost:5000/leaves', {
@@ -335,38 +340,38 @@ export default function BasicTabs() {
     }
 
         function ptd(leave) {
-        if (leave === "Adoption") {
-            var num = (leaves.adoption *11/12)
-            return Math.round(num);
-        }
-        else if (leave === "Annual") {
-            var num = (leaves.annual *11/12)
-            return Math.round(num);
-        }
-        else if (leave === "Childcare") {
-            var num = (leaves.childcare *11/12)
-            return Math.round(num);
-        }
-        else if (leave === "Maternity") {
-            var num = (leaves.maternity *11/12)
-            return Math.round(num);
-        }
-        else if (leave === "Paternity") {
-            var num = (leaves.paternity *11/12)
-            return Math.round(num);
-        }
-        else if (leave === "Shared Parental") {
-            var num = (leaves.sharedparental *11/12)
-            return Math.round(num);
-        }
-        else if (leave === "Sick Leave") {
-            var num = (leaves.sickleave *11/12)
-            return Math.round(num);
-        }
-        else if (leave === "Unpaid Infant Care Parental") {
-            var num = (leaves.infantcare *11/12)
-            return Math.round(num);
-        }
+            if (leave === "adoption") {
+                var num = (leaves.adoption *11/12)
+                return Math.round(num);
+            }
+            else if (leave === "annual") {
+                var num = (leaves.annual *11/12)
+                return Math.round(num);
+            }
+            else if (leave === "childcare") {
+                var num = (leaves.childcare *11/12)
+                return Math.round(num);
+            }
+            else if (leave === "maternity") {
+                var num = (leaves.maternity *11/12)
+                return Math.round(num);
+            }
+            else if (leave === "paternity") {
+                var num = (leaves.paternity *11/12)
+                return Math.round(num);
+            }
+            else if (leave === "sharedparental") {
+                var num = (leaves.sharedparental *11/12)
+                return Math.round(num);
+            }
+            else if (leave === "sickleave") {
+                var num = (leaves.sickleave *11/12)
+                return Math.round(num);
+            }
+            else if (leave === "infantcare") {
+                var num = (leaves.infantcare *11/12)
+                return Math.round(num);
+            }
     };
 
     const fetchapplied = (id) => {
@@ -525,7 +530,7 @@ export default function BasicTabs() {
             axios.post('http://localhost:5000/apply',
                 {
                     "userId": id,
-                    "types": stringconversion(formValues.leavetype),
+                    "types": formValues.leavetype,
                     "from": getStartDate(daterange),
                     "to": getEndDate(daterange),
                     "days": getDifferenceInDays(daterange), //getDifferenceInDays(formValues.daterange),
@@ -761,7 +766,7 @@ export default function BasicTabs() {
 
                                                         <div>
                                                             <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
-                                                                <h3>Leave Type* </h3>
+                                                                <h3>Leave Type*</h3>
                                                             </div>
                                                             <TextField
                                                                 required
@@ -774,9 +779,15 @@ export default function BasicTabs() {
                                                                 //onChange={(e)=> setLeave(e.target.value)}
                                                                 onChange={handleChanges}
                                                             >
+                                                                {/* {tabledata.map((option) => (
+                                                                    <MenuItem key={option.ltype} value={option.ltype}>
+                                                                        {option.ltype}
+                                                                    </MenuItem>
+                                                                ))} */}
+
                                                                 {leavetypes.map((option) => (
                                                                     <MenuItem key={option.value} value={option.value}>
-                                                                        {option.value}
+                                                                        {option.label}
                                                                     </MenuItem>
                                                                 ))}
                                                             </TextField>
