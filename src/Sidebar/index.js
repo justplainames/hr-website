@@ -18,6 +18,7 @@ import Divider from '@mui/material/Divider';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Notifications from "../component/notifications/notifications";
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import axios from 'axios';
 import Link from '@mui/material/Link';
 
@@ -52,7 +53,16 @@ const useStyles = makeStyles(theme => ({
     imgsize: {
         height: "80px",
         width: "80px"
-    }
+    },
+
+    count: {
+        position: "absolute",
+        lineHeight: 1,
+        bottom: "1.8em",
+        right: "1.3em",
+        //color: "#fff",
+        fontSize: "0.7em"
+      }
 }))
 
 
@@ -254,6 +264,17 @@ const Sidebar = () => {
         }
     }, []);
 
+    const countNotiUnread = (data) => {
+        var counter = 0
+        for (var i = 0; i < data.length; i++) {
+            if(!data[i].status.read) {
+                counter++;
+            }
+        }
+
+        return counter
+    }
+
 
     const handleClick = () => setClick(!click);
     const classes = useStyles();
@@ -276,16 +297,22 @@ const Sidebar = () => {
                     </Typography>
                 </Box>
 
-                <Box ml={130} mt={5}>
+                <Box ml={120} mt={5}>
 
                     <Box sx={{ display: 'flex' }}>
-                        <Box mr={7} ml={20}>
+                        <Box mr={5} ml={20}>
                             <IconButton onClick={() => {
                                 setshowNoti(prev => !prev)
                                 setShowProfile(false)
                             }}>
-                                <Box>
+                                <Box sx ={{ display: 'flex'}}>
                                     <NotificationsNoneIcon sx={{ fontSize: 40 }} />
+                                    <Box sx ={{ display: 'flex'}}>                                                                                
+                                        <CheckBoxOutlineBlankIcon sx={{ fontSize: 28 }}  color="primary" />
+                                        <Typography className={classes.count}> 
+                                            {countNotiUnread(notificationsitems)}
+                                        </Typography>
+                                    </Box>
                                 </Box >
                             </IconButton>
                         </Box>

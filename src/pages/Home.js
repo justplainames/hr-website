@@ -173,7 +173,6 @@ const Home = () => {
                 }
                 else if (data[i].approved) {
                     template.className = cssname('approved')[0]
-                    console.log(template.className)
                 }
                 else {
                     template.className = cssname(data[i].types)[0]  
@@ -199,6 +198,7 @@ const Home = () => {
                // console.log(res.data)
                 setapplied(res.data.applies);
                 calendardetails(res.data.applies)
+                latestDate(res.data.applies)
             })
     }
 
@@ -328,6 +328,48 @@ const Home = () => {
         }
     }, []);
 
+    const [latest, setLatest] = useState('')
+
+
+    function formatToDate(dateString) {
+        var d = new Date();
+        dateString = dateString.split('/');
+        d.setFullYear(dateString[2]);
+        d.setMonth(dateString[0]-1);
+        d.setDate(dateString[1]);
+
+        return d;
+      }
+
+    const latestDate = (data) => {
+        var latest = data[0].from + " - " + data[0].to;
+
+        for(var i = 1; i < data.length; i++) {
+        if (formatToDate(data[i].from) > formatToDate(data[0].from))
+            latest = formatDDMMYY(data[i].from, data[i].to);
+            
+        }
+        if (latest[0] === latest[1]) {
+            setLatest(latest[0])
+        }
+        else {
+            setLatest(latest[0] + " - " + latest[1])
+        }
+
+    }
+
+    function formatDDMMYY(dateFrom, dateEnd) {
+        const date = dateFrom
+        const dateTo = dateEnd
+        const splitDate = date.split("/");
+        const splitDateTo = dateTo.split("/");
+
+        const newdate = splitDate[1] + '/' + splitDate[0] + '/' + splitDate[2]
+        const newdateTo = splitDateTo[1] + '/' + splitDateTo[0] + '/' + splitDateTo[2]
+
+        return [newdate, newdateTo]
+    }
+
 
     return (
         <Box mt={4}>
@@ -351,14 +393,14 @@ const Home = () => {
                                                 Applied :
                                             </Typography>
                                         </Box>
-                                        <Box pt={3} pb={5}>
+                                        <Box pt={3} pb={6}>
                                             <Typography variant='h5'>
                                                 Balanced :
                                             </Typography>
                                         </Box>
-                                        <Box pt={6} pb={5}>
+                                        <Box pt={6} sx ={{width:"500px"}}>
                                             <Typography variant='h5'>
-                                                Upcoming : 
+                                                Upcoming : {latest}
                                             </Typography>
                                         </Box>
 
@@ -474,9 +516,9 @@ const Home = () => {
                                                     </Typography>
                                                 </Box>
                                                 <Box pl={2}>
-                                                    {secret ? <Typography variant="h5">
+                                                    {secret ? <Typography variant="h4">
                                                         *****
-                                                    </Typography> : <Typography variant="h5">
+                                                    </Typography> : <Typography variant="h4">
                                                         $5,320
                                                     </Typography>}
                                                 </Box>
@@ -502,7 +544,7 @@ const Home = () => {
                                                 *****
                                             </Typography>}
                                         </Box>
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1} pb={3} mr={5.5}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1} pb={2} mr={5.5}>
                                             {secret === false ? <Typography variant="h4">
                                                 $680
                                             </Typography> : <Typography variant="h4">
@@ -513,7 +555,7 @@ const Home = () => {
                                         <Box sx={{ display: 'flex' }} ml={10}>
 
 
-                                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', }} pt={4} pb={5}>
+                                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', }} pt={4} >
                                                 {/* BUTTON HERE */}
                                                 <div>
                                                     <Button>
