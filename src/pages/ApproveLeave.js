@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { forwardRef } from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import MaterialTable from 'material-table';
 
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import {Typography} from '@material-ui/core'
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -46,6 +48,7 @@ const tableIcons = {
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
+
 
 const Leaveapproval = () => {
     const columnsforApprove = [
@@ -100,6 +103,8 @@ const Leaveapproval = () => {
         }
     ];    
         
+    let theme = createTheme();
+    theme = responsiveFontSizes(theme);
 
     const [tableData, setTableData] =  React.useState(dataApproveLeave);
     const [selectedRows, setSelectedRows] =  React.useState([]);
@@ -151,12 +156,14 @@ const Leaveapproval = () => {
     };
 
       return (
-        // <MuiThemeProvider theme={theme}>
+        // <ThemeProvider theme={theme}>
             <div className="LeaveApprove">
-            <h1 align="Left">Approve Leave</h1>
+           <Typography variant = "h3">
+                    Approve Leave
+                </Typography>
             {/* <h4 align='center'>Bulk Delete with Material Table</h4> */}
             
-                <Stack direction="row" spacing={5}>
+                <Stack direction="row" spacing={5} alignItems="flex-start" justifyContent="flex-end">
                     <Button variant="contained" color="success" size = "large" onClick={handleClickOpen}> Approve </Button>
                     {/* <Button variant="contained" color="success" size="large" onClick={handleClickOpen} >Approve</Button> */}
                         <Dialog open ={open} onClose={handleBulkDelete}>
@@ -189,7 +196,7 @@ const Leaveapproval = () => {
                         </Dialog>
                 </Stack>
                 <MaterialTable
-                    title="Employee Data"
+                    title=""
                     data={tableData}
                     onSelectionChange={(rows) => setSelectedRows(rows)}
                     columns={columnsforApprove}
@@ -207,7 +214,7 @@ const Leaveapproval = () => {
             />
             
             </div>
-        // </MuiThemeProvider>
+        // </ThemeProvider>
 
 
         // <div className="LeaveApprove">
