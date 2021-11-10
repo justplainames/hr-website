@@ -97,35 +97,35 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 // leave types for my leave select leave type
 const leavetypes = [
     {
-        value: 'Adoption Leave',
-        label: 'Adoption Leave',
+        value: 'Adoption',
+        label: 'Adoption',
     },
     {
-        value: 'Annual Leave',
-        label: 'Annual Leave',
+        value: 'Annual',
+        label: 'Annual',
     },
     {
-        value: 'Childcare Leave',
-        label: 'Childcare Leave',
+        value: 'Childcare',
+        label: 'Childcare',
     },
     {
-        value: 'Maternity Leave',
-        label: 'Maternity Leave',
+        value: 'Maternity',
+        label: 'Maternity',
     },
     {
-        value: 'Paternity Leave',
-        label: 'Paternity Leave',
+        value: 'Paternity',
+        label: 'Paternity',
     },
     {
-        value: 'Shared Parental Leave',
-        label: 'Shared Parental Leave',
+        value: 'Shared Parental',
+        label: 'Shared Parental',
     },
     {
         value: 'Sick Leave',
         label: 'Sick Leave',
     },
     {
-        value: 'Unpaid Infant Care Leave',
+        value: 'Unpaid Infant Care Parental',
         label: 'Unpaid Infant Care Parental',
     },
 ];
@@ -363,7 +363,7 @@ export default function BasicTabs() {
             var num = (leaves.sickleave *11/12)
             return Math.round(num);
         }
-        else if (leave === "Unpaid Infant Care") {
+        else if (leave === "Unpaid Infant Care Parental") {
             var num = (leaves.infantcare *11/12)
             return Math.round(num);
         }
@@ -772,12 +772,11 @@ export default function BasicTabs() {
                                                                 name="leavetype"
                                                                 value={formValues.leavetype}
                                                                 //onChange={(e)=> setLeave(e.target.value)}
-                                                                // value={values.leavetype}
                                                                 onChange={handleChanges}
                                                             >
-                                                                {tabledata.map((option) => (
-                                                                    <MenuItem key={option.ltype} value={option.ltype}>
-                                                                        {option.ltype}
+                                                                {leavetypes.map((option) => (
+                                                                    <MenuItem key={option.value} value={option.value}>
+                                                                        {option.value}
                                                                     </MenuItem>
                                                                 ))}
                                                             </TextField>
