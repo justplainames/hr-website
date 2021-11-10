@@ -295,6 +295,7 @@ export default function BasicTabs() {
     const [opac, setopac] = useState('1')
     const [mark2, setmark2] = useState([]);
     const [mark3, setmark3] = useState([]);
+    const [mark4, setmark4] = useState([]);
     const [mark, setmark] = useState([]);
     const [datedisabled, setdatedisabled] = useState([]);
     const [leaves, setleaves] = useState([]);
@@ -413,6 +414,12 @@ export default function BasicTabs() {
                         dd = new Date(date)
                         datecounter = dd
                         setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
+                    else if (data[i].approved) {
+                        dd = new Date(date)
+                        datecounter = dd
+                        setmark4(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
                     }
                     else {
@@ -709,6 +716,9 @@ export default function BasicTabs() {
                                                 if (mark3.find(x => x === moment(date).format("MM-DD-YYYY"))) {
                                                     return 'highlight2'
                                                 }
+                                                if (mark4.find(x => x === moment(date).format("MM-DD-YYYY"))) {
+                                                    return 'highlight3' 
+                                                }
 
 
                                             }}
@@ -805,7 +815,7 @@ export default function BasicTabs() {
                                                 <div id="radio">
                                                     <FormControl component="fieldset">
                                                         {/* <FormLabel component="legend">Day</FormLabel> */}
-                                                        <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left' }}>
+                                                        <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', paddingBottom:"12px" }}>
                                                             <h3>Day*</h3>
                                                         </div>
                                                         <RadioGroup
