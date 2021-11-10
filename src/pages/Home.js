@@ -342,6 +342,7 @@ const Home = () => {
       }
 
     const latestDate = (data) => {
+        if(data.length!==0){
         var latest = data[0].from + " - " + data[0].to;
 
         for(var i = 1; i < data.length; i++) {
@@ -355,7 +356,7 @@ const Home = () => {
         else {
             setLatest(latest[0] + " - " + latest[1])
         }
-
+    }
     }
 
     function formatDDMMYY(dateFrom, dateEnd) {

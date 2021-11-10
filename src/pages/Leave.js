@@ -169,7 +169,7 @@ function getDifferenceInDays(dates) {
 
 
 const yourDate = new Date()
-const TodayDate = moment(yourDate, 'MM-DD-YYYY')
+const TodayDate =  moment(yourDate).format('MM/DD/YYYY')
 
 function getStartDate(dates) {
     const parseDates = dates => (
@@ -267,7 +267,7 @@ export default function BasicTabs() {
 
 
     const [formValues, setFormValues] = React.useState({
-        leavetype: '',
+        types: '',
         day: '',
         // startdate: Date(),
         // enddate: '',
@@ -339,39 +339,39 @@ export default function BasicTabs() {
             })
     }
 
-        function ptd(leave) {
-            if (leave === "adoption") {
-                var num = (leaves.adoption *11/12)
-                return Math.round(num);
-            }
-            else if (leave === "annual") {
-                var num = (leaves.annual *11/12)
-                return Math.round(num);
-            }
-            else if (leave === "childcare") {
-                var num = (leaves.childcare *11/12)
-                return Math.round(num);
-            }
-            else if (leave === "maternity") {
-                var num = (leaves.maternity *11/12)
-                return Math.round(num);
-            }
-            else if (leave === "paternity") {
-                var num = (leaves.paternity *11/12)
-                return Math.round(num);
-            }
-            else if (leave === "sharedparental") {
-                var num = (leaves.sharedparental *11/12)
-                return Math.round(num);
-            }
-            else if (leave === "sickleave") {
-                var num = (leaves.sickleave *11/12)
-                return Math.round(num);
-            }
-            else if (leave === "infantcare") {
-                var num = (leaves.infantcare *11/12)
-                return Math.round(num);
-            }
+    function ptd(leave) {
+        if (leave === "Adoption") {
+            var num = (leaves.adoption * 11 / 12)
+            return Math.round(num);
+        }
+        else if (leave === "Annual") {
+            var num = (leaves.annual * 11 / 12)
+            return Math.round(num);
+        }
+        else if (leave === "Childcare") {
+            var num = (leaves.childcare * 11 / 12)
+            return Math.round(num);
+        }
+        else if (leave === "Maternity") {
+            var num = (leaves.maternity * 11 / 12)
+            return Math.round(num);
+        }
+        else if (leave === "Paternity") {
+            var num = (leaves.paternity * 11 / 12)
+            return Math.round(num);
+        }
+        else if (leave === "Shared Parental") {
+            var num = (leaves.sharedparental * 11 / 12)
+            return Math.round(num);
+        }
+        else if (leave === "Sick Leave") {
+            var num = (leaves.sickleave * 11 / 12)
+            return Math.round(num);
+        }
+        else if (leave === "Unpaid Infant Care Parental") {
+            var num = (leaves.infantcare * 11 / 12)
+            return Math.round(num);
+        }
     };
 
     const fetchapplied = (id) => {
@@ -415,7 +415,7 @@ export default function BasicTabs() {
                         setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
                     }
-                    else{
+                    else {
                         dd = new Date(date)
                         datecounter = dd
                         setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
@@ -424,7 +424,7 @@ export default function BasicTabs() {
 
                 }
                 else {
-                    if(data[i].days===1) {
+                    if (data[i].days === 1) {
                         break;
                     }
                     else if (data[i].types === 'course') {
@@ -442,16 +442,16 @@ export default function BasicTabs() {
                         datecounter = dd
                         setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
-               
-                    }  
-                    else{
+
+                    }
+                    else {
                         var set = new Date(datecounter)
                         var set2 = set.setDate(set.getDate() + 1)
                         dd = new Date(set2)
                         datecounter = dd
                         setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
-                    } 
+                    }
                 }
 
                 if (z !== 0 && z == data[i].days - 1) {
@@ -469,7 +469,7 @@ export default function BasicTabs() {
         const from = location.state
 
         const fixedformvalue = {
-            leavetype: '',
+            types: '',
             day: '',
             // startdate: Date(),
             // enddate: '',
@@ -488,7 +488,7 @@ export default function BasicTabs() {
             const test = [new Date(from.from), new Date(from.to)]
             setDateRange(test)
             setisrecommended(true)
-            fixedformvalue.leavetype = stringconversionrevert(from.types)
+            fixedformvalue.types = stringconversionrevert(from.types)
 
             if (from.days > 0) {
                 fixedformvalue.day = "Full"
@@ -504,7 +504,7 @@ export default function BasicTabs() {
 
     const vali = (e) => {
         e.preventDefault();
-        if (!(formValues.leavetype && formValues.day && formValues.approveby)) {
+        if (!(formValues.types && formValues.day && formValues.approveby)) {
             setFormErrors(validate(formValues));
         }
         else {
@@ -523,14 +523,14 @@ export default function BasicTabs() {
         setLoading(true)
         setDisableFromNoti(true)
         setdisablefromloading(true)
-        if (!(formValues.leavetype && formValues.day && formValues.approveby)) {
+        if (!(formValues.types && formValues.day && formValues.approveby)) {
             alert('Please input Empty fields')
         }
         else {
             axios.post('http://localhost:5000/apply',
                 {
                     "userId": id,
-                    "types": formValues.leavetype,
+                    "types": formValues.types,
                     "from": getStartDate(daterange),
                     "to": getEndDate(daterange),
                     "days": getDifferenceInDays(daterange), //getDifferenceInDays(formValues.daterange),
@@ -538,7 +538,8 @@ export default function BasicTabs() {
                     "remarks": formValues.remarks === '' ? 'nil' : formValues.remarks,
                     "recomemdedby": formValues.recommendby,
                     "approvedby": formValues.approveby,
-                    "approved": false
+                    "approved": false,
+                    "datecreated": TodayDate
                 }).then(res => {
                     if (isrecommended) {
                         axios.post('http://localhost:5000/acceptnoti', notificationprop).then(res => {
@@ -559,7 +560,7 @@ export default function BasicTabs() {
                     else {
                         axios.post('http://localhost:5000/createnoti', {
                             "userId": id,
-                            "types": stringconversion(formValues.leavetype),
+                            "types": formValues.types,
                             "requester": { "id": "", "name": "" },
                             "days": getDifferenceInDays(daterange),
                             "from": getStartDate(daterange),
@@ -569,21 +570,22 @@ export default function BasicTabs() {
                             "requestedon": TodayDate,
                             "recomemdedby": formValues.recommendby,
                             "approvedby": formValues.approveby,
-                            "status": { "approved": false, "read": false, "accepted": "applied", "isrecommended": false }
+                            "status": { "approved": false, "read": false, "accepted": "applied", "isrecommended": false },
+                          
                         }).then(res => {
-                            setOpen3(false)
-                            setTimeout(() => {
+                                setOpen3(false)
                                 setTimeout(() => {
-                                    window.location.pathname = '/leave';
+                                    setTimeout(() => {
+                                        window.location.pathname = '/leave';
+                                    }, 1000);
+                                    setopac('1')
+                                    setLoading(false)
+                                    setIsSubmitted(true);
                                 }, 1000);
-                                setopac('1')
-                                setLoading(false)
-                                setIsSubmitted(true);
-                            }, 1000);
 
-                        }).catch(error => {
+                            }).catch(error => {
 
-                        })
+                            })
                     }
                 })
                 .catch(error => {
@@ -604,8 +606,8 @@ export default function BasicTabs() {
 
     const validate = (values) => {
         const errors = {}
-        if (!values.leavetype) {
-            errors.leavetype = "Leave Type is required!";
+        if (!values.types) {
+            errors.types = "Leave Type is required!";
         }
         if (!values.day) {
             errors.day = "Day Type is required!";
@@ -774,8 +776,8 @@ export default function BasicTabs() {
                                                                 id="outlined-select-leavetype"
                                                                 select
                                                                 label="Select"
-                                                                name="leavetype"
-                                                                value={formValues.leavetype}
+                                                                name="types"
+                                                                value={formValues.types}
                                                                 //onChange={(e)=> setLeave(e.target.value)}
                                                                 onChange={handleChanges}
                                                             >
