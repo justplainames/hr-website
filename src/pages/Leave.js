@@ -158,7 +158,7 @@ function getDifferenceInDays(dates) {
             .join(',')
     )
     if (isNaN(((Math.abs(dates[1] - dates[0])) / (1000 * 60 * 60 * 24)) + 1)) {
-        return "1"
+        return 1
     }
     else {
         return (((Math.abs(dates[1] - dates[0])) / (1000 * 60 * 60 * 24)) + 1);
@@ -846,7 +846,6 @@ export default function BasicTabs() {
                                                         <Typography sx={{ mt: 1, mb: 1 }}></Typography>
                                                         <DesktopDateRangePicker
                                                             required
-                                                            disablePast
                                                             startText="Start Date"
                                                             endText="End Date"
                                                             disabled={disablefromnoti}

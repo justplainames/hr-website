@@ -131,7 +131,7 @@ const Home = () => {
     const [isValid, setIsValid] = useState(false);
 
     const calendardetails = (data) => {
-
+        setcalenval([])
         for (var i = 0; i < data.length; i++) {
             var datecounter;
 
@@ -177,7 +177,7 @@ const Home = () => {
                 else {
                     template.className = cssname(data[i].types)[0]  
                 }
-                setcalenval([])
+
                 setcalenval(oldArray => [...oldArray, template]);
                 if (z !== 0 && z == data[i].days - 1) {
                     break;

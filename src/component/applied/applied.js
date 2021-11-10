@@ -98,7 +98,9 @@ export default function Applied({ details, rerender, ...others }) {
             {
 
                 "userId": isAuthenticated,
-                "id": id
+                "id": id, 
+                "days" :details.days,
+                "types" : details.types
             }).then(res => {
                 setOpen3(false)
 
