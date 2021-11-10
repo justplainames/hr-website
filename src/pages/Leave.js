@@ -27,8 +27,10 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import InputAdornment from '@mui/material/InputAdornment';
 
+import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-
+// import React from "react";
+import MUIDataTable from "mui-datatables";
 import InputLabel from '@mui/material/InputLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Select from '@mui/material/Select';
@@ -58,7 +60,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 
-import Leaverecord from '../pages/LeaveRecord.js'
 import Leaveapproval from '../pages/ApproveLeave.js'
 import { DateTimePicker } from '@material-ui/pickers';
 
@@ -94,10 +95,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 }));
 
-function createData(ltype, left, entitlement, carryforward) {
-    return { ltype, left, entitlement, carryforward };
-}
-
 // leave types for my leave select leave type
 const leavetypes = [
     {
@@ -130,16 +127,85 @@ const leavetypes = [
     },
     {
         value: 'Unpaid Infant Care Leave',
-        label: 'Unpaid Infant Care Leave',
+        label: 'Unpaid Infant Care Parental',
     },
 ];
 
+//columns for leave records
+const columnsforRecord = [
+    {
+        name: "Date of Application",
+        options: {
+            filter: true,
+        }
+    },
+    {
+        label: "Type",
+        name: "Title",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Start Date",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "End Date",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Days Applied",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Recommender",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Approver",
+        options: {
+            filter: true
+        }
+    },
+    {
+        name: "Status",
+        options: {
+            filter: true
+        }
+    },
+];
+
+
+
+const data = [
+    ["20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"],
+    ["20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending"],
+    ["31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Approved"],
+
+];
 
 const options = {
     filter: true,
     filterType: "multiselect",
     responsive: "scrollMaxHeight"
 };
+
+const dataLeaveRecord = [
+    ["20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"],
+    ["20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending"],
+    ["31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Approved"],
+];
+
+
 
 
 
@@ -288,19 +354,24 @@ export default function BasicTabs() {
     const [open3, setOpen3] = useState(false);
     const [opac, setopac] = useState('1')
     const [mark2, setmark2] = useState([]);
+    const [mark3, setmark3] = useState([]);
     const [mark, setmark] = useState([]);
-    const [datedisabled, setdatedisabled] = useState([])
-    const [leaves,setleaves] = useState([])
+    const [datedisabled, setdatedisabled] = useState([]);
+    const [leaves, setleaves] = useState([]);
+    const [tabledata, settabledata] = useState([])
+
+    function createData(ltype, left, entitlement, carryforward) {
+        return { ltype, left, entitlement, carryforward };
+    }
+
     // disableSpecific(datef) {
     //     const dateRaw = [
     //     new Date(date.getFullYear(),0,1),
     //     new Date(date.getFullYear(),4,1)
     //     ];
-        
+
     //     return dateRaw.includes(datef.getTime());
     //     }
-
-    
 
     const fetchleaves = async (id) => {
         await axios.get('http://localhost:5000/leaves', {
@@ -309,66 +380,18 @@ export default function BasicTabs() {
             }
         })
             .then(res => {
-                setleaves(res.data);
+                setleaves(res.data)
+                settabledata(oldArray => [...oldArray, createData('Annual', res.data.left.annual, res.data.annual, res.data.carryforward.annual)])
+                settabledata(oldArray => [...oldArray, createData('Adoption', res.data.left.adoption, res.data.adoption, res.data.carryforward.adoption)]);
+                settabledata(oldArray => [...oldArray, createData('Childcare', res.data.left.childcare, res.data.childcare, res.data.carryforward.childcare)]);
+                settabledata(oldArray => [...oldArray, createData('Maternity', res.data.left.maternity, res.data.maternity, res.data.carryforward.maternity)]);
+                settabledata(oldArray => [...oldArray, createData('Paternity', res.data.left.paternity, res.data.paternity, res.data.carryforward.paternity)]);
+                settabledata(oldArray => [...oldArray, createData('Shared Parental', res.data.left.sharedparental, res.data.sharedparental, res.data.carryforward.sharedparental)]);
+                settabledata(oldArray => [...oldArray, createData('Unpaid Infant Care Parental', res.data.left.infantcare, res.data.infantcare, res.data.carryforward.infantcare)]);
+
+
             })
     }
-
-    const calendardetails = (data) => {
-
-        for (var i = 0; i < data.length; i++) {
-            var datecounter;
-
-            for (var z = 0; z <= data[i].days; z++) {
-                var find = '/';
-                var re = new RegExp(find, 'g');
-                var date = data[i].from.replace(re, '-');
-                var dd;
-                if (z === 0) {
-                    if (data[i].types === 'annual') {
-                        dd = new Date(date)
-                        datecounter = dd
-                        setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
-                      
-                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
-                    }
-                    else if (data[i].types === 'meeting') {
-                        dd = new Date(date)
-                        datecounter = dd
-                        setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
-                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
-                    }
-
-                }
-                else {
-
-                    if (data[i].types === 'annual') {
-                        var set = new Date(datecounter)
-                        var set2 = set.setDate(set.getDate() + 1)
-                        dd = new Date(set2)
-                        datecounter = dd
-                        setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
-                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
-                    }
-                    else if (data[i].types === 'meeting') {
-                        var set = new Date(datecounter)
-                        var set2 = set.setDate(set.getDate() + 1)
-                        dd = new Date(set2)
-                        datecounter = dd
-                        setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
-                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
-                    }
-                }
-
-                if (z !== 0 && z == data[i].days - 1) {
-                    break;
-                }
-
-            }
-
-        }
-      
-    }
-
     const fetchapplied = (id) => {
         axios.get('http://localhost:5000/applied', {
             params: {
@@ -384,15 +407,81 @@ export default function BasicTabs() {
     useEffect(() => {
         const id = localStorage.getItem("isAuthenticated");
         fetchapplied(id)
-    }, []);
-
-    useEffect(() => {
-        const id = localStorage.getItem("isAuthenticated");
         fetchleaves(id)
     }, []);
 
+    const calendardetails = (data) => {
 
-    // console.log(leaves.annual)
+        for (var i = 0; i < data.length; i++) {
+            var datecounter;
+
+            for (var z = 0; z <= data[i].days; z++) {
+                var find = '/';
+                var re = new RegExp(find, 'g');
+                var date = data[i].from.replace(re, '-');
+                var dd;
+                if (z === 0) {
+                    if (data[i].types === 'course') {
+                        dd = new Date(date)
+                        datecounter = dd
+                        setmark3(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
+                    else if (data[i].types === 'meeting') {
+                        dd = new Date(date)
+                        datecounter = dd
+                        setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
+                    else{
+                        dd = new Date(date)
+                        datecounter = dd
+                        setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
+
+                }
+                else {
+                    if(data[i].days===1) {
+                        break;
+                    }
+                    else if (data[i].types === 'course') {
+                        var set = new Date(datecounter)
+                        var set2 = set.setDate(set.getDate() + 1)
+                        dd = new Date(set2)
+                        datecounter = dd
+                        setmark3(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
+                    else if (data[i].types === 'meeting') {
+                        var set = new Date(datecounter)
+                        var set2 = set.setDate(set.getDate() + 1)
+                        dd = new Date(set2)
+                        datecounter = dd
+                        setmark2(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+               
+                    }  
+                    else{
+                        var set = new Date(datecounter)
+                        var set2 = set.setDate(set.getDate() + 1)
+                        dd = new Date(set2)
+                        datecounter = dd
+                        setmark(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    } 
+                }
+
+                if (z !== 0 && z == data[i].days - 1) {
+                    break;
+                }
+
+            }
+
+        }
+
+    }
+
 
     useEffect(() => {
         const from = location.state
@@ -441,7 +530,7 @@ export default function BasicTabs() {
 
         }
     }
-    
+
 
     const handleSubmit = (e) => {
         const id = localStorage.getItem("isAuthenticated");
@@ -482,7 +571,7 @@ export default function BasicTabs() {
                             }, 2500);
                         })
                             .catch(error => {
-                          
+
                             })
                     }
                     else {
@@ -504,19 +593,19 @@ export default function BasicTabs() {
                             setTimeout(() => {
                                 setTimeout(() => {
                                     window.location.pathname = '/leave';
-                                }, 1500);
+                                }, 1000);
                                 setopac('1')
                                 setLoading(false)
                                 setIsSubmitted(true);
-                            }, 2500);
+                            }, 1000);
 
                         }).catch(error => {
-               
+
                         })
                     }
                 })
                 .catch(error => {
-         
+
                 })
 
             //if credentials wrong, prompt user for correct input
@@ -564,74 +653,16 @@ export default function BasicTabs() {
     };
 
 
-    const isAuthenticated = localStorage.getItem("isAuthenticated");
-    const [table, setTable] = useState([])
+    const optionsLeaveRecord = {
+        filter: true,
+        filterType: "multiselect",
+        responsive: "scrollMaxHeight",
+        selectableRows: "none",
+        download: false,
+        print: false,
+        fixedHeader: false,
+    };
 
-    const fetchTable = async () => {
-        const isAuthenticated = localStorage.getItem("isAuthenticated");
-        await axios.get('http://localhost:5000/leaves', {
-            params: {
-                id: isAuthenticated
-            }
-        })
-            .then(res => {
-                setTable(res.data);
-            })
-    }
-
-    useEffect(() => {
-        if (isAuthenticated) {
-            fetchTable()
-        }
-    }, []);
-
-    
-
-    const rows = [
-        createData('Adoption Leave', leaves.left.adoption,leaves.adoption, leaves.carryforward.adoption),
-        createData('Annual Leave', leaves.left.annual,leaves.annual, leaves.carryforward.annual),
-        createData('Childcare Leave', leaves.left.childcare,leaves.childcare, leaves.carryforward.childcare),
-        createData('Maternity Leave', leaves.left.maternity,leaves.maternity, leaves.carryforward.maternity),
-        createData('Paternity Leave', leaves.left.paternity,leaves.paternity, leaves.carryforward.paternity),
-        createData('Shared Parental Leave',leaves.left.sharedparental,leaves.sharedparental, leaves.carryforward.sharedparental),
-        createData('Sick Leave', leaves.left.sickleave,leaves.sickleave, leaves.carryforward.sickleave),
-        createData('Unpaid Infant Care Leave',leaves.left.infantcare,leaves.infantcare, leaves.carryforward.infantcare),
-    ];
-    
-    function ptd(leave){
-        if (leave === "Adoption Leave"){
-            var num = (leaves.adoption *11/12)
-            return num.toFixed(2);
-        }
-        else if (leave === "Annual Leave"){
-            var num = (leaves.annual *11/12)
-            return num.toFixed(2);
-        }
-        else if (leave === "Childcare Leave"){
-            var num = (leaves.childcare *11/12)
-            return num.toFixed(2);
-        }
-        else if (leave === "Maternity Leave"){
-            var num = (leaves.maternity *11/12)
-            return num.toFixed(2);
-        }
-        else if (leave === "Paternity Leave"){
-            var num = (leaves.paternity *11/12)
-            return num.toFixed(2);
-        }
-        else if (leave === "Shared Parental Leave"){
-            var num = (leaves.sharedparental *11/12)
-            return num.toFixed(2);
-        }
-        else if (leave === "Sick Leave"){
-            var num = (leaves.sickleave *11/12)
-            return num.toFixed(2);
-        }
-        else if (leave === "Unpaid Infant Care Leave"){
-            var num = (leaves.infantcare *11/12)
-            return num.toFixed(2);
-        }
-    }
 
     return (
 
@@ -696,11 +727,15 @@ export default function BasicTabs() {
                                             value={calendar}
                                             tileClassName={({ date, view }) => {
                                                 if (mark.find(x => x === moment(date).format("MM-DD-YYYY"))) {
-                                                    return 'highlight1'
+                                                    return 'highlight'
                                                 }
                                                 if (mark2.find(x => x === moment(date).format("MM-DD-YYYY"))) {
+                                                    return 'highlight1'
+                                                }
+                                                if (mark3.find(x => x === moment(date).format("MM-DD-YYYY"))) {
                                                     return 'highlight2'
                                                 }
+
 
                                             }}
                                         />
@@ -710,22 +745,22 @@ export default function BasicTabs() {
                                             <Table sx={{ width: '500px', maxHeight: '415px', height: '415px' }} aria-label="customized table">
                                                 <TableHead>
                                                     <TableRow>
-                                                        <StyledTableCell sx={{ width: '160px' }}>Type</StyledTableCell>
+                                                        <StyledTableCell sx={{ width: '160px' }}>Type (Leave)</StyledTableCell>
                                                         <StyledTableCell align="right">Left</StyledTableCell>
                                                         <StyledTableCell align="right">Entitlement</StyledTableCell>
-                                                        <StyledTableCell align="right"> Carry Forward</StyledTableCell>
+                                                        <StyledTableCell align="right">CarryForward</StyledTableCell>
 
                                                     </TableRow>
                                                 </TableHead>
                                                 <TableBody sx={{ height: '360px', position: 'absolute', overflowY: 'scroll', borderRadius: '0px 0px 20px 20px', width: '500px' }}>
-                                                    {rows.map((row) => (
+                                                    {tabledata.map((row) => (
                                                         <StyledTableRow key={row.ltype}>
                                                             <StyledTableCell sx={{ width: '160px' }} component="th" scope="row">
                                                                 {row.ltype}
                                                             </StyledTableCell>
                                                             <StyledTableCell sx={{ paddingLeft: '30px' }} align="right">{row.left}</StyledTableCell>
                                                             <StyledTableCell sx={{ paddingLeft: '60px' }} align="right">{row.entitlement}</StyledTableCell>
-                                                            <StyledTableCell sx={{ paddingLeft: '110px', paddingRight: '48px' }} align="right">{row.carryforward}</StyledTableCell>
+                                                            <StyledTableCell sx={{ paddingLeft: '110px', paddingRight: '68px' }} align="right">{row.carryforward}</StyledTableCell>
 
                                                         </StyledTableRow>
                                                     ))}
@@ -745,7 +780,7 @@ export default function BasicTabs() {
                                                 <h3>Apply Leave </h3></div> */}
 
 
-                                            
+
 
                                                 <div id="selectbox">
                                                     <Box
@@ -774,9 +809,9 @@ export default function BasicTabs() {
                                                                 // value={values.leavetype}
                                                                 onChange={handleChanges}
                                                             >
-                                                                {leavetypes.map((option) => (
-                                                                    <MenuItem key={option.value} value={option.value}>
-                                                                        {option.label}
+                                                                {tabledata.map((option) => (
+                                                                    <MenuItem key={option.ltype} value={option.ltype}>
+                                                                        {option.ltype}
                                                                     </MenuItem>
                                                                 ))}
                                                             </TextField>
@@ -837,9 +872,9 @@ export default function BasicTabs() {
                                                             endText="End Date"
                                                             disabled={disablefromnoti}
                                                             name="daterange"
-                                                            shouldDisableDate={(date)=>{
-                                                                if (datedisabled.find(x => x.getTime() ===date.getTime())){
-                                                                  return date
+                                                            shouldDisableDate={(date) => {
+                                                                if (datedisabled.find(x => x.getTime() === date.getTime())) {
+                                                                    return date
                                                                 }
                                                             }}
                                                             value={daterange}
@@ -868,7 +903,6 @@ export default function BasicTabs() {
 
                                                             value={getDifferenceInDays(daterange)}
                                                             disabled={disablefromnoti}
-                                                            disabled
                                                             // your code here.
 
                                                             //onChange={handleRange}
@@ -951,7 +985,7 @@ export default function BasicTabs() {
                                                             disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="ptdvalue"
-                                                            value={ptd(formValues.leavetype)}
+                                                            value={formValues.ptdvalue}
                                                             onChange={handleChanges}
                                                         />
                                                     </Box>
@@ -973,7 +1007,7 @@ export default function BasicTabs() {
                                                             disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="ytdvalue"
-                                                            value={ptd(formValues.leavetype)}
+                                                            value={formValues.ytdvalue}
                                                             onChange={handleChanges}
                                                         />
                                                     </Box>
@@ -1024,14 +1058,24 @@ export default function BasicTabs() {
                     <TabPanel value={value} index={2}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
                             <br />
-                            <Leaverecord />
+                            <ThemeProvider theme={theme}>
+                                <MUIDataTable
+                                    title={"Leave Records"}
+                                    data={dataLeaveRecord}
+                                    columns={columnsforRecord}
+                                    options={optionsLeaveRecord}
+                                />
+                            </ThemeProvider>
                         </div>
+
                     </TabPanel>
 
                     <TabPanel value={value} index={3}>
                         <div style={{ display: 'table', tableLayout: 'fixed', width: '90%' }}>
                             <br />
+
                             <Leaveapproval />
+
                         </div>
                     </TabPanel>
 
