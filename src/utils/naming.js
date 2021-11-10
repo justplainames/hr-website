@@ -2,30 +2,29 @@ export const naming = (str) => {
     var name;
 
     switch (str) {
-        case 'infantcare':
-            name = "Infant Care";
-            break;
         case 'adoption':
             name = "Adoption";
             break;
-        case 'sharedparental':
-            name = "Shared Parental";
-            break;
-        case 'maternity':
-            name = "Maternity";
+        case 'annual':
+            name = "Annual";
             break;
         case 'childcare':
             name = "Childcare";
             break;
-        case 'sickleave':
-            name = "Sick Leave";
+        case 'maternity':
+            name = "Maternity";
             break;
         case 'paternity':
             name = "Paternity";
             break;
-        default:
-            name = "Annual";
+        case 'sharedparental':
+            name = "Shared Parental";
             break;
+        case 'sickleave':
+            name = "Sickleave";
+            break;
+        case 'infantcare':
+            name = "Infant Care";
     }
 
     return name

@@ -194,8 +194,7 @@ const Home = () => {
                 id: id
             }
         })
-            .then(res => {
-                console.log(res.data)
+            .then(res => {                
                 setapplied(res.data.applies);
                 calendardetails(res.data.applies)
                 latestDate(res.data.applies)
@@ -342,22 +341,30 @@ const Home = () => {
       }
 
     const latestDate = (data) => {
-        if(data.length!==0){
-        var latest = data[0].from + " - " + data[0].to;
+        if(data.length!==0)
+        {
+            var date = [data[0].from, data[0].to];
 
-        for(var i = 1; i < data.length; i++) {
-        if (formatToDate(data[i].from) > formatToDate(data[0].from))
-            latest = formatDDMMYY(data[i].from, data[i].to);
-            
-        }
-        if (latest[0] === latest[1]) {
-            setLatest(latest[0])
-        }
-        else {
-            setLatest(latest[0] + " - " + latest[1])
+            if (data.length > 1) 
+            {
+                for(var i = 1; i < data.length; i++) {
+                    if (formatToDate(data[i].from) < formatToDate(data[0].from))  
+                    {
+                        date = formatDDMMYY(data[i].from, data[i].to);                                                          
+                    }    
+                }
+            }
+
+            if (date[0] === date[1]) {
+                date = date[0]
+            }
+            else {
+                date = date[0] + " - " + date[1]
+            }              
+            setLatest(date)
         }
     }
-    }
+
 
     function formatDDMMYY(dateFrom, dateEnd) {
         const date = dateFrom

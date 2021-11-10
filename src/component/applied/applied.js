@@ -16,11 +16,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import { Alert, AlertTitle } from '@mui/material';
 import DialogTitle from '@mui/material/DialogTitle';
+import { typographyVariant } from '@mui/system';
+import { naming } from '../../utils/naming'; 
+
 const useStyles = makeStyles(theme => ({
     cardinfo: {
         borderRadius: '15px',
         width: '380px',
-        height: '210px'
+        height: '210px',
     }
 
 }))
@@ -121,6 +124,18 @@ export default function Applied({ details, rerender, ...others }) {
         setOpen3(true)
     }
 
+    const changeColor = (details) => {
+        if (details.types === 'meeting' || details.types === 'course') {
+            return cssname(details.types)[1]
+        }
+        else if (details.approved) {
+            return cssname('approved')[1]
+        }
+        else {
+            return cssname(details.types)[1]
+        }
+    }
+
 
     return (
         <Box pl={2.5} pt={3}>
@@ -166,36 +181,23 @@ export default function Applied({ details, rerender, ...others }) {
             <div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
                 <FadeLoader color={"black"} loading={loading} css={override} size={10} />
             </div>
-            <Card className={classes.cardinfo}>
-                <Box sx={{ display: 'flex' }} pl={2}>
+            <Card className={classes.cardinfo} elevation={0} style = {{border: "2px solid " + changeColor(details)}}>            
+                <Box sx={{ display: 'flex' }} >
                     <Box>
                         <Box sx={{ display: 'flex' }} >
-                            <Box pl={2} pt={1.8} mr={1}>
-                                <Typography variant="h5">
-                                    {details.types.charAt(0).toUpperCase() + details.types.slice(1)}
+                            <Box pl={2} pt={1.8} mr={1} sx={{display:"flex", width: "600px"}}>
+                                <Typography variant="h5" style={{display: 'inline-block'}}>
+                                    {naming(details.types) + ' '}
                                     {details.types === 'meeting' || details.types === 'course'
                                         ? ''
-                                        : [
+                                        :  [
                                             (details.approved
                                                 ? ' Leave'
-                                                : ' Leave (Pending)'
+                                                : <Typography variant="h5" style={{display: 'inline-block'}}> Leave <Typography style={{display: 'inline-block'}}>(Pending) </Typography> </Typography>
                                             ),
                                         ]
                                     }
                                 </Typography>
-
-                            </Box>
-                            <Box pt={2}>
-                                {details.types === 'meeting' || details.types === 'course'
-                                    ? <CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} />
-                                    : [
-                                        (details.approved
-                                            ? <CircleIcon sx={{ fontSize: 25, color: cssname('approved')[1] }} />
-                                            : <CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} />
-                                        ),
-                                    ]
-                                }
-
                             </Box>
                         </Box>
 

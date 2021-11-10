@@ -284,10 +284,10 @@ const Sidebar = () => {
                     </Typography>
                 </Box>
 
-                <Box ml={120} mt={5}>
+                <Box ml={140} mt={5}>
 
                     <Box sx={{ display: 'flex' }}>
-                        <Box mr={5} ml={20} className={classes.myComponent}>
+                        <Box mr={10} ml={20} className={classes.myComponent}>
                             <Badge badgeContent={countNotiUnread(notificationsitems)} color="primary">
                                 <IconButton style={{padding:'0!important'}} onClick={() => {
                                     setshowNoti(prev => !prev)
@@ -316,7 +316,7 @@ const Sidebar = () => {
                         </Box>
                     </Box>
                     {showNoti &&
-                        <Box ml={10} pt={1.3} sx={{ position: 'absolute' }}>
+                        <Box pt={1.3} sx={{ position: 'absolute' }}>
                             <Card className={classes.notificationCard}>
                                 <Box >
                                     <Card className={classes.notiItem}>
@@ -338,7 +338,7 @@ const Sidebar = () => {
                     }
 
                     {showProfile &&
-                        <Box ml={10} pt={1.3} sx={{ position: 'absolute' }}>
+                        <Box pt={1.3} sx={{ position: 'absolute' }}>
                             <Card className={classes.notificationCard}>
                                 <Box >
                                     <Card className={classes.notiItem}>
