@@ -305,7 +305,7 @@ export default function Payslip() {
         e.preventDefault();
         const isValid = formValidation();
         if (isValid) {
-            window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905710617866960966/Past12mths.pdf';
+            window.location.href = 'https://cdn.discordapp.com/attachments/885526872140685334/907815209547223090/Past12mths.pdf';
             handleClose();
             resetInputField();
         }
