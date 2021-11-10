@@ -341,29 +341,42 @@ const Home = () => {
       }
 
     const latestDate = (data) => {
-        if(data.length!==0)
+       
+        var date = [];
+
+        if (data.length > 1) 
         {
-            var date = [data[0].from, data[0].to];
-
-            if (data.length > 1) 
-            {
-                for(var i = 1; i < data.length; i++) {
-                    if (formatToDate(data[i].from) < formatToDate(data[0].from))  
+            for(let i = 0; i < data.length; i++) 
+            {                              
+                for(let j = i+1; j < data.length; j++)
+                {  
+                    if (data[i] != data[j]) 
                     {
-                        date = formatDDMMYY(data[i].from, data[i].to);                                                          
-                    }    
-                }
+                        if (formatToDate(data[i].from) < formatToDate(data[j].from)) 
+                        {            
+                            date = formatDDMMYY(data[i].from, data[i].to);                                
+                        }
+                        else {
+                            date = formatDDMMYY(data[j].from, data[j].to);
+                        }                       
+                    }
+                }            
             }
-
-            if (date[0] === date[1]) {
-                date = date[0]
-            }
-            else {
-                date = date[0] + " - " + date[1]
-            }              
-            setLatest(date)
         }
+        else {
+            date = formatDDMMYY(data[0].from, data[0].to);
+        }
+
+        if (date[0] === date[1]) {
+            date = date[0]
+        }
+        else {
+            date = date[0] + " - " + date[1]
+        }              
+        console.log(date)
+        setLatest(date)
     }
+    
 
 
     function formatDDMMYY(dateFrom, dateEnd) {
