@@ -177,7 +177,7 @@ const Home = () => {
                 else {
                     template.className = cssname(data[i].types)[0]  
                 }
-
+                setcalenval([])
                 setcalenval(oldArray => [...oldArray, template]);
                 if (z !== 0 && z == data[i].days - 1) {
                     break;
@@ -195,7 +195,7 @@ const Home = () => {
             }
         })
             .then(res => {
-               // console.log(res.data)
+                console.log(res.data)
                 setapplied(res.data.applies);
                 calendardetails(res.data.applies)
                 latestDate(res.data.applies)
@@ -371,6 +371,9 @@ const Home = () => {
         return [newdate, newdateTo]
     }
 
+    const rerendercalendar =()=>{
+        fetchapplied(isAuthenticated)
+    }
 
     return (
         <Box mt={4}>
@@ -616,7 +619,6 @@ const Home = () => {
                 <Box sx={{ display: 'flex', justifyContent: 'center', position: 'relative', zIndex: '1' }} pt={5} mb={10} >
 
                     <Calendar
-
                         value={selectedDay}
                         onChange={setSelectedDay}
                         shouldHighlightWeekends
@@ -645,7 +647,7 @@ const Home = () => {
                                 </Box>
                             </Box>
                             <Box sx={{ overflow: 'auto', height: '840px' }}>
-                                <AppliedList items={applied} />
+                                <AppliedList items={applied} rerender={rerendercalendar} />
                             </Box>
                         </Card>
                     </Box>

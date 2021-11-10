@@ -59,7 +59,7 @@ month[9] = "Oct";
 month[10] = "Nov";
 month[11] = "Dec";
 
-export default function Applied({ details, ...others }) {
+export default function Applied({ details, rerender, ...others }) {
     const classes = useStyles();
     //console.log("These are the details:")
     const [editdate, seteditdate] = useState(0);
@@ -91,24 +91,20 @@ export default function Applied({ details, ...others }) {
     const handleDelete = (e) => {
         e.preventDefault()
         setopac('0.4')
-        setLoading(true)    
+        setLoading(true)
         const isAuthenticated = localStorage.getItem("isAuthenticated");
         const id = details._id
         axios.post('http://localhost:5000/deleteApplied',
             {
-                
+
                 "userId": isAuthenticated,
                 "id": id
             }).then(res => {
                 setOpen3(false)
-                setTimeout(() => {
-                    setTimeout(() => {
-                        window.location.pathname = '/';
-                    }, 300);
-                    setopac('1')
-                    setLoading(false)
-                    setIsSubmitted(true);
-                }, 500);
+
+                rerender()
+
+
             })
     }
 
@@ -126,32 +122,32 @@ export default function Applied({ details, ...others }) {
 
     return (
         <Box pl={2.5} pt={3}>
-            
-                <Dialog
-                    fullWidth={true}
-                    maxWidth="sm"
-                    open={open3}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
 
-                    <DialogTitle id="alert-dialog-title">
-                        {"Confirmation"}
-                    </DialogTitle>
-                    <DialogContent>
+            <Dialog
+                fullWidth={true}
+                maxWidth="sm"
+                open={open3}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
 
-                        <DialogContentText id="alert-dialog-description">
-                            Are you sure you want to cancel?
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleDelete} autoFocus>
-                            Confirm
-                        </Button>
-                    </DialogActions>
-                </Dialog>
+                <DialogTitle id="alert-dialog-title">
+                    {"Confirmation"}
+                </DialogTitle>
+                <DialogContent>
+
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure you want to cancel?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleDelete} autoFocus>
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             <div style={{
                 position: 'absolute', left: '50%', top: '50%',
@@ -174,30 +170,30 @@ export default function Applied({ details, ...others }) {
                         <Box sx={{ display: 'flex' }} >
                             <Box pl={2} pt={1.8} mr={1}>
                                 <Typography variant="h5">
-                                    {details.types.charAt(0).toUpperCase() + details.types.slice(1)}  
-                                    {details.types === 'meeting' || details.types === 'course' 
-                                    ? '' 
-                                    :[ 
-                                        (details.approved
-                                            ? ' Leave'
-                                            : ' Leave (Pending)' 
-                                        ),
-                                    ]
-                                }
-                                 </Typography>
+                                    {details.types.charAt(0).toUpperCase() + details.types.slice(1)}
+                                    {details.types === 'meeting' || details.types === 'course'
+                                        ? ''
+                                        : [
+                                            (details.approved
+                                                ? ' Leave'
+                                                : ' Leave (Pending)'
+                                            ),
+                                        ]
+                                    }
+                                </Typography>
 
                             </Box>
                             <Box pt={2}>
-                                {details.types === 'meeting' || details.types === 'course' 
-                                ? <CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} /> 
-                                :[
-                                    (details.approved 
-                                        ? <CircleIcon sx={{ fontSize: 25, color: cssname('approved')[1]}} /> 
-                                        : <CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1]}}/>
-                                    ),
-                                ]
+                                {details.types === 'meeting' || details.types === 'course'
+                                    ? <CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} />
+                                    : [
+                                        (details.approved
+                                            ? <CircleIcon sx={{ fontSize: 25, color: cssname('approved')[1] }} />
+                                            : <CircleIcon sx={{ fontSize: 25, color: cssname(details.types)[1] }} />
+                                        ),
+                                    ]
                                 }
-                                
+
                             </Box>
                         </Box>
 

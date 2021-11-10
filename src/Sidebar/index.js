@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import logo from "../assets/logo.svg";
 import Home from "../assets/home-solid.svg";
@@ -21,7 +21,7 @@ import Notifications from "../component/notifications/notifications";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import axios from 'axios';
 import Link from '@mui/material/Link';
-
+import Badge from '@mui/material/Badge';
 
 const useStyles = makeStyles(theme => ({
     notificationCard: {
@@ -54,15 +54,11 @@ const useStyles = makeStyles(theme => ({
         height: "80px",
         width: "80px"
     },
-
-    count: {
-        position: "absolute",
-        lineHeight: 1,
-        bottom: "1.8em",
-        right: "1.3em",
-        //color: "#fff",
-        fontSize: "0.7em"
-      }
+    myComponent: {
+        "& .MuiIconButton-root": {
+          padding: 0
+        }
+    }
 }))
 
 
@@ -222,29 +218,19 @@ const Sidebar = () => {
         })
             .then(res => {
                 setnotificationsitems(res.data.notifications);
-                
+
             })
     }
 
-    useEffect(() => {   
+    useEffect(() => {
         if (isAuthenticated) {
             fetchNoti()
         }
     }, []);
 
-    useEffect(()=>{
-        if (showNoti) {
-            axios.post('http://localhost:5000/updatenoti', {
-
-                "id": isAuthenticated
-            }
-
-            ).then(res=>{
-                setnotificationsitems([])
-                fetchNoti()
-            })
-        }
-    },[])
+    const rerendernoti = () => {
+        fetchNoti()
+    }
 
     const fetchProfile = async () => {
         const isAuthenticated = localStorage.getItem("isAuthenticated");
@@ -258,7 +244,7 @@ const Sidebar = () => {
             })
     }
 
-    useEffect(() => {   
+    useEffect(() => {
         if (isAuthenticated) {
             fetchProfile()
         }
@@ -267,7 +253,7 @@ const Sidebar = () => {
     const countNotiUnread = (data) => {
         var counter = 0
         for (var i = 0; i < data.length; i++) {
-            if(!data[i].status.read) {
+            if (!data[i].status.read) {
                 counter++;
             }
         }
@@ -276,13 +262,14 @@ const Sidebar = () => {
     }
 
 
-    const handleClick = () => setClick(!click);
+    const handleClick = () => setClick(!click)
+
     const classes = useStyles();
 
     const [titleName, setTitleName] = useState("")
 
     return (
-        
+
 
         <Container>
 
@@ -293,30 +280,30 @@ const Sidebar = () => {
                 </Logo>
                 <Box sx={{ ml: 8, mt: 3 }}>
                     <Typography className={classes.bold} variant="h3" component="h3">
-                        {titleName==="" ? "Homepage" : titleName}
+                        {titleName === "" ? "Homepage" : titleName}
                     </Typography>
                 </Box>
 
                 <Box ml={120} mt={5}>
 
                     <Box sx={{ display: 'flex' }}>
-                        <Box mr={5} ml={20}>
-                            <IconButton onClick={() => {
-                                setshowNoti(prev => !prev)
-                                setShowProfile(false)
-                            }}>
-                                <Box sx ={{ display: 'flex'}}>
-                                    <NotificationsNoneIcon sx={{ fontSize: 40 }} />
-                                    <Box sx ={{ display: 'flex'}}>                                                                                
-                                        <CheckBoxOutlineBlankIcon sx={{ fontSize: 28 }}  color="primary" />
-                                        <Typography className={classes.count}> 
-                                            {countNotiUnread(notificationsitems)}
-                                        </Typography>
-                                    </Box>
-                                </Box >
-                            </IconButton>
-                        </Box>
+                        <Box mr={5} ml={20} className={classes.myComponent}>
+                            <Badge badgeContent={countNotiUnread(notificationsitems)} color="primary">
+                                <IconButton style={{padding:'0!important'}} onClick={() => {
+                                    setshowNoti(prev => !prev)
+                                    setShowProfile(false)
+                                }}>
+                                    <Box sx={{ display: 'flex' }}>
+                                        <NotificationsNoneIcon sx={{ fontSize: 40 }} />
+                                        <Box sx={{ display: 'flex' }}>
+                                        
+                                        </Box>
+                                    </Box >
+                                </IconButton>
+                            </Badge>
 
+                        </Box>
+                        <Box className={classes.myComponent}>
                         <IconButton onClick={() => {
                             setShowProfile(prev => !prev)
                             setshowNoti(false)
@@ -326,6 +313,7 @@ const Sidebar = () => {
                                 <PermIdentityIcon sx={{ fontSize: 40 }} />
                             </Box>
                         </IconButton>
+                        </Box>
                     </Box>
                     {showNoti &&
                         <Box ml={10} pt={1.3} sx={{ position: 'absolute' }}>
@@ -340,7 +328,7 @@ const Sidebar = () => {
                                             </Box>
                                             <Divider />
                                             <Box sx={{ overflow: 'auto', maxHeight: '1000px' }}>
-                                                <Notifications items={notificationsitems}></Notifications>
+                                                <Notifications items={notificationsitems} rerendering={rerendernoti}></Notifications>
                                             </Box>
                                         </Box>
                                     </Card>
@@ -423,15 +411,15 @@ const Sidebar = () => {
                 <MenuButton clicked={click} onClick={() => handleClick()}>
                 </MenuButton>
                 <SlickBar clicked={click}>
-                    <Item onClick={() => {setClick(false); setTitleName("Homepage");}} exact activeClassName="active" to="/">
+                    <Item onClick={() => { setClick(false); setTitleName("Homepage"); }} exact activeClassName="active" to="/">
                         <img src={Home} alt="Home" />
                         <Text clicked={click}>Home</Text>
                     </Item>
-                    <Item onClick={() => {setClick(false); setTitleName("Leave");}} activeClassName="active" to="/leave">
+                    <Item onClick={() => { setClick(false); setTitleName("Leave"); }} activeClassName="active" to="/leave">
                         <img src={Leave} alt="Leave" />
                         <Text clicked={click}>Leave</Text>
                     </Item>
-                    <Item onClick={() => {setClick(false); setTitleName("Payslip");}} activeClassName="active" to="/payslip">
+                    <Item onClick={() => { setClick(false); setTitleName("Payslip"); }} activeClassName="active" to="/payslip">
                         <img src={Payslip} alt="Payslip" style={{ width: 35, height: 35 }} />
                         <Text clicked={click}>Payslip</Text>
                     </Item>

@@ -64,7 +64,7 @@ import { DateTimePicker } from '@material-ui/pickers';
 
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
-
+const role = localStorage.getItem("role");
 
 const override = css`
   display: block;
@@ -539,7 +539,7 @@ export default function BasicTabs() {
                     "recomemdedby": formValues.recommendby,
                     "approvedby": formValues.approveby,
                     "approved": false,
-                    "datecreated": TodayDate
+                    "requestedon": TodayDate
                 }).then(res => {
                     if (isrecommended) {
                         axios.post('http://localhost:5000/acceptnoti', notificationprop).then(res => {
@@ -684,7 +684,8 @@ export default function BasicTabs() {
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="My Leave" {...a11yProps(0)} />
                         <Tab label="Team Leave" {...a11yProps(1)} />
-                        <Tab label="Leave Records" {...a11yProps(2)} />
+
+                        {role==="projectmanager"?<Tab label="Leave Records" {...a11yProps(2)} />:''}
                         <Tab label="Approve Leave" {...a11yProps(3)} />
                     </Tabs>
                 </Box>

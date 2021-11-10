@@ -52,28 +52,36 @@ export default function Login() {
     } else {
       //Check email and password for match
       //if credentials correct
-      if (
-        email.toLocaleLowerCase() == 'hci@gmail.com' &&
-        password == 'hcipassword123'
-      ) {
+  
         axios
           .post('http://localhost:5000/login', {
             email: email,
             password: password,
           })
           .then((res) => {
-            console.log(res)
+            
+          if(res.data ==='Invalid Credentials')
+          {
+            alert('Invalid Credentials')
+          }
+          else if(res.data ==='Email is not registered')
+          {
+            alert('Email is not registered')
+          }
+          else{
             localStorage.setItem("isAuthenticated", res.data._id)
+            localStorage.setItem("name", res.data.name)
+            localStorage.setItem("role", res.data.role)
+            localStorage.setItem("email", res.data.email)
             window.location.pathname = '/'
+          }
           })
           .catch((error) => {
             console.error(error)
+            
           })
 
         //if credentials wrong, prompt user for correct input
-      } else {
-        alert('Incorrect credentials, please try again ')
-      }
     }
   }
 

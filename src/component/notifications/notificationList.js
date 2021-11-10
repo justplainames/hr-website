@@ -9,10 +9,24 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { ConstructionOutlined } from '@mui/icons-material';
 import { Link } from 'react-router-dom'
-export default function NotificationList({ id, details, ...others }) {
-
+import axios from 'axios';
+export default function NotificationList({ id, details,rerendering , ...others }) {
+    const userId = localStorage.getItem("isAuthenticated");
     return (
-        <Box pt={2}>
+        <Box pt={2} onClick ={()=>{
+            axios.post('http://localhost:5000/updatenoti', {
+
+                "id": userId,
+                "notiid":id
+            }
+
+            ).then(res=>{
+                rerendering()
+            }).catch(error => {
+                console.log(error)
+                //do somthing to error check
+            })
+        }}>
 
             <Grid container spacing={2} pl={2}>
                 <Grid item xs={10}>
@@ -22,7 +36,7 @@ export default function NotificationList({ id, details, ...others }) {
                         </Box>
                         <Box sx={{ display: 'flex' }}>
                             {
-                                details.status.isrecommeded ?
+                                details.status.isrecommended===true ?
                                     <Typography>
                                         {details.requester.name} has recommended leave for you on the {details.from}
                                     </Typography> :
@@ -60,6 +74,8 @@ export default function NotificationList({ id, details, ...others }) {
               
                     
             }
+
+            <Typography>{details.requestedon}</Typography>
             </Box>
             
             <Divider />
