@@ -181,7 +181,8 @@ export default function Applied({ details, rerender, ...others }) {
             <div style={{ position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
                 <FadeLoader color={"black"} loading={loading} css={override} size={10} />
             </div>
-            <Card className={classes.cardinfo} elevation={0} style = {{border: "2px solid " + changeColor(details)}}>            
+
+            {details.declined ? '' : <Card className={classes.cardinfo} elevation={0} style = {{border: "2px solid " + changeColor(details)}}>            
                 <Box sx={{ display: 'flex' }} >
                     <Box>
                         <Box sx={{ display: 'flex' }} >
@@ -246,6 +247,8 @@ export default function Applied({ details, rerender, ...others }) {
 
                 </Box>
             </Card>
+            }
+            
         </Box>
 
     )

@@ -41,7 +41,7 @@ export default function NotificationList({ id, details,rerendering , ...others }
                                         {details.requester.name} has recommended leave for you on the {details.from}
                                     </Typography> :
                                     <Typography>
-                                        You have Applied {details.types.charAt(0).toUpperCase() + details.types.slice(1)} Leave on the {details.from} to {details.to}
+                                        {details.requester.name} have Applied {details.types.charAt(0).toUpperCase() + details.types.slice(1)} Leave on the {details.from} to {details.to}
                                     </Typography>
                             }
                         </Box>  

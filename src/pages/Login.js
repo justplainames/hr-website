@@ -69,11 +69,11 @@ export default function Login() {
             alert('Email is not registered')
           }
           else{
+            console.log(res.data)
             localStorage.setItem("isAuthenticated", res.data._id)
-            localStorage.setItem("name", res.data.name)
             localStorage.setItem("role", res.data.role)
-            localStorage.setItem("email", res.data.email)
-            window.location.pathname = '/'
+            localStorage.setItem("details", JSON.stringify(res.data))
+           window.location.pathname = '/'
           }
           })
           .catch((error) => {

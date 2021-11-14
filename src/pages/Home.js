@@ -132,9 +132,11 @@ const Home = () => {
 
     const calendardetails = (data) => {
         setcalenval([])
+
         for (var i = 0; i < data.length; i++) {
             var datecounter;
-
+        if(data[i].declined===false)
+{
             for (var z = 0; z <= data[i].days; z++) {
                 var template = {
                     year: 2021, month: 10, day: 4, className: ''
@@ -148,15 +150,14 @@ const Home = () => {
                     datecounter = dd
                 }
                 else {
-                    if(data[i].days ===1)
-                    {
+                    if (data[i].days === 1) {
                         break;
                     }
-                    else{
-                    var set = new Date(datecounter)
-                    var set2 = set.setDate(set.getDate() + 1)
-                    dd = new Date(set2)
-                    datecounter = dd
+                    else {
+                        var set = new Date(datecounter)
+                        var set2 = set.setDate(set.getDate() + 1)
+                        dd = new Date(set2)
+                        datecounter = dd
                     }
                 }
 
@@ -174,10 +175,11 @@ const Home = () => {
                 else if (data[i].approved) {
                     template.className = cssname('approved')[0]
                 }
+                          
                 else {
-                    template.className = cssname(data[i].types)[0]  
+                    template.className = cssname(data[i].types)[0]
                 }
-
+        
                 setcalenval(oldArray => [...oldArray, template]);
                 if (z !== 0 && z == data[i].days - 1) {
                     break;
@@ -185,19 +187,24 @@ const Home = () => {
             }
 
         }
-
+    }
+    
     }
 
-    const fetchapplied =  (id) => {
-         axios.get('http://localhost:5000/applied', {
+    const fetchapplied = (id) => {
+        axios.get('http://localhost:5000/applied', {
             params: {
                 id: id
             }
         })
-            .then(res => {                
+            .then(res => {
+                // if(res.data.applies.length>0){     
                 setapplied(res.data.applies);
                 calendardetails(res.data.applies)
+
                 latestDate(res.data.applies)
+
+
             })
     }
 
@@ -215,8 +222,9 @@ const Home = () => {
 
     useEffect(() => {
         const id = localStorage.getItem("isAuthenticated");
+        console.log(id)
         fetchapplied(id)
-    }, []);    
+    }, []);
 
 
     useEffect(() => {
@@ -266,7 +274,7 @@ const Home = () => {
 
     const onSubmitNov = (e) => {
         e.preventDefault();
-        const isValid = formValidation();       
+        const isValid = formValidation();
         if (isValid) {
             window.location.href = 'https://cdn.discordapp.com/attachments/895523272718950413/905104061756502048/NOV.pdf';
             handleClose();
@@ -292,15 +300,15 @@ const Home = () => {
     };
 
     //payslip secret
-    const handleClickOpenPw  = () => {
+    const handleClickOpenPw = () => {
         setOpenPw(true);
-    }; 
+    };
 
     const onEnterPw = (e) => {
-        e.preventDefault(); 
-        setIsValid(formValidation());    
+        e.preventDefault();
+        setIsValid(formValidation());
         if (isValid) {
-            setsecret(false);  
+            setsecret(false);
             handleClose();
             resetInputField();
         }
@@ -321,7 +329,7 @@ const Home = () => {
             })
     }
 
-    useEffect(() => {   
+    useEffect(() => {
         if (isAuthenticated) {
             fetchProfile()
         }
@@ -334,33 +342,31 @@ const Home = () => {
         var d = new Date();
         dateString = dateString.split('/');
         d.setFullYear(dateString[2]);
-        d.setMonth(dateString[0]-1);
+        d.setMonth(dateString[0] - 1);
         d.setDate(dateString[1]);
 
         return d;
-      }
+    }
 
     const latestDate = (data) => {
-       
-        var date = [];
 
-        if (data.length > 1) 
-        {
-            for(let i = 0; i < data.length; i++) 
-            {                              
-                for(let j = i+1; j < data.length; j++)
-                {  
-                    if (data[i] != data[j]) 
-                    {
-                        if (formatToDate(data[i].from) < formatToDate(data[j].from)) 
-                        {            
-                            date = formatDDMMYY(data[i].from, data[i].to);                                
+        var date = [];
+        if (data.length === 0) {
+            setLatest('')
+            return
+        }
+        if (data.length > 1) {
+            for (let i = 0; i < data.length; i++) {
+                for (let j = i + 1; j < data.length; j++) {
+                    if (data[i] != data[j]) {
+                        if (formatToDate(data[i].from) < formatToDate(data[j].from)) {
+                            date = formatDDMMYY(data[i].from, data[i].to);
                         }
                         else {
                             date = formatDDMMYY(data[j].from, data[j].to);
-                        }                       
+                        }
                     }
-                }            
+                }
             }
         }
         else {
@@ -372,11 +378,11 @@ const Home = () => {
         }
         else {
             date = date[0] + " - " + date[1]
-        }              
+        }
         console.log(date)
         setLatest(date)
     }
-    
+
 
 
     function formatDDMMYY(dateFrom, dateEnd) {
@@ -384,15 +390,14 @@ const Home = () => {
         const dateTo = dateEnd
         const splitDate = date.split("/");
         const splitDateTo = dateTo.split("/");
-
         const newdate = splitDate[1] + '/' + splitDate[0] + '/' + splitDate[2]
         const newdateTo = splitDateTo[1] + '/' + splitDateTo[0] + '/' + splitDateTo[2]
-
         return [newdate, newdateTo]
     }
 
-    const rerendercalendar =()=>{
+    const rerendercalendar = () => {
         fetchapplied(isAuthenticated)
+        fetchleaves(isAuthenticated)
     }
 
     return (
@@ -422,7 +427,7 @@ const Home = () => {
                                                 Balanced :
                                             </Typography>
                                         </Box>
-                                        <Box pt={6} sx ={{width:"500px"}}>
+                                        <Box pt={6} sx={{ width: "500px" }}>
                                             <Typography variant='h5'>
                                                 Upcoming : {latest}
                                             </Typography>
@@ -470,50 +475,50 @@ const Home = () => {
                                             <Typography variant="h3" className={classes.bold_title}>
                                                 Payslip
                                             </Typography>
-                                            <Box pl={2}> 
-                                                
-                                                {isValid ? <Visibility sx={{ fontSize: 30 }} onClick = {() => {setsecret(true); setIsValid(false)}} /> :
-                                                    <VisibilityOff sx={{ fontSize: 30 }} onClick={() => handleClickOpenPw()}/>                                                          
+                                            <Box pl={2}>
+
+                                                {isValid ? <Visibility sx={{ fontSize: 30 }} onClick={() => { setsecret(true); setIsValid(false) }} /> :
+                                                    <VisibilityOff sx={{ fontSize: 30 }} onClick={() => handleClickOpenPw()} />
                                                 }
                                                 <Dialog open={openPw} onClose={handleClose}>
-                                                        <DialogTitle>View</DialogTitle>
-                                                        <DialogContent>
-                                                            <DialogContentText>
-                                                                To view the content of current payslip, please enter your password here.
-                                                            </DialogContentText>
+                                                    <DialogTitle>View</DialogTitle>
+                                                    <DialogContent>
+                                                        <DialogContentText>
+                                                            To view the content of current payslip, please enter your password here.
+                                                        </DialogContentText>
 
-                                                            <TextField
-                                                                autoFocus
-                                                                margin="dense"
-                                                                id="password"
-                                                                name="password"
-                                                                label="Password:"
+                                                        <TextField
+                                                            autoFocus
+                                                            margin="dense"
+                                                            id="password"
+                                                            name="password"
+                                                            label="Password:"
 
-                                                                fullWidth
-                                                                variant="standard"
-                                                                value={password}
-                                                                onChange={(e) => { setPassword(e.target.value) }}
-                                                                type={passwordShownNov ? "text" : "password"}
-                                                                InputProps={{
-                                                                    endAdornment:
-                                                                        <IconButton
-                                                                            aria-label='toggle password visibility'
-                                                                            onClick={togglePassword}
-                                                                        >
-                                                                            {passwordShownNov ? <VisibilityOff /> : <Visibility />}
-                                                                        </IconButton>,
+                                                            fullWidth
+                                                            variant="standard"
+                                                            value={password}
+                                                            onChange={(e) => { setPassword(e.target.value) }}
+                                                            type={passwordShownNov ? "text" : "password"}
+                                                            InputProps={{
+                                                                endAdornment:
+                                                                    <IconButton
+                                                                        aria-label='toggle password visibility'
+                                                                        onClick={togglePassword}
+                                                                    >
+                                                                        {passwordShownNov ? <VisibilityOff /> : <Visibility />}
+                                                                    </IconButton>,
 
-                                                                }}
-                                                            />
-                                                            {Object.keys(passworderror).map((key) => {
-                                                                return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
-                                                            })}
-                                                        </DialogContent>
-                                                        <DialogActions>
-                                                            <Button onClick={handleClose}>Cancel</Button>
-                                                            <Button type="submit" onClick={onEnterPw} target="_blank" rel="noreferrer" >Enter</Button>
-                                                        </DialogActions>
-                                                    </Dialog>
+                                                            }}
+                                                        />
+                                                        {Object.keys(passworderror).map((key) => {
+                                                            return <div> <strong style={{ color: "red" }}>{passworderror[key]}</strong></div>
+                                                        })}
+                                                    </DialogContent>
+                                                    <DialogActions>
+                                                        <Button onClick={handleClose}>Cancel</Button>
+                                                        <Button type="submit" onClick={onEnterPw} target="_blank" rel="noreferrer" >Enter</Button>
+                                                    </DialogActions>
+                                                </Dialog>
 
                                             </Box>
                                         </Box>

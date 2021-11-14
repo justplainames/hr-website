@@ -135,12 +135,12 @@ const leavetypes = [
 
 
 
-const data = [
-    ["20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"],
-    ["20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending"],
-    ["31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Approved"],
+// const data = [
+//     ["20/10/2021", "Annual", "02/11/2021", "02/11/2021", 1, "Benjamin Tan", "Benjamin Tan", "Pending"],
+//     ["20/10/2021", "Annual", "30/10/2021", "30/10/2021", 1, "N.A.", "Benjamin Tan", "Pending"],
+//     ["31/10/2021", "Unpaid", "02/08/2021", "02/08/2021", 2, "Alice Tay", "Alison Ng", "Approved"],
 
-];
+// ];
 
 const options = {
     filter: true,
@@ -169,7 +169,7 @@ function getDifferenceInDays(dates) {
 
 
 const yourDate = new Date()
-const TodayDate =  moment(yourDate).format('MM/DD/YYYY')
+const TodayDate = moment(yourDate).format('MM/DD/YYYY')
 
 function getStartDate(dates) {
     const parseDates = dates => (
@@ -261,10 +261,9 @@ export default function BasicTabs() {
     const [enddate, enddatesetValue] = React.useState(Date());
     const [formErrors, setFormErrors] = React.useState({});
     const [isSubmit, setIsSubmit] = React.useState(false);
-
+    const [supervisor, setsupervisor] = React.useState([]);
     //LOADER CONTROLLER
     const [loading, setLoading] = useState(false);
-
 
     const [formValues, setFormValues] = React.useState({
         types: '',
@@ -301,12 +300,15 @@ export default function BasicTabs() {
     const [leaves, setleaves] = useState([]);
     const [tabledata, settabledata] = useState([])
 
-    function lower(value){
+    function lower(value) {
         return value.replace(/\s+/g, '').toLowerCase()
     }
 
     function createData(ltype, left, entitlement, carryforward) {
         return { ltype, left, entitlement, carryforward };
+    }
+    function createsuper(value, label) {
+        return { value, label };
     }
 
     // disableSpecific(datef) {
@@ -387,8 +389,14 @@ export default function BasicTabs() {
     }
 
 
+
     useEffect(() => {
         const id = localStorage.getItem("isAuthenticated");
+        const userdetails = JSON.parse(localStorage.getItem("details")).supervisor
+        const supervisory = []
+        //    setsupevisors(oldArray=>[...oldArray, createsuper(details.name,details.id)])
+        userdetails.map((details) => { supervisory.push(createsuper(details.id, details.name)) })
+        setsupervisor(supervisory)
         fetchapplied(id)
         fetchleaves(id)
     }, []);
@@ -403,6 +411,7 @@ export default function BasicTabs() {
                 var re = new RegExp(find, 'g');
                 var date = data[i].from.replace(re, '-');
                 var dd;
+            if(data[i].declined === false){
                 if (z === 0) {
                     if (data[i].types === 'course') {
                         dd = new Date(date)
@@ -451,6 +460,14 @@ export default function BasicTabs() {
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
 
                     }
+                    else if (data[i].approved) {
+                        var set = new Date(datecounter)
+                        var set2 = set.setDate(set.getDate() + 1)
+                        dd = new Date(set2)
+                        datecounter = dd
+                        setmark4(oldArray => [...oldArray, moment(datecounter).format('MM-DD-YYYY')]);
+                        setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
+                    }
                     else {
                         var set = new Date(datecounter)
                         var set2 = set.setDate(set.getDate() + 1)
@@ -460,7 +477,7 @@ export default function BasicTabs() {
                         setdatedisabled(oldArray => [...oldArray, new Date(datecounter)]);
                     }
                 }
-
+            }
                 if (z !== 0 && z == data[i].days - 1) {
                     break;
                 }
@@ -546,8 +563,11 @@ export default function BasicTabs() {
                     "recomemdedby": formValues.recommendby,
                     "approvedby": formValues.approveby,
                     "approved": false,
-                    "requestedon": TodayDate
+                    "declined": false,
+                    "datecreated": TodayDate
                 }).then(res => {
+                    console.log('id might be here')
+                    console.log(res)
                     if (isrecommended) {
                         axios.post('http://localhost:5000/acceptnoti', notificationprop).then(res => {
                             setOpen3(false)
@@ -565,10 +585,14 @@ export default function BasicTabs() {
                             })
                     }
                     else {
+                        const id = JSON.parse(localStorage.getItem("details"))._id
+                        const name = JSON.parse(localStorage.getItem("details")).name
+                        console.log(id)
+                        console.log(name)
                         axios.post('http://localhost:5000/createnoti', {
                             "userId": id,
                             "types": formValues.types,
-                            "requester": { "id": "", "name": "" },
+                            "requester": { "id": id, "name":name },
                             "days": getDifferenceInDays(daterange),
                             "from": getStartDate(daterange),
                             "to": getEndDate(daterange),
@@ -578,21 +602,21 @@ export default function BasicTabs() {
                             "recomemdedby": formValues.recommendby,
                             "approvedby": formValues.approveby,
                             "status": { "approved": false, "read": false, "accepted": "applied", "isrecommended": false },
-                          
+
                         }).then(res => {
-                                setOpen3(false)
+                            setOpen3(false)
+                            setTimeout(() => {
                                 setTimeout(() => {
-                                    setTimeout(() => {
-                                        window.location.pathname = '/leave';
-                                    }, 1000);
-                                    setopac('1')
-                                    setLoading(false)
-                                    setIsSubmitted(true);
-                                }, 1000);
+                                    window.location.pathname = '/leave';
+                                }, 500);
+                                setopac('1')
+                                setLoading(false)
+                                setIsSubmitted(true);
+                            }, 1000);
 
-                            }).catch(error => {
+                        }).catch(error => {
 
-                            })
+                        })
                     }
                 })
                 .catch(error => {
@@ -691,9 +715,8 @@ export default function BasicTabs() {
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="My Leave" {...a11yProps(0)} />
                         <Tab label="Team Leave" {...a11yProps(1)} />
-
-                        {role==="projectmanager"?<Tab label="Leave Records" {...a11yProps(2)} />:''}
-                        <Tab label="Approve Leave" {...a11yProps(3)} />
+                        <Tab label="Leave Records" {...a11yProps(2)} />
+                        {role === "projectmanager" || role === "manager" ? <Tab label="Approve Leave" {...a11yProps(3)} /> : ''}
                     </Tabs>
                 </Box>
                 <center>
@@ -717,7 +740,7 @@ export default function BasicTabs() {
                                                     return 'highlight2'
                                                 }
                                                 if (mark4.find(x => x === moment(date).format("MM-DD-YYYY"))) {
-                                                    return 'highlight3' 
+                                                    return 'highlight3'
                                                 }
 
 
@@ -729,7 +752,7 @@ export default function BasicTabs() {
                                             <Table sx={{ width: '500px', maxHeight: '415px', height: '415px' }} aria-label="customized table">
                                                 <TableHead>
                                                     <TableRow>
-                                                        <StyledTableCell sx={{ width: '160px' }}>Type (Leave)</StyledTableCell>
+                                                        <StyledTableCell sx={{ width: '140px' }}>Type (Leave)</StyledTableCell>
                                                         <StyledTableCell align="right">Left</StyledTableCell>
                                                         <StyledTableCell align="right">Entitlement</StyledTableCell>
                                                         <StyledTableCell align="right">CarryForward</StyledTableCell>
@@ -815,7 +838,7 @@ export default function BasicTabs() {
                                                 <div id="radio">
                                                     <FormControl component="fieldset">
                                                         {/* <FormLabel component="legend">Day</FormLabel> */}
-                                                        <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', paddingBottom:"12px" }}>
+                                                        <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'left', paddingBottom: "12px" }}>
                                                             <h3>Day*</h3>
                                                         </div>
                                                         <RadioGroup
@@ -947,12 +970,37 @@ export default function BasicTabs() {
                                                         autoComplete="off"
                                                     >
                                                         <TextField
+                                                            required
+                                                            disabled={disablefromloading}
+                                                            id="outlined-name"
+                                                            select
+                                                            label="Select"
+                                                            name="approveby"
+                                                            value={formValues.approveby}
+                                                            //onChange={(e)=> setLeave(e.target.value)}
+                                                            onChange={handleChanges}
+                                                        >
+                                                            {/* {tabledata.map((option) => (
+                                                                    <MenuItem key={option.ltype} value={option.ltype}>
+                                                                        {option.ltype}
+                                                                    </MenuItem>
+                                                                ))} */}
+
+                                                            {supervisor.map((option) => (
+                                                                <MenuItem key={option.value} value={option.value}>
+                                                                    {option.label}
+                                                                </MenuItem>
+                                                            ))}
+                                                        </TextField>
+
+
+                                                        {/* <TextField
                                                             disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="approveby"
                                                             value={formValues.approveby}
                                                             onChange={handleChanges}
-                                                        />
+                                                        /> */}
                                                     </Box>
                                                     <div> <p style={{ color: "red" }}> {formErrors.approveby}</p> </div>
                                                 </div>

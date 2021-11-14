@@ -199,26 +199,22 @@ const isAuthenticated = localStorage.getItem("isAuthenticated");
 
 
 const Sidebar = () => {
-
     const [click, setClick] = useState(false); //nav bar
-
     const [showNoti, setshowNoti] = useState(false);
-
     const [notificationsitems, setnotificationsitems] = useState([]);
-
     const [showProfile, setShowProfile] = useState(false);
     const [profileItems, setProfileItems] = useState([])
-
     const fetchNoti = async () => {
         const isAuthenticated = localStorage.getItem("isAuthenticated");
-        await axios.get('http://localhost:5000/notifications', {
+        await axios.get('http://localhost:5000/getnoti', {
             params: {
                 id: isAuthenticated
             }
         })
             .then(res => {
-                setnotificationsitems(res.data.notifications);
-
+                console.log(res)
+                var result = res.data.sort((a, b) => new Date(b.requestedon) - new Date(a.requestedon));
+                setnotificationsitems(result.reverse());
             })
     }
 
@@ -232,32 +228,34 @@ const Sidebar = () => {
         fetchNoti()
     }
 
-    const fetchProfile = async () => {
-        const isAuthenticated = localStorage.getItem("isAuthenticated");
-        await axios.get('http://localhost:5000/profiles', {
-            params: {
-                id: isAuthenticated
-            }
-        })
-            .then(res => {
-                setProfileItems(res.data);
-            })
-    }
+    // const fetchProfile = async () => {
+    //     const isAuthenticated = localStorage.getItem("isAuthenticated");
+    //     await axios.get('http://localhost:5000/profiles', {
+    //         params: {
+    //             id: isAuthenticated
+    //         }
+    //     })
+    //         .then(res => {
+    //             setProfileItems(res.data);
+    //         })
+    // }
 
     useEffect(() => {
         if (isAuthenticated) {
-            fetchProfile()
+            setProfileItems(JSON.parse(localStorage.getItem('details')))
+            // fetchProfile()
         }
     }, []);
 
     const countNotiUnread = (data) => {
         var counter = 0
+        if(data.length>0){
         for (var i = 0; i < data.length; i++) {
             if (!data[i].status.read) {
                 counter++;
             }
         }
-
+    }
         return counter
     }
 
@@ -267,6 +265,11 @@ const Sidebar = () => {
     const classes = useStyles();
 
     const [titleName, setTitleName] = useState("")
+
+    const dynamicTitle = (e)=>{
+        e.preventDefault();
+        setTitleName(e.target.name)
+    }
 
     return (
 
@@ -350,7 +353,7 @@ const Sidebar = () => {
                                                 <Divider />
                                                 <Box pl={2} pt={2} pb={3} sx={{ display: 'flex' }}>
                                                     <Box pr={2} sx={{ fontSize: 50 }}>
-                                                        <img className={classes.imgsize} src={Profile} />
+                                                        <img className={classes.imgsize} src={profileItems.imgurl} />
                                                     </Box>
                                                     <Box>
                                                         <Box pl={1}>
@@ -413,15 +416,15 @@ const Sidebar = () => {
                 <SlickBar clicked={click}>
                     <Item onClick={() => { setClick(false); setTitleName("Homepage"); }} exact activeClassName="active" to="/">
                         <img src={Home} alt="Home" />
-                        <Text clicked={click}>Home</Text>
+                        <Text name='Homepage' clicked={click} onClick={dynamicTitle}>Home</Text>
                     </Item>
                     <Item onClick={() => { setClick(false); setTitleName("Leave"); }} activeClassName="active" to="/leave">
                         <img src={Leave} alt="Leave" />
-                        <Text clicked={click}>Leave</Text>
+                        <Text name='Leave' clicked={click}>Leave</Text>
                     </Item>
                     <Item onClick={() => { setClick(false); setTitleName("Payslip"); }} activeClassName="active" to="/payslip">
                         <img src={Payslip} alt="Payslip" style={{ width: 35, height: 35 }} />
-                        <Text clicked={click}>Payslip</Text>
+                        <Text name='Payslip' clicked={click}>Payslip</Text>
                     </Item>
                 </SlickBar>
             </SidebarContainer>
