@@ -22,6 +22,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+
+import "../Home.css";
 //...
 
 import { cssname } from '../utils/cssname';
@@ -198,12 +200,14 @@ const Home = () => {
             }
         })
             .then(res => {
-                // if(res.data.applies.length>0){     
-                setapplied(res.data.applies);
-                calendardetails(res.data.applies)
+                // if(res.data.applies.length>0){    
+                console.log(res.data) 
+                if (res.data.applies != 0) {
+                    setapplied(res.data.applies);
+                    calendardetails(res.data.applies)
 
-                latestDate(res.data.applies)
-
+                    latestDate(res.data.applies)
+                }
 
             })
     }
@@ -347,7 +351,7 @@ const Home = () => {
 
         return d;
     }
-
+    const name = JSON.parse(localStorage.getItem("details")).name.split(" ")[0]
     const latestDate = (data) => {
 
         var date = [];
@@ -401,20 +405,20 @@ const Home = () => {
     }
 
     return (
-        <Box mt={4}>
-            <Card classes={{ root: classes.card }} >
+        <Box id = "wholeBox" mt={4}>
+            <Card id="backgroundBox" classes={{ root: classes.card }} >
                 <Box pt={5} ml={5}>
                     <Typography variant="h3">
-                        Welcome, {firstName}!
+                        Welcome, {name}!
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex' }}>
-                    <Box pl={15} pr={10} mt={5}>
-                        <Card classes={{ root: classes.leaveCardInfo }}>
+                    <Box id = "cardBox" pl={15} pr={10} mt={5}>
+                        <Card id = "card" classes={{ root: classes.leaveCardInfo }}>
                             <Box sx={{ display: 'flex' }} mt={5} ml={5} >
                                 <Grid container spacing={2}>
                                     <Grid item xs={8}>
-                                        <Typography variant="h3" className={classes.bold_title}>
+                                        <Typography id="title" variant="h3" className={classes.bold_title}>
                                             Annual Leave
                                         </Typography>
                                         <Box pt={10} pb={2}>
@@ -440,12 +444,12 @@ const Home = () => {
                                                 2021
                                             </Typography>
                                         </Box>
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={10} pb={2} mr={5.5} >
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={9} pb={2} mr={5.5} >
                                             <Typography variant="h4">
                                                 {leaves === '' ? '' : leaves.applied.annual}
                                             </Typography>
                                         </Box>
-                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1.5} pb={5} mr={5.5}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pt={1.5} pb={6} mr={5.5}>
                                             <Typography variant="h4">
                                                 {leaves === '' ? '' : leaves.left.annual}
                                             </Typography>
@@ -466,8 +470,8 @@ const Home = () => {
                         </Card>
                     </Box>
 
-                    <Box pl={10} pr={20} mt={5}>
-                        <Card classes={{ root: classes.payslipCardInfo }}>
+                    <Box id = "cardBox" pl={10} pr={20} mt={5}>
+                        <Card id = "card" classes={{ root: classes.payslipCardInfo }}>
                             <Box sx={{ display: 'flex' }} mt={5} ml={5} >
                                 <Grid container spacing={2}>
                                     <Grid item xs={8}>

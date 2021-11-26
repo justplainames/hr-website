@@ -52,7 +52,6 @@ export default function Login() {
     } else {
       //Check email and password for match
       //if credentials correct
-  
         axios
           .post('http://localhost:5000/login', {
             email: email,

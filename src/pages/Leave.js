@@ -337,8 +337,6 @@ export default function BasicTabs() {
                 settabledata(oldArray => [...oldArray, createData('Shared Parental', res.data.left.sharedparental, res.data.sharedparental, res.data.carryforward.sharedparental)]);
                 settabledata(oldArray => [...oldArray, createData('Sick', res.data.left.sickleave, res.data.sickleave, res.data.carryforward.sickleave)]);
                 settabledata(oldArray => [...oldArray, createData('Unpaid Infant Care Parental', res.data.left.infantcare, res.data.infantcare, res.data.carryforward.infantcare)]);
-
-
             })
     }
 
