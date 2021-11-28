@@ -4,11 +4,11 @@ import React from 'react'
 export default function Select(props) {
 
     const {name, label, value, onChange, items, error=null} = props;
-    var uniqueNames = []
-    items.map(({title}) => {
-        if (uniqueNames.includes(title)){} 
-        else{uniqueNames.push(title)}
-    })
+    // var uniqueNames = []
+    // items.map(({title}) => {
+    //     if (uniqueNames.includes(title)){} 
+    //     else{uniqueNames.push(title)}
+    // })
     return (
         <FormControl
         variant="outlined"
@@ -22,8 +22,8 @@ export default function Select(props) {
             onChange={onChange}>
                 <MenuItem value="">None</MenuItem>
                 {   
-                    uniqueNames.map(
-                        item=>(<MenuItem key={item} value={item}>{item}</MenuItem>)
+                    items.map(
+                        item=>(<MenuItem key={item.title} value={item.title}>{item.label}</MenuItem>)
                     )   
                 }
             </MuiSelect>

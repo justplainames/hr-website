@@ -9,6 +9,7 @@ import "./Modal.css"
 function Modal({ openPopup, newData }) {
     var id = newData.id
     const color = ['#f5bfd2', '#a1cdce', '#e5db9c', '#beb4c5','#e6a57e' ]
+    console.log(newData.start)
     return (
         <Dialog open={openPopup} styles={{maxWidth: "10px" }}>
             <DialogTitle style={{outlineColor:"black", outlineWidth:"20px", minWidth:"10px"}}>

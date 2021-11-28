@@ -11,7 +11,7 @@ export function useForm(initialFValues, validateOnChange=false, validate) {
     const handleInputChange = e => {
         
         const { name, value } = e.target
-        console.log(value)
+ 
         setValues({
             ...values,
             [name]: value

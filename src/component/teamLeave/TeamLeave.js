@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
+import { Calendar, dateFnsLocalizer  } from 'react-big-calendar';
 import format from 'date-fns/format';
 import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
@@ -10,11 +10,9 @@ import Modal from './Modal'
 import { Typography, Box } from '@material-ui/core'
 import Recommendation from './Recommendation'
 import axios from 'axios'
-
 const locales = {
   'en-US': require("date-fns/locale/en-US")
 }
-
 const localizer = dateFnsLocalizer({
   format,
   parse,
@@ -100,7 +98,6 @@ function TeamLeave() {
   //           })
   // }
 
-
   const fetchallapplied = async () => {
     axios.get('http://localhost:5000/allapplied').then(res => {
       console.log(res.data)
@@ -118,6 +115,7 @@ function TeamLeave() {
         })
       })
     })
+
   }
 
 
@@ -151,7 +149,7 @@ function TeamLeave() {
       <Typography variant="h3">
         Team Calendar
       </Typography>
-      <Calendar
+          <Calendar
         selectable
         onSelectEvent={(e) => handleSelectedEvent(e)}
         onSelectSlot={(e) => handleSelectSlot(e)}
@@ -159,8 +157,9 @@ function TeamLeave() {
         events={newUpdated}
         startAccessor="start"
         endAccessor="end"
-        style={{ width: '50vw', height: '70vh', margin: "50px" }}
+        style={{ width: '70vw', height: '70vh', margin: "50px" }}
         popup={true}
+        
         eventPropGetter={calendarStyle}
         components={{
           toolbar: CustomToolbar,

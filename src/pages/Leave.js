@@ -311,6 +311,46 @@ export default function BasicTabs() {
         return { value, label };
     }
 
+
+    
+    useEffect(() => {
+        const from = location.state
+
+        const fixedformvalue = {
+            types: '',
+            day: '',
+            // startdate: Date(),
+            // enddate: '',
+            //daterange:[null, null],
+            noofdays: '',
+            recommendby: '',
+            approveby: '',
+            ptdvalue: '',
+            ytdvalue: '',
+            remarks: '',
+        }
+
+        if (from) {
+            setNotificationProp(from)
+            setDisableFromNoti(true)
+            const test = [new Date(from.from), new Date(from.to)]
+            setDateRange(test)
+            setisrecommended(true)
+            fixedformvalue.types = stringconversionrevert(from.types)
+            console.log(stringconversionrevert(from.types))
+            if (from.days > 0) {
+                fixedformvalue.day = "Full"
+            }
+
+            fixedformvalue.recommendby = from.requester.name
+            //fixedformvalue.approveby = from.requester.name
+            setFormValues(fixedformvalue)
+            console.log('im here!!')
+        }
+    }, [location]);
+
+
+
     // disableSpecific(datef) {
     //     const dateRaw = [
     //     new Date(date.getFullYear(),0,1),
@@ -487,40 +527,6 @@ export default function BasicTabs() {
     }
 
 
-    useEffect(() => {
-        const from = location.state
-
-        const fixedformvalue = {
-            types: '',
-            day: '',
-            // startdate: Date(),
-            // enddate: '',
-            //daterange:[null, null],
-            noofdays: '',
-            recommendby: '',
-            approveby: '',
-            ptdvalue: '',
-            ytdvalue: '',
-            remarks: '',
-        }
-
-        if (from) {
-            setNotificationProp(from)
-            setDisableFromNoti(true)
-            const test = [new Date(from.from), new Date(from.to)]
-            setDateRange(test)
-            setisrecommended(true)
-            fixedformvalue.types = stringconversionrevert(from.types)
-
-            if (from.days > 0) {
-                fixedformvalue.day = "Full"
-            }
-
-            fixedformvalue.recommendby = from.requester.name
-            fixedformvalue.approveby = from.requester.name
-            setFormValues(fixedformvalue)
-        }
-    }, [notificationprop]);
 
 
 
