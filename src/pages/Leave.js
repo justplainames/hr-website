@@ -9,6 +9,7 @@ import "../Leave.css";
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import { Alert, AlertTitle } from '@mui/material';
+import CircleIcon from '@mui/icons-material/Circle';
 
 //LOADER FUYNCTION
 import { css } from "@emotion/react";
@@ -336,7 +337,7 @@ export default function BasicTabs() {
             const test = [new Date(from.from), new Date(from.to)]
             setDateRange(test)
             setisrecommended(true)
-            fixedformvalue.types = stringconversionrevert(from.types)
+            // fixedformvalue.types = stringconversionrevert(from.types)
             console.log(stringconversionrevert(from.types))
             if (from.days > 0) {
                 fixedformvalue.day = "Full"
@@ -527,9 +528,6 @@ export default function BasicTabs() {
     }
 
 
-
-
-
     const vali = (e) => {
         e.preventDefault();
         if (!(formValues.types && formValues.day && formValues.approveby)) {
@@ -570,9 +568,7 @@ export default function BasicTabs() {
                     "declined": false,
                     "datecreated": TodayDate
                 }).then(res => {
-                    console.log('id might be here')
-                    console.log(res)
-                    if (isrecommended) {
+                    if (isrecommended === true) {
                         axios.post('http://localhost:5000/acceptnoti', notificationprop).then(res => {
                             setOpen3(false)
                             setTimeout(() => {
@@ -729,7 +725,35 @@ export default function BasicTabs() {
                         <Box>
                             <Grid container>
                                 <Grid item xs={4.5}>
-                                    <Box pt={11.5}>
+                                    <Box pt={3.5} pb ={3}>
+                                        <Box sx = {{display: "flex", justifyContent:"left"}} ml={6}>
+                                            <Box>
+                                                <CircleIcon sx={{ fontSize: 15, color: 'rgba(156, 136, 255, 0.7)' }} ></CircleIcon>
+                                            </Box>
+                                            <Box pb={1} pr={4}>
+                                                <Typography style={{width:"80px"}}> Pending </Typography>
+                                            </Box>
+                                            <Box>
+                                                <CircleIcon sx={{ fontSize: 15, color: 'rgba(136, 255, 186, 0.7)' }} ></CircleIcon>
+                                            </Box>
+                                            <Box pb={1} pr={4}>
+                                                <Typography> Approved </Typography>
+                                            </Box>
+                                            <Box>
+                                                <CircleIcon sx={{ fontSize: 15, color: 'rgba(74, 153, 255, 0.7)' }} ></CircleIcon>
+                                            </Box>
+                                            <Box pb={1} pr={4}>
+                                                <Typography> Meeting </Typography>
+                                            </Box>
+                                            <Box>
+                                                <CircleIcon sx={{ fontSize: 15, color: 'rgba(255, 147, 228, 0.7)' }} ></CircleIcon>
+                                            </Box>
+                                            <Box pb={1}>
+                                                <Typography> Course </Typography>
+                                            </Box>
+
+
+                                        </Box>
                                         <Calendar
                                             onChange={setCalendar}
                                             value={calendar}
@@ -751,7 +775,10 @@ export default function BasicTabs() {
                                             }}
                                         />
                                     </Box>
-                                    <Box pt={4} sx={{ width: '500px' }}>
+                                    <Box mr={10}>
+                                        <Typography variant="h5" style={{width:"400px", display: "flex", justifyContent: "left"}}>Leave Summary</Typography>
+                                    </Box>
+                                    <Box pt={1} sx={{ width: '500px' }}>
                                         <TableContainer component={Paper} sx={{ borderRadius: '30px', width: '500px' }}>
                                             <Table sx={{ width: '500px', maxHeight: '415px', height: '415px' }} aria-label="customized table">
                                                 <TableHead>
@@ -810,7 +837,7 @@ export default function BasicTabs() {
                                                             </div>
                                                             <TextField
                                                                 required
-                                                                disabled={disablefromnoti}
+                                                           
                                                                 id="outlined-select-leavetype"
                                                                 select
                                                                 label="Select"

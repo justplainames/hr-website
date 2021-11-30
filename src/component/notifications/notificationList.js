@@ -29,16 +29,16 @@ export default function NotificationList({ id, details,rerendering , ...others }
         }}>
 
             <Grid container spacing={2} pl={2}>
-                <Grid item xs={10}>
+                <Grid item xs={11}>
                     <Box sx={{ display: 'flex' }} pb={1}>
                         <Box pr={2}>
                             <AccountCircleIcon sx={{ fontSize: 50 }}></AccountCircleIcon>
                         </Box>
-                        <Box sx={{ display: 'flex' }}>
+                        <Box sx={{ display: 'flex'}}>
                             {
                                 details.status.isrecommended===true ?
                                     <Typography>
-                                        {details.requester.name} has recommended leave for you on the {details.from}
+                                        {details.requester.name} has recommended leave for you on the {details.from} to {details.to}
                                     </Typography> :
                                     <Typography>
                                         {details.requester.name} have Applied {details.types.charAt(0).toUpperCase() + details.types.slice(1)} Leave on the {details.from} to {details.to}
@@ -47,12 +47,15 @@ export default function NotificationList({ id, details,rerendering , ...others }
                         </Box>  
                     </Box>
                 </Grid>
-                <Grid item xs={2}>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }} pr={2} mt={1}>
+                <Grid item xs={0.5}>
+                    <Box pr={2} mt={1}>
                         {details.status.read === true ? <CircleIcon sx={{ fontSize: 15, color: 'white' }} ></CircleIcon> : <CircleIcon sx={{ fontSize: 15, color: 'lightblue' }} ></CircleIcon>}
                     </Box>
                 </Grid>
             </Grid>
+            <Box pl={10} pb={2}>
+                <Typography style={{color:"blue"}}>{details.requestedon}</Typography>
+            </Box>
             <Box pl={8} pb={2} sx={{ display: 'flex' }}>
             {
                 details.status.accepted === "null" ?
@@ -66,16 +69,15 @@ export default function NotificationList({ id, details,rerendering , ...others }
                             Decline
                         </Button>
                    </Box>
-                    :
-                    details.status.accepted === "applied" ?
-                    <Typography>{details.days===1 ? details.days + ' Day': details.days + ' Days'}</Typography>
+                    : [
+                    (details.status.accepted === "applied" ?
+                    <Typography>Applied {details.days===1 ? details.days + ' day': details.days + ' days'} ago</Typography>
                     :                 
                     <Typography>{details.status.accepted}</Typography>
-              
+                    ),
+                    ] 
                     
             }
-
-            <Typography>{details.requestedon}</Typography>
             </Box>
             
             <Divider />

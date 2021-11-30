@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
         border: "1px solid grey"
     },
     notiItem: {
-        width: '350px'
+        width: '360px'
     },
     noti: {
         paddingRight: '10px'

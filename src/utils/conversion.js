@@ -29,6 +29,42 @@ export const stringconversion = (type) => {
     return day
 }
 
+export const stringconversionCaps = (type) => {
+
+    var day;
+    switch (type) {
+        case 'adoption':
+            day = "Adoption";
+            break;
+        case 'annual':
+            day = "Annual";
+            break;
+        case 'childcare':
+            day = "Childcare";
+            break;
+        case 'maternity':
+
+            day = "Maternity";
+            break;
+        case 'paternity':
+
+            day = "Paternity";
+            break;
+        case 'sharedparental':
+
+            day = "Shared Parental";
+            break;
+        case 'sickleave':
+
+            day = "Sick";
+            break;
+        case 'infantcare':
+
+            day = "Unpaid Infant Care Parental";
+    }
+    return day
+}
+
 export const stringconversionrevert = (type) => {
     var day;
     switch (type) {

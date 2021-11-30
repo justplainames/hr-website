@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Box from '@material-ui/core/Box';
 
-import { stringconversion } from '../utils/conversion';
+import { stringconversionCaps } from '../utils/conversion';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -35,7 +35,7 @@ const Leaverecord = () => {
                         }
 
 
-                        setData(oldArray => [...oldArray, ['31/10/21', stringconversion(res.data.applies[i].types), res.data.applies[i].from, res.data.applies[i].to, res.data.applies[i].days, res.data.applies[i].recomemdedby, res.data.applies[i].approvedby, str]]);
+                        setData(oldArray => [...oldArray, ['31/10/21', stringconversionCaps(res.data.applies[i].types), res.data.applies[i].from, res.data.applies[i].to, res.data.applies[i].days, res.data.applies[i].recomemdedby, res.data.applies[i].approvedby, str]]);
                     }
                 }
            })
