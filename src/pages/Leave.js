@@ -380,38 +380,38 @@ export default function BasicTabs() {
                 settabledata(oldArray => [...oldArray, createData('Unpaid Infant Care Parental', res.data.left.infantcare, res.data.infantcare, res.data.carryforward.infantcare)]);
             })
     }
-
+    
     function ptd(leave) {
-        if (leave === "Adoption") {
-            var num = (leaves.adoption * 11 / 12)
+        if (leave === "adoption") {
+            var num = (tabledata[1].entitlement * 11 / 12)
             return Math.round(num);
         }
-        else if (leave === "Annual") {
-            var num = (leaves.annual * 11 / 12)
+        else if (leave === "annual") {
+            var num = (tabledata[0].entitlement * 11 / 12)
             return Math.round(num);
         }
-        else if (leave === "Childcare") {
-            var num = (leaves.childcare * 11 / 12)
+        else if (leave === "childcare") {
+            var num = (tabledata[2].entitlement * 11 / 12)
+            return Math.round(num); 
+        }
+        else if (leave === "maternity") {
+            var num = (tabledata[3].entitlement * 11 / 12)
             return Math.round(num);
         }
-        else if (leave === "Maternity") {
-            var num = (leaves.maternity * 11 / 12)
+        else if (leave === "paternity") {
+            var num = (tabledata[4].entitlement * 11 / 12)
             return Math.round(num);
         }
-        else if (leave === "Paternity") {
-            var num = (leaves.paternity * 11 / 12)
+        else if (leave === "sharedparental") {
+            var num = (tabledata[5].entitlement * 11 / 12)
             return Math.round(num);
         }
-        else if (leave === "Shared Parental") {
-            var num = (leaves.sharedparental * 11 / 12)
+        else if (leave === "sickleave") {
+            var num = (tabledata[6].entitlement * 11 / 12)
             return Math.round(num);
         }
-        else if (leave === "Sick Leave") {
-            var num = (leaves.sickleave * 11 / 12)
-            return Math.round(num);
-        }
-        else if (leave === "Unpaid Infant Care Parental") {
-            var num = (leaves.infantcare * 11 / 12)
+        else if (leave === "infantcare") {
+            var num = (tabledata[7].entitlement * 11 / 12)
             return Math.round(num);
         }
     };
@@ -843,6 +843,7 @@ export default function BasicTabs() {
                                                                 label="Select"
                                                                 name="types"
                                                                 value={formValues.types}
+                                                                
                                                                 //onChange={(e)=> setLeave(e.target.value)}
                                                                 onChange={handleChanges}
                                                             >
@@ -1052,7 +1053,7 @@ export default function BasicTabs() {
                                                             disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="ptdvalue"
-                                                            value={ptd(formValues.leavetype)}
+                                                            value={ptd(formValues.types)}
                                                             onChange={handleChanges}
                                                             inputProps={
                                                                 { readOnly: true }
@@ -1077,7 +1078,7 @@ export default function BasicTabs() {
                                                             disabled={disablefromloading}
                                                             id="outlined-name"
                                                             name="ytdvalue"
-                                                            value={ptd(formValues.leavetype)}
+                                                            value={ptd(formValues.types)}
                                                             onChange={handleChanges}
                                                             inputProps={
                                                                 { readOnly: true }
