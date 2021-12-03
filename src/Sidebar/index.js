@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import logo from "../assets/logo.svg";
+import logo from "../assets/logo.png";
 import Home from "../assets/home-solid.svg";
 import Leave from "../assets/leave.svg";
 import Payslip from "../assets/payslip.svg";
@@ -129,10 +129,10 @@ const SidebarContainer = styled.div`
 
 const Logo = styled.div`
     width: 3rem;
-    margin: 1.5rem 0 0 1.5rem;
+    margin: 0 0 0 1.5rem;
 
     img {
-        width: 100%;
+        width: 150px;
         height: auto;
     }
 `;

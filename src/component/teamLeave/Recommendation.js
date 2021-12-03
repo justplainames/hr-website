@@ -83,7 +83,7 @@ function Recommendation({ openPopup, newSlots }) {
         const myid = JSON.parse(localStorage.getItem("details"))._id
         const myname = JSON.parse(localStorage.getItem("details")).name
         if (validate()){
-            window.alert("Add code to Post data")
+            window.alert("Recommended Successfully!")
             axios.post('http://localhost:5000/createreco', {
                 "userId": values.name,
                 "types": 'annual',

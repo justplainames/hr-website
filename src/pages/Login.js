@@ -173,8 +173,6 @@ export default function Login() {
       <div className='Login'>
         <img src={Logo} alt='logo' />
         <h4>HR APP</h4>
-        <h6>email : hci@gmail.com</h6>
-        <h6>password : hcipassword123</h6>
         <form noValidate autoComplete='off' onSubmit={handleSubmit}>
           <FormControl
             sx={{ m: 1, width: '25ch' }}
